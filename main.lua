@@ -408,7 +408,29 @@ function library:NewWindow(title)
                 ButtonSample_2.BackgroundTransparency = 1.000
                 ButtonSample_2.Size = UDim2.new(0, 100, 0, 100)
                 ButtonSample_2.Image = "rbxassetid://4560909609"
-                ButtonSample_2.ImageTransparency = 0.600
+                ButtonSample_2.ImageTransparency = 1.000
+
+                Button_Button.MouseButton1Click:Connect(function()
+                    local c = ButtonSample_2:Clone()
+                    c.ImageTransparency = 0.600
+                    c.Parent = Button_Button
+                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                    c.Position = UDim2.new(0, x, 0, y)
+                    local len, size = 0.35, nil
+                    if Button_Button.AbsoluteSize.X >= Button_Button.AbsoluteSize.Y then
+                        size = (Button_Button.AbsoluteSize.X * 1.5)
+                    else
+                        size = (Button_Button.AbsoluteSize.Y * 1.5)
+                    end
+                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                    for i = 1, 10 do
+                        c.ImageTransparency = c.ImageTransparency + 0.05
+                        wait(len / 12)
+                    end
+                    c:Destroy()
+
+                    pcall(callback)
+                end)
                 
             end
 
@@ -417,6 +439,7 @@ function library:NewWindow(title)
 
                 text = text or "Toggle"
                 callback = callback or function() end
+                local toggled = false
 
                 local ToggleContainer = Instance.new("Frame")
                 local Toggle_Button = Instance.new("TextButton")
@@ -486,7 +509,32 @@ function library:NewWindow(title)
                 Toggle_Sample.BackgroundTransparency = 1.000
                 Toggle_Sample.Size = UDim2.new(0, 100, 0, 100)
                 Toggle_Sample.Image = "rbxassetid://4560909609"
-                Toggle_Sample.ImageTransparency = 0.600
+                Toggle_Sample.ImageTransparency = 1.000
+
+                Toggle_Button.MouseButton1Click:Connect(function()
+                    if toggled == true then
+                        local c = Toggle_Sample:Clone()
+                        c.ImageTransparency = 0.600
+                        c.Parent = Toggle_Button
+                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                        c.Position = UDim2.new(0, x, 0, y)
+                        local len, size = 0.35, nil
+                        if Toggle_Button.AbsoluteSize.X >= Toggle_Button.AbsoluteSize.Y then
+                            size = (Toggle_Button.AbsoluteSize.X * 1.5)
+                        else
+                            size = (Toggle_Button.AbsoluteSize.Y * 1.5)
+                        end
+                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                        for i = 1, 10 do
+                            c.ImageTransparency = c.ImageTransparency + 0.05
+                            wait(len / 12)
+                        end
+                        c:Destroy()
+
+                        toggled = not toggled
+                        callback(toggled) 
+                    end
+                end)
             end
 
             function sections:NewDropdown(text)
