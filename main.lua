@@ -561,11 +561,13 @@ function library:NewWindow(title)
                     end
                     c:Destroy()
 
-                    if Off.Visible == true then
+                    if toggled then
                         Off.Visible = false
                         On.Visible = true
+                        toggled = not toggled
                         spawn(function() callback(toggled) end)
                     else
+                        toggled = false
                         Off.Visible = true
                         On.Visible = false
                     end
