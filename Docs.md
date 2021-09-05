@@ -2,15 +2,77 @@
 
 ## Methods
 
-### Call Library
-First you need to call the library to work!
+### Getting Loadstring
 ```lua
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/hieuhieu743/CFAHub/main/main.lua"))
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/hieuhieu743/CFAHub/main/main.lua"))
 ```
 
-### Create Window
-You will need a window to contain all elements in it.
+### Creating UI Library Window
 ```lua
-local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/hieuhieu743/CFAHub/main/main.lua"))
-local window = lib:NewWindow(title)
+local Window = Library:NewWindow("title")
 ```
+require: Library
+
+### Creating Tabs
+```lua
+local Tab = Window:NewTab("TabName")
+```
+require: Window
+
+### Creating Section
+```lua
+local Section = Tab:NewSection("SectionName")
+```
+require: Tab
+
+### Creating Buttons
+```lua
+local Button = Section:NewButton("ButtonText", function()
+    -- Function here
+end)
+```
+#### Or
+```lua
+Section:NewButton("ButtonText", function()
+    -- Function here
+end)
+```
+require: Section
+
+### Creating Toggles
+```lua
+local Toggle = Section:NewToggle("ToggleText", function(state)
+    if state then
+        -- On Function here
+    else
+        -- Off Function here
+    end
+end)
+```
+#### Or
+```lua
+Section:NewToggle("ToggleText", function(state)
+    if state then
+        -- On Function here
+    else
+        -- Off Function here
+    end
+end)
+```
+require: Section
+
+### Creating Sliders
+```lua
+local Slider = Section:NewSlider("SilderText", minValue, maxValue, function()
+    -- Function here
+end)
+```
+#### Or
+```lua
+Section:NewSlider(("SilderText", minValue, maxValue, function()
+    -- Function here
+end)
+```
+require: Section
+
+### Creating Dropdowns
