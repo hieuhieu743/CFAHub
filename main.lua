@@ -522,7 +522,7 @@ function library:NewWindow(title)
                 Off.BackgroundTransparency = 1.000
                 Off.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
                 Off.Size = UDim2.new(0, 34, 0, 34)
-                Off.Image = "http://www.roblox.com/asset/?id=7399450545"
+                Off.Image = "http://www.roblox.com/asset/?id=7399450227"
                 
                 On.Name = "On"
                 On.Parent = Toggle_Button
@@ -531,7 +531,7 @@ function library:NewWindow(title)
                 On.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
                 On.Size = UDim2.new(0, 34, 0, 34)
                 On.Visible = false
-                On.Image = "http://www.roblox.com/asset/?id=7399450227"
+                On.Image = "http://www.roblox.com/asset/?id=7399450545"
                 
                 Toggle_Sample.Name = "Toggle_Sample"
                 Toggle_Sample.Parent = Toggle_Button
