@@ -512,28 +512,25 @@ function library:NewWindow(title)
                 Toggle_Sample.ImageTransparency = 1.000
 
                 Toggle_Button.MouseButton1Click:Connect(function()
-                    if toggled == true then
-                        local c = Toggle_Sample:Clone()
-                        c.ImageTransparency = 0.600
-                        c.Parent = Toggle_Button
-                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
-                        c.Position = UDim2.new(0, x, 0, y)
-                        local len, size = 0.35, nil
-                        if Toggle_Button.AbsoluteSize.X >= Toggle_Button.AbsoluteSize.Y then
-                            size = (Toggle_Button.AbsoluteSize.X * 1.5)
-                        else
-                            size = (Toggle_Button.AbsoluteSize.Y * 1.5)
-                        end
-                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
-                        for i = 1, 10 do
-                            c.ImageTransparency = c.ImageTransparency + 0.05
-                            wait(len / 12)
-                        end
-                        c:Destroy()
-
-                        toggled = not toggled
-                        callback(toggled) 
+                    local c = Toggle_Sample:Clone()
+                    c.ImageTransparency = 0.600
+                    c.Parent = Toggle_Button
+                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                    c.Position = UDim2.new(0, x, 0, y)
+                    local len, size = 0.35, nil
+                    if Toggle_Button.AbsoluteSize.X >= Toggle_Button.AbsoluteSize.Y then
+                        size = (Toggle_Button.AbsoluteSize.X * 1.5)
+                    else
+                        size = (Toggle_Button.AbsoluteSize.Y * 1.5)
                     end
+                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                    for i = 1, 10 do
+                        c.ImageTransparency = c.ImageTransparency + 0.05
+                        wait(len / 12)
+                    end
+                    c:Destroy()
+
+                    spawn(function() callback(toggled) end)
                 end)
             end
 
