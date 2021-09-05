@@ -265,6 +265,9 @@ function library:NewWindow(title)
                 min = min or 1
                 max = max or 100
                 callback = callback or function() end
+                local Value
+                local moveconnection
+                local releaseconnection
 
                 local SilderContainer = Instance.new("Frame")
                 local UICorner_2 = Instance.new("UICorner")
@@ -342,6 +345,34 @@ function library:NewWindow(title)
                 UICorner_3.Parent = Bar
                 
                 UICorner_4.Parent = Silder_Button
+
+                Silder_Button.MouseButton1Down:Connect(function()
+                    Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min)) or 0
+                    pcall(function()
+                        callback(Value)
+                    end)
+                    Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
+                    moveconnection = ms.Move:Connect(function()
+                        Number.Text = Value
+                        Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min))
+                        pcall(function()
+                            callback(Value)
+                            Number.Text = Value
+                        end)
+                        Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
+                    end)
+                    releaseconnection = input.InputEnded:Connect(function(Mouse)
+                        if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+                            Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min))
+                            pcall(function()
+                                callback(Value)
+                            end)
+                            Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
+                            moveconnection:Disconnect()
+                            releaseconnection:Disconnect()
+                        end
+                    end)
+                end)
             end
             
             function sections:NewButton(text, callback)
@@ -440,6 +471,7 @@ function library:NewWindow(title)
                 text = text or "Toggle"
                 callback = callback or function() end
                 local toggled = false
+                local enabled = false
 
                 local ToggleContainer = Instance.new("Frame")
                 local Toggle_Button = Instance.new("TextButton")
@@ -492,7 +524,6 @@ function library:NewWindow(title)
                 Off.BackgroundTransparency = 1.000
                 Off.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
                 Off.Size = UDim2.new(0, 34, 0, 34)
-                Off.Visible = false
                 Off.Image = "http://www.roblox.com/asset/?id=7399450545"
                 
                 On.Name = "On"
@@ -501,6 +532,7 @@ function library:NewWindow(title)
                 On.BackgroundTransparency = 1.000
                 On.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
                 On.Size = UDim2.new(0, 34, 0, 34)
+                On.Visible = false
                 On.Image = "http://www.roblox.com/asset/?id=7399450227"
                 
                 Toggle_Sample.Name = "Toggle_Sample"
@@ -531,6 +563,13 @@ function library:NewWindow(title)
                     c:Destroy()
 
                     spawn(function() callback(toggled) end)
+                    if enabled then
+                        On.Visible = true
+                        Off.Visible = false
+                    else
+                        On.Visible = false
+                        Off.Visible = true
+                    end
                 end)
             end
 
