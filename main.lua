@@ -471,7 +471,6 @@ function library:NewWindow(title)
                 text = text or "Toggle"
                 callback = callback or function() end
                 local toggled = false
-                local enabled = false
 
                 local ToggleContainer = Instance.new("Frame")
                 local Toggle_Button = Instance.new("TextButton")
@@ -562,13 +561,13 @@ function library:NewWindow(title)
                     end
                     c:Destroy()
 
-                    spawn(function() callback(toggled) end)
-                    if enabled then
-                        On.Visible = true
+                    if Off.Visible == true then
                         Off.Visible = false
+                        On.Visible = true
+                        spawn(function() callback(toggled) end)
                     else
-                        On.Visible = false
                         Off.Visible = true
+                        On.Visible = false
                     end
                 end)
             end
