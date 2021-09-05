@@ -548,12 +548,12 @@ function library:NewWindow(title)
                     callback(toggled)
 
                     if toggled then
-                        while toggled do
+                        if toggled then
                             Off.Visible = false
                             On.Visible = true 
                         end
                     else
-                        while not toggled do
+                        if not toggled then
                             Off.Visible = true
                             On.Visible = false
                         end
