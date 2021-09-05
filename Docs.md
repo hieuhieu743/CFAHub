@@ -39,6 +39,7 @@ Section:NewButton("ButtonText", function()
 end)
 ```
 require: Section
+**STATUS:** Done
 
 ### Creating Toggles
 ```lua
@@ -61,6 +62,7 @@ Section:NewToggle("ToggleText", function(state)
 end)
 ```
 require: Section
+**STATUS:** Done
 
 ### Creating Sliders
 ```lua
@@ -75,6 +77,7 @@ Section:NewSlider(("SilderText", minValue, maxValue, function()
 end)
 ```
 require: Section
+**STATUS:** Not Done
 
 ### Creating Dropdowns
 #### Coming Soon
