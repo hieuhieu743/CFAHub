@@ -569,6 +569,7 @@ function library:NewWindow(title)
                     else
                         Off.Visible = true
                         On.Visible = false
+                        spawn(function() callback(toggled) end)
                     end
                 end)
             end
