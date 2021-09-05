@@ -543,25 +543,7 @@ function library:NewWindow(title)
 
                 local toggled = false
 
-                local function turn()
-                    toggled = not toggled
-                    callback(toggled)
-
-                    if toggled then
-                        if toggled then
-                            Off.Visible = false
-                            On.Visible = true 
-                        end
-                    else
-                        if not toggled then
-                            Off.Visible = true
-                            On.Visible = false
-                        end
-                    end
-                end
-
                 Toggle_Button.MouseButton1Click:Connect(function()
-                    turn()
 
                     local c = Toggle_Sample:Clone()
                     c.ImageTransparency = 0.600
@@ -580,6 +562,16 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy()
+
+                    if toggled then
+                        Off.Visible = false
+                        On.Visible = true
+                        toggled = not toggled
+                        callback(toggled)
+                    else
+                        Off.Visible = true
+                        On.Visible = false
+                    end
                 end)
             end
 
