@@ -470,7 +470,6 @@ function library:NewWindow(title)
 
                 text = text or "Toggle"
                 callback = callback or function() end
-                local toggled = false
 
                 local ToggleContainer = Instance.new("Frame")
                 local Toggle_Button = Instance.new("TextButton")
@@ -542,7 +541,28 @@ function library:NewWindow(title)
                 Toggle_Sample.Image = "rbxassetid://4560909609"
                 Toggle_Sample.ImageTransparency = 1.000
 
+                local toggled = false
+
+                local function turn()
+                    toggled = not toggled
+                    callback(toggled)
+
+                    if toggled then
+                        while toggled do
+                            Off.Visible = false
+                            On.Visible = true 
+                        end
+                    else
+                        while not toggled do
+                            Off.Visible = true
+                            On.Visible = false
+                        end
+                    end
+                end
+
                 Toggle_Button.MouseButton1Click:Connect(function()
+                    turn()
+
                     local c = Toggle_Sample:Clone()
                     c.ImageTransparency = 0.600
                     c.Parent = Toggle_Button
@@ -560,17 +580,6 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy()
-
-                    if toggled then
-                        Off.Visible = false
-                        On.Visible = true
-                        toggled = not toggled
-                        spawn(function() callback(toggled) end)
-                    else
-                        toggled = false
-                        Off.Visible = true
-                        On.Visible = false
-                    end
                 end)
             end
 
