@@ -544,6 +544,14 @@ function library:NewWindow(title)
 
                 local toggled = false
 
+                Toggle_Button.MouseEnter:Connect(function()
+                    game.TweenService:Create({Toggle_Button, ToggleContainer}, tweeninfo(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(57, 57, 57)})
+                end)
+
+                Toggle_Button.MouseLeave:Connect(function()
+                    game.TweenService:Create({Toggle_Button, ToggleContainer}, tweeninfo(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(27, 27, 27)})
+                end)
+
                 Toggle_Button.MouseButton1Click:Connect(function()
 
                     local c = Toggle_Sample:Clone()
