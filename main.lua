@@ -51,6 +51,8 @@ function library:NewWindow(title)
     Tabs.ChildAdded:Connect(UpdateSize())
     Tabs.ChildRemoved:Connect(UpdateSize())
 
+    UpdateSize()
+
     CFAUiLib.Name = "CFAUiLib"
     CFAUiLib.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     CFAUiLib.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -99,7 +101,6 @@ function library:NewWindow(title)
     ImageButton.Image = "http://www.roblox.com/asset/?id=7409394566"
     ImageButton.MouseButton1Click:Connect(function()
         CFAUiLib:Destroy()
-        UpdateSize()
     end)
     
     Tabs.Name = "Tabs"
@@ -567,15 +568,16 @@ function library:NewWindow(title)
                         Off.Visible = false
                         On.Visible = true
                         toggled = not toggled
-                        spawn(function()
+                        pcall(function()
                             callback(toggled)
                         end)
                     else
+                        toggled = false
                         Off.Visible = true
                         On.Visible = false
                     end
                 end)
-            end
+            end -- Fix this!
 
             function sections:NewDropdown(text)
                 UpdateSectionSize()
@@ -721,11 +723,13 @@ function library:NewWindow(title)
 
 
                 return options
-            end
+            end -- Make this fast!
 
+            UpdateSectionSize()
             return sections
         end
 
+        UpdateSize()
         return tabs
     end
     
