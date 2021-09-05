@@ -549,7 +549,7 @@ function library:NewWindow(title)
                 Toggle_Button.MouseEnter:Connect(function()
                     if not focusing then
                         game.TweenService:Create(Toggle_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                            BackgroundColor3 = Color3.fromRGB()
+                            BackgroundColor3 = Color3.fromRGB(57, 57, 57)
                         }):Play()
                         hovering = true
                     end
