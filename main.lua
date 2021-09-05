@@ -544,18 +544,23 @@ function library:NewWindow(title)
 
                 local toggled = false
                 local focusing = false
-                local hovering = false
+                local hovering
 
                 Toggle_Button.MouseEnter:Connect(function()
-                    game.TweenService:Create(Toggle_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                        BackgroundColor3 = Color3.fromRGB(44, 44, 44)
-                    }):Play()
+                    if not focusing then
+                        game.TweenService:Create(Toggle_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB()
+                        }):Play()
+                        hovering = true
+                    end
                 end)
-
                 Toggle_Button.MouseLeave:Connect(function()
-                    game.TweenService:Create(Toggle_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                        BackgroundColor3 = Color3.fromRGB(27, 27, 27)
-                    }):Play()
+                    if not focusing then 
+                        game.TweenService:Create(Toggle_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+                        }):Play()
+                        hovering = false
+                    end
                 end)
 
                 Toggle_Button.MouseButton1Click:Connect(function()
