@@ -269,7 +269,7 @@ function library:NewWindow(title)
             SecText.Parent = SectionFrame
             SecText.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             SecText.BackgroundTransparency = 1.000
-            SecText.Size = UDim2.new(0, 427, 0, 45)
+            SecText.Size = UDim2.new(0, 417, 0, 34)
             SecText.Font = Enum.Font.SourceSansSemibold
             SecText.Text = name
             SecText.TextColor3 = Color3.fromRGB(255, 255, 255)
