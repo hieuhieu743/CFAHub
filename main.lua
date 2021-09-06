@@ -370,31 +370,34 @@ function library:NewWindow(title)
                 UICorner_4.Parent = Silder_Button
 
                 Silder_Button.MouseButton1Down:Connect(function()
-                    Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min)) or 0
-                    pcall(function()
-                        callback(Value)
-                    end)
-                    Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
-                    moveconnection = ms.Move:Connect(function()
-                        Number.Text = Value
-                        Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min))
+                    Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min)) or 0
                         pcall(function()
                             callback(Value)
-                            Number.Text = Value
                         end)
-                        Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
-                    end)
-                    releaseconnection = input.InputEnded:Connect(function(Mouse)
-                        if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
-                            Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min))
+                        Bar:TweenSize(UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 149), 0, 6), "InOut", "Linear", 0.05, true)
+                        moveconnection = ms.Move:Connect(function()
+                            Number.Text = Value
+                            Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min))
                             pcall(function()
                                 callback(Value)
                             end)
-                            Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
-                            moveconnection:Disconnect()
-                            releaseconnection:Disconnect()
-                        end
-                    end)
+                            Bar:TweenSize(UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 149), 0, 6), "InOut", "Linear", 0.05, true)
+                        end)
+                        releaseconnection = input.InputEnded:Connect(function(Mouse)
+                            if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+                                Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min))
+                                pcall(function()
+                                    callback(Value)
+                                end)
+                                Number.Text = Value
+                                game.TweenService:Create(Number, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                    TextTransparency = 1
+                                }):Play()
+                                Bar:TweenSize(UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 149), 0, 6), "InOut", "Linear", 0.05, true)
+                                moveconnection:Disconnect()
+                                releaseconnection:Disconnect()
+                            end
+                        end)
                 end)
             end -- Fix this!
             
@@ -618,6 +621,24 @@ function library:NewWindow(title)
 
                         OnOff.Image = "http://www.roblox.com/asset/?id=7399450545"
                     else
+                        local c = Toggle_Sample:Clone()
+                        c.ImageTransparency = 0.600
+                        c.Parent = Toggle_Button
+                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                        c.Position = UDim2.new(0, x, 0, y)
+                        local len, size = 0.35, nil
+                        if Toggle_Button.AbsoluteSize.X >= Toggle_Button.AbsoluteSize.Y then
+                            size = (Toggle_Button.AbsoluteSize.X * 1.5)
+                        else
+                            size = (Toggle_Button.AbsoluteSize.Y * 1.5)
+                        end
+                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                        for i = 1, 10 do
+                            c.ImageTransparency = c.ImageTransparency + 0.05
+                            wait(len / 12)
+                        end
+                        c:Destroy() 
+
                         OnOff.Image = "http://www.roblox.com/asset/?id=7399450227"
                     end
                     toggled = not toggled
