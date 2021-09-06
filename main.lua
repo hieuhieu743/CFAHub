@@ -396,7 +396,7 @@ function library:NewWindow(title)
                         end
                     end)
                 end)
-            end
+            end -- Fix this!
             
             function sections:NewButton(text, callback)
                 UpdateSectionSize()
@@ -507,7 +507,7 @@ function library:NewWindow(title)
                     pcall(callback)
                 end)
                 
-            end
+            end -- Done!
 
             function sections:NewToggle(text, callback)
                 UpdateSectionSize()
@@ -519,8 +519,7 @@ function library:NewWindow(title)
                 local Toggle_Button = Instance.new("TextButton")
                 local UICorner_6 = Instance.new("UICorner")
                 local Name_3 = Instance.new("TextLabel")
-                local Off = Instance.new("ImageLabel")
-                local On = Instance.new("ImageLabel")
+                local OnOff = Instance.new("ImageLabel")
                 local Toggle_Sample = Instance.new("ImageLabel")
                 
                 ToggleContainer.Name = "ToggleContainer"
@@ -560,22 +559,13 @@ function library:NewWindow(title)
                 Name_3.TextWrapped = true
                 Name_3.TextXAlignment = Enum.TextXAlignment.Left
                 
-                Off.Name = "Off"
-                Off.Parent = Toggle_Button
-                Off.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                Off.BackgroundTransparency = 1.000
-                Off.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
-                Off.Size = UDim2.new(0, 34, 0, 34)
-                Off.Image = "http://www.roblox.com/asset/?id=7399450227"
-                
-                On.Name = "On"
-                On.Parent = Toggle_Button
-                On.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                On.BackgroundTransparency = 1.000
-                On.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
-                On.Size = UDim2.new(0, 34, 0, 34)
-                On.Visible = false
-                On.Image = "http://www.roblox.com/asset/?id=7399450545"
+                OnOff.Name = "On"
+                OnOff.Parent = Toggle_Button
+                OnOff.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                OnOff.BackgroundTransparency = 1.000
+                OnOff.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
+                OnOff.Size = UDim2.new(0, 34, 0, 34)
+                OnOff.Image = "http://www.roblox.com/asset/?id=7399450545"
                 
                 Toggle_Sample.Name = "Toggle_Sample"
                 Toggle_Sample.Parent = Toggle_Button
@@ -607,39 +597,33 @@ function library:NewWindow(title)
                 end)
 
                 Toggle_Button.MouseButton1Click:Connect(function()
+                    if toggled == false then
+                        local c = Toggle_Sample:Clone()
+                        c.ImageTransparency = 0.600
+                        c.Parent = Toggle_Button
+                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                        c.Position = UDim2.new(0, x, 0, y)
+                        local len, size = 0.35, nil
+                        if Toggle_Button.AbsoluteSize.X >= Toggle_Button.AbsoluteSize.Y then
+                            size = (Toggle_Button.AbsoluteSize.X * 1.5)
+                        else
+                            size = (Toggle_Button.AbsoluteSize.Y * 1.5)
+                        end
+                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                        for i = 1, 10 do
+                            c.ImageTransparency = c.ImageTransparency + 0.05
+                            wait(len / 12)
+                        end
+                        c:Destroy() 
 
-                    local c = Toggle_Sample:Clone()
-                    c.ImageTransparency = 0.600
-                    c.Parent = Toggle_Button
-                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
-                    c.Position = UDim2.new(0, x, 0, y)
-                    local len, size = 0.35, nil
-                    if Toggle_Button.AbsoluteSize.X >= Toggle_Button.AbsoluteSize.Y then
-                        size = (Toggle_Button.AbsoluteSize.X * 1.5)
+                        OnOff.Image = "http://www.roblox.com/asset/?id=7399450545"
                     else
-                        size = (Toggle_Button.AbsoluteSize.Y * 1.5)
+                        OnOff.Image = "http://www.roblox.com/asset/?id=7399450227"
                     end
-                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
-                    for i = 1, 10 do
-                        c.ImageTransparency = c.ImageTransparency + 0.05
-                        wait(len / 12)
-                    end
-                    c:Destroy()
-
-                    if toggled then
-                        Off.Visible = false
-                        On.Visible = true
-                        toggled = not toggled
-                        spawn(function()
-                            callback(toggled)
-                        end)
-                    else
-                        toggled = false
-                        Off.Visible = true
-                        On.Visible = false
-                    end
+                    toggled = not toggled
+                    pcall(callback, toggled)
                 end)
-            end -- Fix this!
+            end -- Done maybe
 
             function sections:NewDropdown(text)
                 UpdateSectionSize()
