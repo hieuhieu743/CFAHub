@@ -369,8 +369,11 @@ function library:NewWindow(title)
                 
                 UICorner_4.Parent = Silder_Button
 
+                local focusing = false
+
                 Silder_Button.MouseButton1Down:Connect(function()
-                    Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min)) or 0
+                    if not focusing then
+                        Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min)) or 0
                         pcall(function()
                             callback(Value)
                         end)
@@ -398,6 +401,7 @@ function library:NewWindow(title)
                                 releaseconnection:Disconnect()
                             end
                         end)
+                    end
                 end)
             end -- Fix this!
             
