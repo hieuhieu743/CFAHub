@@ -288,9 +288,6 @@ function library:NewWindow(title)
                 min = min or 1
                 max = max or 100
                 callback = callback or function() end
-                local Value
-                local moveconnection
-                local releaseconnection
 
                 local SilderContainer = Instance.new("Frame")
                 local UICorner_2 = Instance.new("UICorner")
@@ -369,39 +366,36 @@ function library:NewWindow(title)
                 
                 UICorner_4.Parent = Silder_Button
 
-                local focusing = false
+                local Value
+                local moveconnection
+                local releaseconnection
 
                 Silder_Button.MouseButton1Down:Connect(function()
-                    if not focusing then
-                        Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min)) or 0
+                    Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min)) or 0
+                    pcall(function()
+                        callback(Value)
+                    end)
+                    Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
+                    moveconnection = ms.Move:Connect(function()
+                        Number.Text = Value
+                        Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min))
                         pcall(function()
                             callback(Value)
-                        end)
-                        Bar:TweenSize(UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 149), 0, 6), "InOut", "Linear", 0.05, true)
-                        moveconnection = ms.Move:Connect(function()
                             Number.Text = Value
-                            Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min))
+                        end)
+                        Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
+                    end)
+                    releaseconnection = input.InputEnded:Connect(function(Mouse)
+                        if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+                            Value = math.floor((((tonumber(max) - tonumber(min)) / 217) * Bar.AbsoluteSize.X) + tonumber(min))
                             pcall(function()
                                 callback(Value)
                             end)
-                            Bar:TweenSize(UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 149), 0, 6), "InOut", "Linear", 0.05, true)
-                        end)
-                        releaseconnection = input.InputEnded:Connect(function(Mouse)
-                            if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
-                                Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * Bar.AbsoluteSize.X) + tonumber(min))
-                                pcall(function()
-                                    callback(Value)
-                                end)
-                                Number.Text = Value
-                                game.TweenService:Create(Number, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                                    TextTransparency = 1
-                                }):Play()
-                                Bar:TweenSize(UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 149), 0, 6), "InOut", "Linear", 0.05, true)
-                                moveconnection:Disconnect()
-                                releaseconnection:Disconnect()
-                            end
-                        end)
-                    end
+                            Bar.Size = UDim2.new(0, math.clamp(ms.X - Bar.AbsolutePosition.X, 0, 217), 0, 9)
+                            moveconnection:Disconnect()
+                            releaseconnection:Disconnect()
+                        end
+                    end)
                 end)
             end -- Fix this!
             
