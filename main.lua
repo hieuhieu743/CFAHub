@@ -27,7 +27,7 @@ function Utility:TweenObject(obj, properties, duration, ...)
     tween:Create(obj, tweeninfo(duration, ...), properties):Play()
 end
 
-function library:NewWindow(title)
+function library:CreateWindow(title)
     local window = {}
     title = title or "CFA Hub Premium - Game Name"
 
@@ -116,6 +116,44 @@ function library:NewWindow(title)
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 2)
 
+	local gui = Background
+
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
+
+	local function update(input)
+		local delta = input.Position - dragStart
+		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+
+	gui.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+			dragging = true
+			dragStart = input.Position
+			startPos = gui.Position
+
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+
+    gui.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+			dragInput = input
+		end
+	end)
+
+	input.InputChanged:Connect(function(input)
+		if input == dragInput and dragging then
+			update(input)
+		end
+	end)
+
     local Containers = Instance.new("Folder")
 
     Containers.Name = "Containers"
@@ -123,7 +161,7 @@ function library:NewWindow(title)
 
     UpdateSize()
 
-    function window:NewTab(name)
+    function window:CreateTab(name)
         local tabs = {}
         name = name or "Tab"
 
@@ -239,6 +277,7 @@ function library:NewWindow(title)
             end
 
             UpdateSectionSize()
+            UpdateSize()
 
             Sections.Name = "Sections"
             Sections.Parent = Container
@@ -283,7 +322,8 @@ function library:NewWindow(title)
 
             function sections:NewSilder(text, min, max, callback)
                 UpdateSectionSize()
-                
+                UpdateSize()
+
                 text = text or "Silder"
                 min = min or 1
                 max = max or 100
@@ -397,10 +437,11 @@ function library:NewWindow(title)
                         end
                     end)
                 end)
-            end -- Fix this!
+            end -- Status: Done
             
             function sections:NewButton(text, callback)
                 UpdateSectionSize()
+                UpdateSize()
 
                 text = text or "Button"
                 callback = callback or function() end
@@ -508,10 +549,11 @@ function library:NewWindow(title)
                     pcall(callback)
                 end)
                 
-            end -- Done!
+            end -- Status: Done
 
             function sections:NewToggle(text, callback)
                 UpdateSectionSize()
+                UpdateSize()
 
                 text = text or "Toggle"
                 callback = callback or function() end
@@ -566,7 +608,7 @@ function library:NewWindow(title)
                 OnOff.BackgroundTransparency = 1.000
                 OnOff.Position = UDim2.new(0.0263788961, 0, -0.0294117648, 0)
                 OnOff.Size = UDim2.new(0, 34, 0, 34)
-                OnOff.Image = "http://www.roblox.com/asset/?id=7399450545"
+                OnOff.Image = "http://www.roblox.com/asset/?id=7399450227"
                 
                 Toggle_Sample.Name = "Toggle_Sample"
                 Toggle_Sample.Parent = Toggle_Button
@@ -642,13 +684,16 @@ function library:NewWindow(title)
                     toggled = not toggled
                     pcall(callback, toggled)
                 end)
-            end -- Done maybe
+            end -- Status: Done
 
-            function sections:NewDropdown(text)
+            function sections:NewDropdown(text, list, callback)
                 UpdateSectionSize()
+                UpdateSize()
 
                 local options = {}
                 text = text or "Dropdown"
+                list = list or {}
+                callback = callback or function() end
                 
                 local DropdownContainer = Instance.new("Frame")
                 local DropdownButton = Instance.new("TextButton")
@@ -709,7 +754,7 @@ function library:NewWindow(title)
                 CloseIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 CloseIcon.BackgroundTransparency = 1.000
                 CloseIcon.Position = UDim2.new(0.92086339, 0, 0.166844532, 0)
-                CloseIcon.Size = UDim2.new(0, 23, 0, 19)
+                CloseIcon.Size = UDim2.new(0, 27,0, 22)
                 CloseIcon.Font = Enum.Font.SourceSans
                 CloseIcon.Text = "▲"
                 CloseIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -724,6 +769,18 @@ function library:NewWindow(title)
                 Dropdown_Sample.Size = UDim2.new(0, 100, 0, 100)
                 Dropdown_Sample.Image = "rbxassetid://4560909609"
                 Dropdown_Sample.ImageTransparency = 0.600
+
+                local isDropping = false
+
+                DropdownButton.MouseButton1Click:Connect(function()
+                    if isDropping then
+                        isDropping = false
+                        CloseIcon.Rotation = 90
+                    else
+                        isDropping = true
+                        CloseIcon.Rotation = 180
+                    end
+                end)
 
                 function options:NewOption(text, callback)
                     text = text or "Option"
@@ -788,7 +845,7 @@ function library:NewWindow(title)
 
 
                 return options
-            end -- Make this fast!
+            end 
 
             UpdateSectionSize()
             return sections
