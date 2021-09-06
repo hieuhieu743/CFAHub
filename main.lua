@@ -176,6 +176,27 @@ function library:NewWindow(title)
         Container.Position = UDim2.new(0.225862071, 0, 0.0776699036, 0)
         Container.Size = UDim2.new(0, 449, 0, 284)
 
+        local toggled = false
+        local focusing = false
+        local hovering
+
+        Page_Button.MouseEnter:Connect(function()
+            if not focusing then
+                game.TweenService:Create(Page_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+                }):Play()
+                hovering = true
+            end
+        end)
+        Page_Button.MouseLeave:Connect(function()
+            if not focusing then 
+                game.TweenService:Create(Page_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+                }):Play()
+                hovering = false
+            end
+        end)
+
         Page_Button.MouseButton1Click:Connect(function()
             UpdateSize()
             local c = ButtonSample:Clone()
@@ -224,6 +245,7 @@ function library:NewWindow(title)
             Sections.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             Sections.BackgroundTransparency = 1.000
             Sections.BorderSizePixel = 0
+            Sections.Active = false
             Sections.Position = UDim2.new(0, 0, 0.0208519809, 0)
             Sections.Size = UDim2.new(0, 449, 0, 277)
             Sections.ScrollBarThickness = 6
@@ -241,7 +263,7 @@ function library:NewWindow(title)
             SectionFrame.Parent = Sections
             SectionFrame.BackgroundColor3 = Color3.fromRGB(62, 62, 62)
             SectionFrame.Position = UDim2.new(0.0244988855, 0, 0.548736453, 0)
-            SectionFrame.Size = UDim2.new(0, 427, 0, 45)
+            SectionFrame.Size = UDim2.new(0, 417, 0, 34)
             
             SecText.Name = "SecText"
             SecText.Parent = SectionFrame
@@ -442,6 +464,27 @@ function library:NewWindow(title)
                 ButtonSample_2.Image = "rbxassetid://4560909609"
                 ButtonSample_2.ImageTransparency = 1.000
 
+                local toggled = false
+                local focusing = false
+                local hovering
+
+                Button_Button.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(Button_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                Button_Button.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(Button_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
+
                 Button_Button.MouseButton1Click:Connect(function()
                     local c = ButtonSample_2:Clone()
                     c.ImageTransparency = 0.600
@@ -549,7 +592,7 @@ function library:NewWindow(title)
                 Toggle_Button.MouseEnter:Connect(function()
                     if not focusing then
                         game.TweenService:Create(Toggle_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                            BackgroundColor3 = Color3.fromRGB()
+                            BackgroundColor3 = Color3.fromRGB(31, 31, 31)
                         }):Play()
                         hovering = true
                     end
@@ -587,7 +630,7 @@ function library:NewWindow(title)
                         Off.Visible = false
                         On.Visible = true
                         toggled = not toggled
-                        pcall(function()
+                        spawn(function()
                             callback(toggled)
                         end)
                     else
