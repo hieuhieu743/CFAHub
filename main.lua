@@ -203,7 +203,7 @@ function library:NewWindow(title)
         ButtonSample.Position = UDim2.new(0.0128205121, 0, 0.327840537, 0)
         ButtonSample.Size = UDim2.new(0, 50, 0, 50)
         ButtonSample.Image = "rbxassetid://4560909609"
-        ButtonSample.ImageTransparency = 0.600
+        ButtonSample.ImageTransparency = 1.000
 
         local Container = Instance.new("Frame")
 
@@ -221,11 +221,6 @@ function library:NewWindow(title)
                 v.Visible = false
             end
             Container.Visible = true
-            
-            for i, v in next, TabFrame:GetChildren() do
-                v.BackgroundTransparency = 1
-            end
-            Page_Button.BackgroundTransparency = 0
 
             local c = ButtonSample:Clone()
             c.ImageTransparency = 0.600
