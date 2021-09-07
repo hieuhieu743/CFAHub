@@ -1,5 +1,6 @@
 # CFA UI Library
-## Warning: The UI Library not done yet!
+**Warning: The UI Library not done yet!**
+*UI Library version: 3.5*
 
 ## Methods
 
@@ -10,31 +11,31 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/hieuh
 
 ### Creating UI Library Window
 ```lua
-local Window = Library:NewWindow("title")
+local Window = Library:CreateWindow("title")
 ```
 require: Library
 
 ### Creating Tabs
 ```lua
-local Tab = Window:NewTab("TabName")
+local Tab = Window:CreateTab("TabName")
 ```
 require: Window
 
 ### Creating Section
 ```lua
-local Section = Tab:NewSection("SectionName")
+local Section = Tab:CreateSection("SectionName")
 ```
 require: Tab
 
 ### Creating Buttons
 ```lua
-local Button = Section:NewButton("ButtonText", function()
+local Button = Section:CreateButton("ButtonText", function()
     -- Function here
 end)
 ```
 #### Or
 ```lua
-Section:NewButton("ButtonText", function()
+Section:CreateButton("ButtonText", function()
     -- Function here
 end)
 ```
@@ -43,7 +44,7 @@ require: Section
 
 ### Creating Toggles
 ```lua
-local Toggle = Section:NewToggle("ToggleText", function(state)
+local Toggle = Section:CreateToggle("ToggleText", function(state)
     if state then
         -- On Function here
     else
@@ -53,7 +54,7 @@ end)
 ```
 #### Or
 ```lua
-Section:NewToggle("ToggleText", function(state)
+Section:CreateToggle("ToggleText", function(state)
     if state then
         -- On Function here
     else
@@ -66,13 +67,13 @@ require: Section
 
 ### Creating Sliders
 ```lua
-local Slider = Section:NewSlider("SilderText", minValue, maxValue, function()
+local Slider = Section:CreateSlider("SilderText", minValue, maxValue, function()
     -- Function here
 end)
 ```
 #### Or
 ```lua
-Section:NewSlider(("SilderText", minValue, maxValue, function()
+Section:CreateSlider(("SilderText", minValue, maxValue, function()
     -- Function here
 end)
 ```

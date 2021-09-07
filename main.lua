@@ -27,9 +27,43 @@ function Utility:TweenObject(obj, properties, duration, ...)
     tween:Create(obj, tweeninfo(duration, ...), properties):Play()
 end
 
+function library:DraggingEnabled(frame, parent)
+    parent = parent or frame
+
+    local dragging = false
+    local dragInput, mousePos, framePos
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            mousePos = input.Position
+            framePos = parent.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    input.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - mousePos
+            parent.Position = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+        end
+    end)
+end
+
 function library:CreateWindow(title)
     local window = {}
-    title = title or "CFA Hub Premium - Game Name"
+    title = title or "CFA Hub Premium/Free - Game Name"
 
     local CFAUiLib = Instance.new("ScreenGui")
     local Background = Instance.new("Frame")
@@ -39,6 +73,8 @@ function library:CreateWindow(title)
     local ImageButton = Instance.new("ImageButton")
     local Tabs = Instance.new("ScrollingFrame")
     local UIListLayout = Instance.new("UIListLayout")
+
+    library:DraggingEnabled(TitleFrame, Background)
 
     local function UpdateSize()
         local cS = UIListLayout.AbsoluteContentSize
@@ -115,44 +151,6 @@ function library:CreateWindow(title)
     UIListLayout.Parent = Tabs
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 2)
-
-	local gui = Background
-
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
-
-	local function update(input)
-		local delta = input.Position - dragStart
-		gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-	end
-
-	gui.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-			dragging = true
-			dragStart = input.Position
-			startPos = gui.Position
-
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
-		end
-	end)
-
-    gui.InputChanged:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-			dragInput = input
-		end
-	end)
-
-	input.InputChanged:Connect(function(input)
-		if input == dragInput and dragging then
-			update(input)
-		end
-	end)
 
     local Containers = Instance.new("Folder")
 
@@ -261,7 +259,7 @@ function library:CreateWindow(title)
             Container.Visible = true
         end)
 
-        function tabs:NewSection(name)
+        function tabs:CreateSection(name)
             local sections = {}
             name = name or "Section"
 
@@ -320,7 +318,7 @@ function library:CreateWindow(title)
             SecUI.Name = "SecUI"
             SecUI.Parent = SectionFrame
 
-            function sections:NewSilder(text, min, max, callback)
+            function sections:CreateSilder(text, min, max, callback)
                 UpdateSectionSize()
                 UpdateSize()
 
@@ -439,7 +437,7 @@ function library:CreateWindow(title)
                 end)
             end -- Status: Done
             
-            function sections:NewButton(text, callback)
+            function sections:CreateButton(text, callback)
                 UpdateSectionSize()
                 UpdateSize()
 
@@ -551,7 +549,7 @@ function library:CreateWindow(title)
                 
             end -- Status: Done
 
-            function sections:NewToggle(text, callback)
+            function sections:CreateToggle(text, callback)
                 UpdateSectionSize()
                 UpdateSize()
 
@@ -686,7 +684,7 @@ function library:CreateWindow(title)
                 end)
             end -- Status: Done
 
-            function sections:NewDropdown(text, list, callback)
+            function sections:CreateDropdown(text, list, callback)
                 UpdateSectionSize()
                 UpdateSize()
 
