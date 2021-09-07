@@ -216,16 +216,21 @@ function library:NewWindow(title)
 
         if first then
             first = false
-            Tabs.Visible = true
+            Containers.Visible = true
             Page_Button.BackgroundTransparency = 0
             UpdateSize()
         else
-            Tabs.Visible = false
+            Containers.Visible = false
             Page_Button.BackgroundTransparency = 1
         end
 
         Page_Button.MouseButton1Click:Connect(function()
             UpdateSize()
+            for i, v in next, Containers:GetChildren() do
+                v.Visible = false
+            end
+            Container.Visible = true
+
             local c = ButtonSample:Clone()
             c.ImageTransparency = 0.600
             c.Parent = Page_Button
@@ -243,11 +248,6 @@ function library:NewWindow(title)
                 wait(len / 12)
             end
             c:Destroy()
-
-            for i, v in next, Containers:GetChildren() do
-                v.Visible = false
-            end
-            Container.Visible = true
         end)
 
         function tabs:CreateSection(name)
