@@ -736,7 +736,7 @@ function library:NewWindow(title)
                 CloseIcon.Position = UDim2.new(0.92086339, 0, 0.166844532, 0)
                 CloseIcon.Size = UDim2.new(0, 27,0, 22)
                 CloseIcon.Font = Enum.Font.SourceSans
-                CloseIcon.Text = "▲"
+                CloseIcon.Text = "▼"
                 CloseIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
                 CloseIcon.TextScaled = true
                 CloseIcon.TextSize = 14.000
@@ -748,7 +748,7 @@ function library:NewWindow(title)
                 Dropdown_Sample.BackgroundTransparency = 1.000
                 Dropdown_Sample.Size = UDim2.new(0, 100, 0, 100)
                 Dropdown_Sample.Image = "rbxassetid://4560909609"
-                Dropdown_Sample.ImageTransparency = 0.600
+                Dropdown_Sample.ImageTransparency = 1.000
 
                 local OptionContainer = Instance.new("Frame")
                 local UICorner_8 = Instance.new("UICorner")
@@ -759,6 +759,7 @@ function library:NewWindow(title)
                 OptionContainer.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
                 OptionContainer.Position = UDim2.new(0.0167865716, 0, 0.735294104, 0)
                 OptionContainer.Size = UDim2.new(0, 402, 0, 121)
+                OptionContainer.ClipsDescendants = true
                 
                 UICorner_8.Parent = OptionContainer
                 
@@ -797,6 +798,10 @@ function library:NewWindow(title)
                             wait(len / 12)
                         end
                         c:Destroy() 
+
+                        game.TweenService:Create(OptionContainer, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            Size = UDim2.new(0, 0, 0, 0)
+                        })
                     else
                         isDropping = true
                         CloseIcon.Rotation = 180
@@ -818,6 +823,10 @@ function library:NewWindow(title)
                             wait(len / 12)
                         end
                         c:Destroy() 
+
+                        game.TweenService:Create(OptionContainer, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            Size = UDim2.new(0, 402, 0, 121)
+                        })
                     end
                 end)
 
