@@ -775,9 +775,10 @@ function library:NewWindow(title)
                 local isDropping = false
 
                 DropdownButton.MouseButton1Click:Connect(function()
+                    UpdateSectionSize()
                     if isDropping then
                         isDropping = false
-                        CloseIcon.Rotation = 90
+                        CloseIcon.Rotation = 0
 
                         local c = Dropdown_Sample:Clone()
                         c.ImageTransparency = 0.600
