@@ -216,16 +216,6 @@ function library:NewWindow(title)
         Container.Position = UDim2.new(0.225862071, 0, 0.0776699036, 0)
         Container.Size = UDim2.new(0, 449, 0, 284)
 
-        if first then
-            first = false
-            Container.Visible = true
-            Page_Button.BackgroundTransparency = 0
-            UpdateSize()
-        else
-            Container.Visible = false
-            Page_Button.BackgroundTransparency = 1
-        end
-
         Page_Button.MouseButton1Click:Connect(function()
             UpdateSize()
             for i, v in next, Containers:GetChildren() do
@@ -251,7 +241,16 @@ function library:NewWindow(title)
             end
             c:Destroy()
 
-            Utility:TweenObject(Page_Button, {BackgroundTransparency = 0}, 0.2)
+            if first then
+                first = not first
+                game.TweenService:Create(Page_Button, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundTransparency = 0
+                })
+            else 
+                game.TweenService:Create(Page_Button, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundTransparency = 1
+                })
+            end
         end)
 
         function tabs:CreateSection(name)
