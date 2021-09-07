@@ -61,7 +61,7 @@ function library:DraggingEnabled(frame, parent)
     end)
 end
 
-function library:CreateWindow(title)
+function library:NewWindow(title)
     local window = {}
     title = title or "CFA Hub Premium/Free - Game Name"
 
