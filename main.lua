@@ -750,47 +750,81 @@ function library:NewWindow(title)
                 Dropdown_Sample.Image = "rbxassetid://4560909609"
                 Dropdown_Sample.ImageTransparency = 0.600
 
+                local OptionContainer = Instance.new("Frame")
+                local UICorner_8 = Instance.new("UICorner")
+                local OptionFrame = Instance.new("ScrollingFrame")
+
+                OptionContainer.Name = "OptionContainer"
+                OptionContainer.Parent = DropdownContainer
+                OptionContainer.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
+                OptionContainer.Position = UDim2.new(0.0167865716, 0, 0.735294104, 0)
+                OptionContainer.Size = UDim2.new(0, 402, 0, 121)
+                
+                UICorner_8.Parent = OptionContainer
+                
+                OptionFrame.Name = "OptionFrame"
+                OptionFrame.Parent = OptionContainer
+                OptionFrame.Active = true
+                OptionFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                OptionFrame.BackgroundTransparency = 1.000
+                OptionFrame.BorderSizePixel = 0
+                OptionFrame.Position = UDim2.new(0, 0, 0.12396694, 0)
+                OptionFrame.Size = UDim2.new(0, 400, 0, 106)
+                OptionFrame.ScrollBarThickness = 6
+
                 local isDropping = false
 
                 DropdownButton.MouseButton1Click:Connect(function()
                     if isDropping then
                         isDropping = false
                         CloseIcon.Rotation = 90
+
+                        local c = Dropdown_Sample:Clone()
+                        c.ImageTransparency = 0.600
+                        c.Parent = DropdownButton
+                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                        c.Position = UDim2.new(0, x, 0, y)
+                        local len, size = 0.35, nil
+                        if DropdownButton.AbsoluteSize.X >= DropdownButton.AbsoluteSize.Y then
+                            size = (DropdownButton.AbsoluteSize.X * 1.5)
+                        else
+                            size = (DropdownButton.AbsoluteSize.Y * 1.5)
+                        end
+                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                        for i = 1, 10 do
+                            c.ImageTransparency = c.ImageTransparency + 0.05
+                            wait(len / 12)
+                        end
+                        c:Destroy() 
                     else
                         isDropping = true
                         CloseIcon.Rotation = 180
+
+                        local c = Dropdown_Sample:Clone()
+                        c.ImageTransparency = 0.600
+                        c.Parent = DropdownButton
+                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                        c.Position = UDim2.new(0, x, 0, y)
+                        local len, size = 0.35, nil
+                        if DropdownButton.AbsoluteSize.X >= DropdownButton.AbsoluteSize.Y then
+                            size = (DropdownButton.AbsoluteSize.X * 1.5)
+                        else
+                            size = (DropdownButton.AbsoluteSize.Y * 1.5)
+                        end
+                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                        for i = 1, 10 do
+                            c.ImageTransparency = c.ImageTransparency + 0.05
+                            wait(len / 12)
+                        end
+                        c:Destroy() 
                     end
                 end)
 
-                function options:NewOption(text, callback)
-                    text = text or "Option"
-                    callback = callback or function() end
-
-                    local OptionContainer = Instance.new("Frame")
-                    local UICorner_8 = Instance.new("UICorner")
-                    local OptionFrame = Instance.new("ScrollingFrame")
+                for i, v in next, list do
                     local OptionButton = Instance.new("TextButton")
                     local UICorner_9 = Instance.new("UICorner")
                     local Option_Sample = Instance.new("ImageLabel")
                     local UIListLayout_3 = Instance.new("UIListLayout")
-
-                    OptionContainer.Name = "OptionContainer"
-                    OptionContainer.Parent = DropdownContainer
-                    OptionContainer.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-                    OptionContainer.Position = UDim2.new(0.0167865716, 0, 0.735294104, 0)
-                    OptionContainer.Size = UDim2.new(0, 402, 0, 121)
-                    
-                    UICorner_8.Parent = OptionContainer
-                    
-                    OptionFrame.Name = "OptionFrame"
-                    OptionFrame.Parent = OptionContainer
-                    OptionFrame.Active = true
-                    OptionFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                    OptionFrame.BackgroundTransparency = 1.000
-                    OptionFrame.BorderSizePixel = 0
-                    OptionFrame.Position = UDim2.new(0, 0, 0.12396694, 0)
-                    OptionFrame.Size = UDim2.new(0, 400, 0, 106)
-                    OptionFrame.ScrollBarThickness = 6
                     
                     OptionButton.Name = "OptionButton"
                     OptionButton.Parent = OptionFrame
@@ -801,7 +835,7 @@ function library:NewWindow(title)
                     OptionButton.AutoButtonColor = false
                     OptionButton.Font = Enum.Font.SourceSansSemibold
                     OptionButton.LineHeight = 1.120
-                    OptionButton.Text = "Option 1"
+                    OptionButton.Text = v
                     OptionButton.TextColor3 = Color3.fromRGB(255, 255, 255)
                     OptionButton.TextScaled = true
                     OptionButton.TextSize = 14.000

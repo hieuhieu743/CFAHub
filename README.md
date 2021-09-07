@@ -1,5 +1,5 @@
 # CFA UI Library
-**Warning: The UI Library not done yet!** | *UI Library version: 3.5*
+**Warning: The UI Library not done yet!** | *UI Library version: 3.5.3*
 
 ## Methods
 
@@ -10,7 +10,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/hieuh
 
 ### Creating UI Library Window
 ```lua
-local Window = Library:CreateWindow("title")
+local Window = Library:NewWindow("title")
 ```
 require: Library
 
@@ -77,6 +77,12 @@ end)
 require: Section | **STATUS:** Done
 
 ### Creating Dropdowns
+```lua
+local Dropdown = Section:CreateDropdown("DropdownText", {"lists"}, function()
+    -- Function here
+end)
+```
+require: Section | **STATUS:** Not Done
 
 ## Next Update:
 #### Dropdowns
