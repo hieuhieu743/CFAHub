@@ -159,8 +159,6 @@ function library:NewWindow(title)
 
     UpdateSize()
 
-    local first = true
-
     function window:CreateTab(name)
         local tabs = {}
         name = name or "Tab"
@@ -223,6 +221,11 @@ function library:NewWindow(title)
             end
             Container.Visible = true
 
+            for i, v in next, Tabs:GetChildren() do
+                v.BackgroundTransparency = 1
+            end
+            Page_Button.BackgroundTransparency = 0
+
             local c = ButtonSample:Clone()
             c.ImageTransparency = 0.600
             c.Parent = Page_Button
@@ -240,17 +243,6 @@ function library:NewWindow(title)
                 wait(len / 12)
             end
             c:Destroy()
-
-            if first then
-                first = not first
-                game.TweenService:Create(Page_Button, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                    BackgroundTransparency = 0
-                })
-            else 
-                game.TweenService:Create(Page_Button, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                    BackgroundTransparency = 1
-                })
-            end
         end)
 
         function tabs:CreateSection(name)
