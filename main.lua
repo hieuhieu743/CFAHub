@@ -159,6 +159,8 @@ function library:NewWindow(title)
 
     UpdateSize()
 
+    local first = true
+
     function window:CreateTab(name)
         local tabs = {}
         name = name or "Tab"
@@ -210,10 +212,9 @@ function library:NewWindow(title)
         Container.Parent = Containers
         Container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Container.BackgroundTransparency = 1.000
+        Container.Visible = false
         Container.Position = UDim2.new(0.225862071, 0, 0.0776699036, 0)
         Container.Size = UDim2.new(0, 449, 0, 284)
-
-        local first = true
 
         if first then
             first = false
