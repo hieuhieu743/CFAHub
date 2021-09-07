@@ -71,23 +71,8 @@ function library:NewWindow(title)
     local TextLabel = Instance.new("TextLabel")
     local ImageLabel = Instance.new("ImageLabel")
     local ImageButton = Instance.new("ImageButton")
-    local Tabs = Instance.new("ScrollingFrame")
-    local UIListLayout = Instance.new("UIListLayout")
 
     library:DraggingEnabled(TitleFrame, Background)
-
-    local function UpdateSize()
-        local cS = UIListLayout.AbsoluteContentSize
-
-        game.TweenService:Create(Tabs, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-            CanvasSize = UDim2.new(0,0,0,cS.Y)
-        }):Play()
-    end
-
-    Tabs.ChildAdded:Connect(UpdateSize())
-    Tabs.ChildRemoved:Connect(UpdateSize())
-
-    UpdateSize()
 
     CFAUiLib.Name = "CFAUiLib"
     CFAUiLib.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
@@ -138,57 +123,73 @@ function library:NewWindow(title)
     ImageButton.MouseButton1Click:Connect(function()
         CFAUiLib:Destroy()
     end)
-    
-    Tabs.Name = "Tabs"
-    Tabs.Parent = Background
-    Tabs.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-    Tabs.BorderSizePixel = 0
-    Tabs.Position = UDim2.new(0, 0, 0.0776699036, 0)
-    Tabs.Size = UDim2.new(0, 131, 0, 284)
-    Tabs.CanvasSize = UDim2.new(0, 0, 0, 0)
-    Tabs.ScrollBarThickness = 4
-
-    UIListLayout.Parent = Tabs
-    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    UIListLayout.Padding = UDim.new(0, 2)
 
     local Containers = Instance.new("Folder")
 
     Containers.Name = "Containers"
     Containers.Parent = Background
 
-    UpdateSize()
+    local TabsContainer = Instance.new("Frame")
+    local TabFrame = Instance.new("ScrollingFrame")
+    local UIListLayout = Instance.new("UIListLayout")
 
+    local function UpdateSize()
+        local cS = UIListLayout.AbsoluteContentSize
+
+        game.TweenService:Create(TabFrame, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+            CanvasSize = UDim2.new(0,0,0,cS.Y)
+        }):Play()
+    end
+
+    UpdateSize()
+    TabFrame.ChildAdded:Connect(UpdateSize())
+    TabFrame.ChildRemoved:Connect(UpdateSize())
+
+    TabsContainer.Name = "TabsContainer"
+    TabsContainer.Parent = Background
+    TabsContainer.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    TabsContainer.BorderSizePixel = 0
+    TabsContainer.Position = UDim2.new(0, 0, 0.0776699036, 0)
+    TabsContainer.Size = UDim2.new(0, 131, 0, 284)
+
+    TabFrame.Name = "TabFrame"
+    TabFrame.Parent = TabsContainer
+    TabFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+    TabFrame.BackgroundTransparency = 1.000
+    TabFrame.BorderSizePixel = 0
+    TabFrame.Position = UDim2.new(0, 0, 0.0173308682, 0)
+    TabFrame.Size = UDim2.new(0, 131, 0, 273)
+    TabFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    TabFrame.ScrollBarThickness = 6
+
+    UIListLayout.Parent = TabFrame
+    UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    UIListLayout.Padding = UDim.new(0, 2)
+    
     function window:CreateTab(name)
         local tabs = {}
         name = name or "Tab"
 
         UpdateSize()
 
-        local TABContainer = Instance.new("Frame")
         local Page_Button = Instance.new("TextButton")
         local UICorner = Instance.new("UICorner")
         local ButtonSample = Instance.new("ImageLabel")
-
-        TABContainer.Name = name.."Container"
-        TABContainer.Parent = Tabs
-        TABContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        TABContainer.BackgroundTransparency = 1.000
-        TABContainer.Position = UDim2.new(0, 0, 0.0237180144, 0)
-        TABContainer.Size = UDim2.new(0, 131, 0, 41)
         
-        Page_Button.Name = name.."_Button"
-        Page_Button.Parent = TABContainer
+        --Properties:
+        
+        Page_Button.Name = "Page_Button"
+        Page_Button.Parent = TabFrame
         Page_Button.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
         Page_Button.BorderColor3 = Color3.fromRGB(31, 31, 31)
         Page_Button.BorderSizePixel = 2
         Page_Button.ClipsDescendants = true
-        Page_Button.Position = UDim2.new(0.0534351133, 0, 0.144438028, 0)
-        Page_Button.Size = UDim2.new(0.893129766, 0, 0.855561972, 0)
+        Page_Button.Position = UDim2.new(0, 14, 0, 10)
+        Page_Button.Size = UDim2.new(0.893129766, 0, 0.119443506, 0)
         Page_Button.AutoButtonColor = false
         Page_Button.Font = Enum.Font.SourceSansBold
-        Page_Button.BackgroundTransparency = 1.000
-        Page_Button.Text = name
+        Page_Button.Text = "Page1"
         Page_Button.TextColor3 = Color3.fromRGB(255, 255, 255)
         Page_Button.TextSize = 22.000
         Page_Button.TextWrapped = true
@@ -202,7 +203,7 @@ function library:NewWindow(title)
         ButtonSample.Position = UDim2.new(0.0128205121, 0, 0.327840537, 0)
         ButtonSample.Size = UDim2.new(0, 50, 0, 50)
         ButtonSample.Image = "rbxassetid://4560909609"
-        ButtonSample.ImageTransparency = 1.000
+        ButtonSample.ImageTransparency = 0.600
 
         local Container = Instance.new("Frame")
 
@@ -220,8 +221,8 @@ function library:NewWindow(title)
                 v.Visible = false
             end
             Container.Visible = true
-
-            for i, v in next, Tabs:GetChildren():GetChildren() do
+            
+            for i, v in next, TabFrame:GetChildren() do
                 v.BackgroundTransparency = 1
             end
             Page_Button.BackgroundTransparency = 0
