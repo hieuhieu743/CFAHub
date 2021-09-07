@@ -187,6 +187,7 @@ function library:NewWindow(title)
         Page_Button.Size = UDim2.new(0.893129766, 0, 0.855561972, 0)
         Page_Button.AutoButtonColor = false
         Page_Button.Font = Enum.Font.SourceSansBold
+        Page_Button.BackgroundTransparency = 1.000
         Page_Button.Text = name
         Page_Button.TextColor3 = Color3.fromRGB(255, 255, 255)
         Page_Button.TextSize = 22.000
