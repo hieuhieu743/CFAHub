@@ -212,26 +212,17 @@ function library:NewWindow(title)
         Container.Position = UDim2.new(0.225862071, 0, 0.0776699036, 0)
         Container.Size = UDim2.new(0, 449, 0, 284)
 
-        local toggled = false
-        local focusing = false
-        local hovering
+        local first = true
 
-        Page_Button.MouseEnter:Connect(function()
-            if not focusing then
-                game.TweenService:Create(Page_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                    BackgroundColor3 = Color3.fromRGB(31, 31, 31)
-                }):Play()
-                hovering = true
-            end
-        end)
-        Page_Button.MouseLeave:Connect(function()
-            if not focusing then 
-                game.TweenService:Create(Page_Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                    BackgroundColor3 = Color3.fromRGB(27, 27, 27)
-                }):Play()
-                hovering = false
-            end
-        end)
+        if first then
+            first = false
+            Tabs.Visible = true
+            Page_Button.BackgroundTransparency = 0
+            UpdateSize()
+        else
+            Tabs.Visible = false
+            Page_Button.BackgroundTransparency = 1
+        end
 
         Page_Button.MouseButton1Click:Connect(function()
             UpdateSize()

@@ -1,6 +1,5 @@
 # CFA UI Library
-**Warning: The UI Library not done yet!**
-*UI Library version: 3.5*
+**Warning: The UI Library not done yet!** | *UI Library version: 3.5*
 
 ## Methods
 
@@ -39,8 +38,7 @@ Section:CreateButton("ButtonText", function()
     -- Function here
 end)
 ```
-require: Section
-**STATUS:** Done
+require: Section | **STATUS:** Done
 
 ### Creating Toggles
 ```lua
@@ -62,8 +60,7 @@ Section:CreateToggle("ToggleText", function(state)
     end
 end)
 ```
-require: Section
-**STATUS:** Done
+require: Section | **STATUS:** Done
 
 ### Creating Sliders
 ```lua
@@ -77,8 +74,10 @@ Section:CreateSlider(("SilderText", minValue, maxValue, function()
     -- Function here
 end)
 ```
-require: Section
-**STATUS:** Not Done
+require: Section | **STATUS:** Done
 
 ### Creating Dropdowns
-#### Coming Soon
+
+## Next Update:
+#### Dropdowns
+#### Boxes
