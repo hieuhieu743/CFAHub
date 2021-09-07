@@ -217,11 +217,11 @@ function library:NewWindow(title)
 
         if first then
             first = false
-            Containers.Visible = true
+            Container.Visible = true
             Page_Button.BackgroundTransparency = 0
             UpdateSize()
         else
-            Containers.Visible = false
+            Container.Visible = false
             Page_Button.BackgroundTransparency = 1
         end
 
@@ -249,6 +249,8 @@ function library:NewWindow(title)
                 wait(len / 12)
             end
             c:Destroy()
+
+            Utility:TweenObject(Page_Button, {BackgroundTransparency = 0}, 0.2)
         end)
 
         function tabs:CreateSection(name)
