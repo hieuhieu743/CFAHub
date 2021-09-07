@@ -159,6 +159,8 @@ function library:NewWindow(title)
 
     UpdateSize()
 
+    local first = true
+
     function window:CreateTab(name)
         local tabs = {}
         name = name or "Tab"
@@ -206,7 +208,7 @@ function library:NewWindow(title)
 
         local Container = Instance.new("Frame")
 
-        Container.Name = name.."Container"
+        Container.Name = name.."FrameContainer"
         Container.Parent = Containers
         Container.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         Container.BackgroundTransparency = 1.000
@@ -220,11 +222,6 @@ function library:NewWindow(title)
                 v.Visible = false
             end
             Container.Visible = true
-
-            for i, v in next, Tabs:GetChildren() do
-                v.BackgroundTransparency = 1
-            end
-            Page_Button.BackgroundTransparency = 0
 
             local c = ButtonSample:Clone()
             c.ImageTransparency = 0.600
@@ -243,6 +240,16 @@ function library:NewWindow(title)
                 wait(len / 12)
             end
             c:Destroy()
+
+            if first then
+                first = false
+                Container.Visible = true
+                Page_Button.BackgroundTransparency = 0
+                UpdateSize()
+            else
+                Container.Visible = false
+                Page_Button.BackgroundTransparency = 1
+            end
         end)
 
         function tabs:CreateSection(name)
