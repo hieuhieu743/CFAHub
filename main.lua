@@ -142,8 +142,6 @@ function library:NewWindow(title)
     end
 
     UpdateSize()
-    TabFrame.ChildAdded:Connect(UpdateSize())
-    TabFrame.ChildRemoved:Connect(UpdateSize())
 
     TabsContainer.Name = "TabsContainer"
     TabsContainer.Parent = Background
@@ -722,7 +720,7 @@ function library:NewWindow(title)
                 Name_4.Size = UDim2.new(0, 137, 0, 34)
                 Name_4.Font = Enum.Font.SourceSansBold
                 Name_4.LineHeight = 1.130
-                Name_4.Text = "Dropdown"
+                Name_4.Text = text
                 Name_4.TextColor3 = Color3.fromRGB(255, 255, 255)
                 Name_4.TextScaled = true
                 Name_4.TextSize = 14.000
@@ -773,13 +771,37 @@ function library:NewWindow(title)
                 OptionFrame.Size = UDim2.new(0, 400, 0, 106)
                 OptionFrame.ScrollBarThickness = 6
 
+                local toggled = false
+                local focusing = false
+                local hovering
+
+                DropdownButton.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(DropdownButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                DropdownButton.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(DropdownButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
+
                 local isDropping = false
 
                 DropdownButton.MouseButton1Click:Connect(function()
                     UpdateSectionSize()
                     if isDropping then
                         isDropping = false
-                        CloseIcon.Rotation = 0
+
+                        game.TweenService:Create(CloseIcon, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            Rotation = 0
+                        }):Play()
 
                         local c = Dropdown_Sample:Clone()
                         c.ImageTransparency = 0.600
@@ -798,13 +820,16 @@ function library:NewWindow(title)
                             wait(len / 12)
                         end
                         c:Destroy() 
-
-                        game.TweenService:Create(OptionContainer, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                            Size = UDim2.new(0, 0, 0, 0)
-                        })
+        
+                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear)
+                        UpdateSectionSize()
+                        UpdateSize()
                     else
                         isDropping = true
-                        CloseIcon.Rotation = 180
+
+                        game.TweenService:Create(CloseIcon, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            Rotation = 180
+                        }):Play()
 
                         local c = Dropdown_Sample:Clone()
                         c.ImageTransparency = 0.600
@@ -824,9 +849,9 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
 
-                        game.TweenService:Create(OptionContainer, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                            Size = UDim2.new(0, 402, 0, 121)
-                        })
+                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 121),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear)
+                        UpdateSectionSize()
+                        UpdateSize()
                     end
                 end)
 
@@ -859,12 +884,47 @@ function library:NewWindow(title)
                     Option_Sample.BackgroundTransparency = 1.000
                     Option_Sample.Size = UDim2.new(0, 100, 0, 100)
                     Option_Sample.Image = "rbxassetid://4560909609"
-                    Option_Sample.ImageTransparency = 0.600
+                    Option_Sample.ImageTransparency = 1.000
                     
                     UIListLayout_3.Parent = OptionFrame
                     UIListLayout_3.HorizontalAlignment = Enum.HorizontalAlignment.Center
                     UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
                     UIListLayout_3.Padding = UDim.new(0, 4)
+
+                    local toggled = false
+                    local focusing = false
+                    local hovering
+    
+                    OptionButton.MouseEnter:Connect(function()
+                        if not focusing then
+                            game.TweenService:Create(OptionButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+                            }):Play()
+                            hovering = true
+                        end
+                    end)
+                    OptionButton.MouseLeave:Connect(function()
+                        if not focusing then 
+                            game.TweenService:Create(OptionButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                BackgroundColor3 = Color3.fromRGB(27, 27, 27)
+                            }):Play()
+                            hovering = false
+                        end
+                    end)
+
+                    OptionButton.MouseButton1Click:Connect(function()
+                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear)
+                        UpdateSectionSize()
+                        UpdateSize()
+
+                        game.TweenService:Create(CloseIcon, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            Rotation = 0
+                        }):Play()
+
+                        Name_4.Text = OptionButton.Text
+
+                        callback(v)
+                    end)
                 end
 
 
