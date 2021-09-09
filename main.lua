@@ -756,7 +756,7 @@ function library:NewWindow(title)
                 OptionContainer.Parent = DropdownContainer
                 OptionContainer.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
                 OptionContainer.Position = UDim2.new(0.0167865716, 0, 0.735294104, 0)
-                OptionContainer.Size = UDim2.new(0, 402, 0, 121)
+                OptionContainer.Size = UDim2.new(0, 402, 0, 0)
                 OptionContainer.ClipsDescendants = true
                 
                 UICorner_8.Parent = OptionContainer
@@ -821,7 +821,7 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
         
-                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.5)
+                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.5)
                         UpdateSectionSize()
                         UpdateSize()
                     else
@@ -913,7 +913,7 @@ function library:NewWindow(title)
                     end)
 
                     OptionButton.MouseButton1Click:Connect(function()
-                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.5)
+                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.5)
                         UpdateSectionSize()
                         UpdateSize()
 
