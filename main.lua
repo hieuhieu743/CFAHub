@@ -768,7 +768,7 @@ function library:NewWindow(title)
                 OptionFrame.BackgroundTransparency = 1.000
                 OptionFrame.BorderSizePixel = 0
                 OptionFrame.Position = UDim2.new(0, 0, 0.12396694, 0)
-                OptionFrame.Size = UDim2.new(0, 400, 0, 106)
+                OptionFrame.Size = UDim2.new(0, 400, 0, 76)
                 OptionFrame.ScrollBarThickness = 6
 
                 local toggled = false
@@ -849,7 +849,7 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
 
-                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 121),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.2)
+                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 90),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.2)
                         UpdateSectionSize()
                         UpdateSize()
                     end
