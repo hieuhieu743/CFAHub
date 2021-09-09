@@ -821,7 +821,7 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
         
-                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear)
+                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.5)
                         UpdateSectionSize()
                         UpdateSize()
                     else
@@ -849,7 +849,7 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
 
-                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 121),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear)
+                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 121),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.5)
                         UpdateSectionSize()
                         UpdateSize()
                     end
@@ -913,7 +913,7 @@ function library:NewWindow(title)
                     end)
 
                     OptionButton.MouseButton1Click:Connect(function()
-                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear)
+                        OptionContainer:TweenSize(UDim2.new(0, 0, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.5)
                         UpdateSectionSize()
                         UpdateSize()
 
