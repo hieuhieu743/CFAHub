@@ -799,7 +799,7 @@ function library:NewWindow(title)
                     if isDropping then
                         isDropping = false
 
-                        game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
                             Rotation = 0
                         }):Play()
 
@@ -827,7 +827,7 @@ function library:NewWindow(title)
                     else
                         isDropping = true
 
-                        game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
                             Rotation = 180
                         }):Play()
 
@@ -914,7 +914,7 @@ function library:NewWindow(title)
 
                     OptionButton.MouseButton1Click:Connect(function()
                         isDropping = false
-                        game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), {
                             Rotation = 0
                         }):Play()
                         OptionContainer:TweenSize(UDim2.new(0, 402, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.2)
