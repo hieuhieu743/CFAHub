@@ -921,7 +921,7 @@ function library:NewWindow(title)
                             Rotation = 0
                         }):Play()
 
-                        isDropping = true
+                        isDropping = false
 
                         Name_4.Text = OptionButton.Text
 
