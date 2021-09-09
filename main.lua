@@ -913,17 +913,14 @@ function library:NewWindow(title)
                     end)
 
                     OptionButton.MouseButton1Click:Connect(function()
-                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.2)
-                        UpdateSectionSize()
-                        UpdateSize()
-
+                        isDropping = false
                         game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                             Rotation = 0
                         }):Play()
-
-                        isDropping = false
-
-                        Name_4.Text = OptionButton.Text
+                        OptionContainer:TweenSize(UDim2.new(0, 402, 0, 0),Enum.EasingDirection.InOut , Enum.EasingStyle.Linear, 0.2)
+                        UpdateSectionSize()
+                        UpdateSize()
+                        Name_4.Text = v
 
                         callback(v)
                     end)
