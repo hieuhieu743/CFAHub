@@ -827,7 +827,7 @@ function library:NewWindow(title)
                     else
                         isDropping = true
 
-                        game.TweenService:Create(CloseIcon, tweeninfo(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        game.TweenService:Create(CloseIcon, tweeninfo(0.2, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                             Rotation = 180
                         }):Play()
 
@@ -925,7 +925,6 @@ function library:NewWindow(title)
                         callback(v)
                     end)
                 end
-
 
                 return options
             end 
