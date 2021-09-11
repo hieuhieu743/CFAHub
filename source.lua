@@ -254,6 +254,26 @@ function library:NewWindow(title)
             tabButton.BackgroundTransparency = 1
         end
 
+        local focusing = false
+        local hovering
+
+        tabButton.MouseEnter:Connect(function()
+            if not focusing then
+                game.TweenService:Create(tabButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                }):Play()
+                hovering = true
+            end
+        end)
+        tabButton.MouseLeave:Connect(function()
+            if not focusing then 
+                game.TweenService:Create(tabButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                }):Play()
+                hovering = false
+            end
+        end)
+
         tabButton.MouseButton1Click:Connect(function()
             for i, v in next, Pages:GetChildren() do
                 v.Visible = false
@@ -386,6 +406,27 @@ function library:NewWindow(title)
                 ButtonTittle.TextWrapped = true
                 ButtonTittle.TextXAlignment = Enum.TextXAlignment.Left
 
+                local focusing = false
+                local hovering
+
+                Button.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                Button.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
+
+
                 UpdateSize()
                 
                 Button.MouseButton1Click:Connect(function()
@@ -474,6 +515,26 @@ function library:NewWindow(title)
                 ToggleDisabled.ImageRectOffset = Vector2.new(628, 420)
                 ToggleDisabled.ImageRectSize = Vector2.new(48, 48)
 
+                local focusing = false
+                local hovering
+
+                Toggle.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(Toggle, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                Toggle.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(Toggle, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
+
                 local toggled = false
 
                 local img = ToggleEnabled
@@ -529,8 +590,156 @@ function library:NewWindow(title)
                 end)
             end -- Done
 
-            function sectionElements:CreateSlider()
+            function sectionElements:CreateSlider(silName, options, callback)
+                silName = silName or "Slider"
+                local max = options.max
+                local min = options.min
+                callback = callback or function() end
+
+                local Slider = Instance.new("TextButton")
+                local SliderCorner = Instance.new("UICorner")
+                local SliderIcon = Instance.new("ImageLabel")
+                local SliderTittle = Instance.new("TextLabel")
+                local SliderVal = Instance.new("TextLabel")
+                local SliderBtn = Instance.new("TextButton")
+                local SliderBtnCorner = Instance.new("UICorner")
+                local SliderBar = Instance.new("Frame")
+                local BarCorner = Instance.new("UICorner")
+
+                Slider.Name = "Slider"
+                Slider.Parent = SectionInners
+                Slider.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                Slider.Size = UDim2.new(0, 378, 0, 33)
+                Slider.AutoButtonColor = false
+                Slider.Font = Enum.Font.SourceSans
+                Slider.Text = ""
+                Slider.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Slider.TextScaled = true
+                Slider.TextSize = 14.000
+                Slider.TextWrapped = true
                 
+                SliderCorner.Name = "SliderCorner"
+                SliderCorner.Parent = Slider
+                
+                SliderIcon.Name = "SliderIcon"
+                SliderIcon.Parent = Slider
+                SliderIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+                SliderIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SliderIcon.BackgroundTransparency = 1.000
+                SliderIcon.Position = UDim2.new(0.0502645522, 0, 0.4909091, 0)
+                SliderIcon.Size = UDim2.new(0, 21, 0, 21)
+                SliderIcon.Image = "rbxassetid://3926307971"
+                SliderIcon.ImageRectOffset = Vector2.new(404, 164)
+                SliderIcon.ImageRectSize = Vector2.new(36, 36)
+                
+                SliderTittle.Name = "SliderTittle"
+                SliderTittle.Parent = Slider
+                SliderTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SliderTittle.BackgroundTransparency = 1.000
+                SliderTittle.Position = UDim2.new(0.100529097, 0, 0.0303030312, 0)
+                SliderTittle.Size = UDim2.new(0, 119, 0, 30)
+                SliderTittle.Font = Enum.Font.SourceSansSemibold
+                SliderTittle.LineHeight = 1.120
+                SliderTittle.Text = "Slider"
+                SliderTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                SliderTittle.TextScaled = true
+                SliderTittle.TextSize = 14.000
+                SliderTittle.TextWrapped = true
+                SliderTittle.TextXAlignment = Enum.TextXAlignment.Left
+                
+                SliderVal.Name = "SliderVal"
+                SliderVal.Parent = Slider
+                SliderVal.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                SliderVal.BackgroundTransparency = 1.000
+                SliderVal.Position = UDim2.new(0.41534391, 0, 0.0303030312, 0)
+                SliderVal.Size = UDim2.new(0, 27, 0, 30)
+                SliderVal.Font = Enum.Font.SourceSansSemibold
+                SliderVal.LineHeight = 1.120
+                SliderVal.Text = ""
+                SliderVal.TextColor3 = Color3.fromRGB(255, 255, 255)
+                SliderVal.TextScaled = true
+                SliderVal.TextSize = 14.000
+                SliderVal.TextTransparency = 1.000
+                SliderVal.TextWrapped = true
+                
+                SliderBtn.Name = "SliderBtn"
+                SliderBtn.Parent = Slider
+                SliderBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                SliderBtn.Position = UDim2.new(0.505290985, 0, 0.363636374, 0)
+                SliderBtn.Size = UDim2.new(0, 178, 0, 8)
+                SliderBtn.Font = Enum.Font.SourceSans
+                SliderBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+                SliderBtn.TextSize = 14.000
+                
+                SliderBtnCorner.Name = "SliderBtnCorner"
+                SliderBtnCorner.Parent = SliderBtn
+                
+                SliderBar.Name = "SliderBar"
+                SliderBar.Parent = SliderBtn
+                SliderBar.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
+                SliderBar.Size = UDim2.new(0, 178, 0, 8)
+                
+                BarCorner.Name = "BarCorner"
+                BarCorner.Parent = SliderBar
+
+
+                local focusing = false
+                local hovering
+
+                Slider.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(Slider, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                Slider.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(Slider, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
+
+                local Value
+                local moveconnection
+                local releaseconnection
+
+                Slider.MouseButton1Click:Connect(function()
+                    game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        TextTransparency = 0
+                    }):Play()
+                    Value = math.floor((((tonumber(max) - tonumber(min)) / 178 ) * SliderBar.AbsoluteSize.X) + tonumber(min)) or 0
+                    pcall(function()
+                        callback(Value)
+                    end)
+                    SliderBar:TweenSize(UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.05, true)
+                    moveconnection = ms.Move:Connect(function()
+                        SliderVal.Text = Value
+                        Value = math.floor((((tonumber(max) - tonumber(min)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(min))
+                        pcall(function()
+                            callback(Value)
+                        end)
+                        SliderBar:TweenSize(UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.05, true)
+                    end)
+                    releaseconnection = input.InputEnded:Connect(function(Mouse)
+                        if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+                            Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * SliderBar.AbsoluteSize.X) + tonumber(min))
+                            pcall(function()
+                                callback(Value)
+                            end)
+                            SliderVal.Text = Value
+                            game.TweenService:Create(SliderVal, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                TextTransparency = 1
+                            }):Play()
+                            SliderBar:TweenSize(UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 149), 0, 6), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.05, true)
+                            moveconnection:Disconnect()
+                            releaseconnection:Disconnect()
+                        end
+                    end)
+                end)
             end
 
             function sectionElements:CreateTextbox(textName, callback)
@@ -595,6 +804,26 @@ function library:NewWindow(title)
                 TextBox.Text = ""
                 TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
                 TextBox.TextSize = 14.000
+
+                local focusing = false
+                local hovering
+
+                Textbox.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(Textbox, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                Textbox.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(Textbox, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
 
                 TextBox.FocusLost:Connect(function(enterPressed)
                     if not enterPressed then
@@ -676,6 +905,26 @@ function library:NewWindow(title)
                 kBindKey.TextSize = 23.000
                 kBindKey.TextWrapped = true
                 kBindKey.TextXAlignment = Enum.TextXAlignment.Right
+
+                local focusing = false
+                local hovering
+
+                Keybind.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(Keybind, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                Keybind.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(Keybind, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
 
                 Keybind.MouseButton1Click:Connect(function()
                     kBindKey.Text = ". . ."
@@ -778,6 +1027,26 @@ function library:NewWindow(title)
                 DropTittle.TextWrapped = true
                 DropTittle.TextXAlignment = Enum.TextXAlignment.Left
 
+                local focusing = false
+                local hovering
+
+                DropButton.MouseEnter:Connect(function()
+                    if not focusing then
+                        game.TweenService:Create(DropButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                        }):Play()
+                        hovering = true
+                    end
+                end)
+                DropButton.MouseLeave:Connect(function()
+                    if not focusing then 
+                        game.TweenService:Create(DropButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                        }):Play()
+                        hovering = false
+                    end
+                end)
+
                 local isDropping = false
 
                 DropButton.MouseButton1Click:Connect(function()
@@ -853,6 +1122,26 @@ function library:NewWindow(title)
                     OptionCorner.Name = "OptionCorner"
                     OptionCorner.Parent = OptionSelect
 
+                    local focusing = false
+                    local hovering
+    
+                    OptionSelect.MouseEnter:Connect(function()
+                        if not focusing then
+                            game.TweenService:Create(OptionSelect, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                            }):Play()
+                            hovering = true
+                        end
+                    end)
+                    OptionSelect.MouseLeave:Connect(function()
+                        if not focusing then 
+                            game.TweenService:Create(OptionSelect, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                            }):Play()
+                            hovering = false
+                        end
+                    end)
+
                     OptionSelect.MouseButton1Click:Connect(function()
                         UpdateSize()
 
@@ -883,7 +1172,7 @@ function library:NewWindow(title)
                 
                 
 
-            end
+            end -- Done
 
             return sectionElements
         end
@@ -896,126 +1185,3 @@ end
 
 
 return library
-
---[[
--- Instances:
-
--- Button
-
-
--- Dropdown
-
-
--- Toggle
-
-
--- Keybind
-
-
--- Textbox
-
-
-
-local Slider = Instance.new("TextButton")
-local SliderCorner = Instance.new("UICorner")
-local SliderIcon = Instance.new("ImageLabel")
-local SliderTittle = Instance.new("TextLabel")
-local SliderVal = Instance.new("TextLabel")
-local SliderBtn = Instance.new("TextButton")
-local SliderBtnCorner = Instance.new("UICorner")
-local SliderBar = Instance.new("Frame")
-local BarCorner = Instance.new("UICorner")
-
-
-
---Properties:
-
-
-
-
-
-
-
-
---Box
-
-
--- Slider
-
-Slider.Name = "Slider"
-Slider.Parent = SectionInners
-Slider.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Slider.Size = UDim2.new(0, 378, 0, 33)
-Slider.AutoButtonColor = false
-Slider.Font = Enum.Font.SourceSans
-Slider.Text = ""
-Slider.TextColor3 = Color3.fromRGB(255, 255, 255)
-Slider.TextScaled = true
-Slider.TextSize = 14.000
-Slider.TextWrapped = true
-
-SliderCorner.Name = "SliderCorner"
-SliderCorner.Parent = Slider
-
-SliderIcon.Name = "SliderIcon"
-SliderIcon.Parent = Slider
-SliderIcon.AnchorPoint = Vector2.new(0.5, 0.5)
-SliderIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SliderIcon.BackgroundTransparency = 1.000
-SliderIcon.Position = UDim2.new(0.0502645522, 0, 0.4909091, 0)
-SliderIcon.Size = UDim2.new(0, 21, 0, 21)
-SliderIcon.Image = "rbxassetid://3926307971"
-SliderIcon.ImageRectOffset = Vector2.new(404, 164)
-SliderIcon.ImageRectSize = Vector2.new(36, 36)
-
-SliderTittle.Name = "SliderTittle"
-SliderTittle.Parent = Slider
-SliderTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SliderTittle.BackgroundTransparency = 1.000
-SliderTittle.Position = UDim2.new(0.100529097, 0, 0.0303030312, 0)
-SliderTittle.Size = UDim2.new(0, 119, 0, 30)
-SliderTittle.Font = Enum.Font.SourceSansSemibold
-SliderTittle.LineHeight = 1.120
-SliderTittle.Text = "Slider"
-SliderTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
-SliderTittle.TextScaled = true
-SliderTittle.TextSize = 14.000
-SliderTittle.TextWrapped = true
-SliderTittle.TextXAlignment = Enum.TextXAlignment.Left
-
-SliderVal.Name = "SliderVal"
-SliderVal.Parent = Slider
-SliderVal.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SliderVal.BackgroundTransparency = 1.000
-SliderVal.Position = UDim2.new(0.41534391, 0, 0.0303030312, 0)
-SliderVal.Size = UDim2.new(0, 27, 0, 30)
-SliderVal.Font = Enum.Font.SourceSansSemibold
-SliderVal.LineHeight = 1.120
-SliderVal.Text = "0"
-SliderVal.TextColor3 = Color3.fromRGB(255, 255, 255)
-SliderVal.TextScaled = true
-SliderVal.TextSize = 14.000
-SliderVal.TextTransparency = 0.580
-SliderVal.TextWrapped = true
-
-SliderBtn.Name = "SliderBtn"
-SliderBtn.Parent = Slider
-SliderBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SliderBtn.Position = UDim2.new(0.505290985, 0, 0.363636374, 0)
-SliderBtn.Size = UDim2.new(0, 178, 0, 8)
-SliderBtn.Font = Enum.Font.SourceSans
-SliderBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-SliderBtn.TextSize = 14.000
-
-SliderBtnCorner.Name = "SliderBtnCorner"
-SliderBtnCorner.Parent = SliderBtn
-
-SliderBar.Name = "SliderBar"
-SliderBar.Parent = SliderBtn
-SliderBar.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
-SliderBar.Size = UDim2.new(0, 178, 0, 8)
-
-BarCorner.Name = "BarCorner"
-BarCorner.Parent = SliderBar
-
-]]--
