@@ -710,7 +710,7 @@ function library:NewWindow(title)
                 local releaseconnection
 
                 SliderBtn.MouseButton1Click:Connect(function()
-                    game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingDirection.In, Enum.EasingStyle.Linear), {
+                    game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                         TextTransparency = 0
                     })
                     Value = math.floor((((tonumber(max) - tonumber(min)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(min)) or 0
@@ -733,7 +733,7 @@ function library:NewWindow(title)
                             pcall(function()
                                 callback(Value)
                             end)
-                            game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingDirection.In, Enum.EasingStyle.Linear), {
+                            game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                                 TextTransparency = 1
                             })
                             SliderBar.Size = UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8)
@@ -742,7 +742,7 @@ function library:NewWindow(title)
                         end
                     end)
                 end)
-            end
+            end -- Number Issues
 
             function sectionElements:CreateTextbox(textName, callback)
                 textName = textName or "Textbox"
@@ -804,7 +804,7 @@ function library:NewWindow(title)
                 TextBox.LineHeight = 1.120
                 TextBox.PlaceholderText = "Type here!"
                 TextBox.Text = ""
-                TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+                TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                 TextBox.TextSize = 14.000
 
                 local focusing = false
