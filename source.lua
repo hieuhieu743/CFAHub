@@ -651,7 +651,6 @@ function library:NewWindow(title)
                 SliderVal.TextScaled = true
                 SliderVal.TextSize = 14.000
                 SliderVal.TextWrapped = true
-                SliderVal.TextTransparency = 1.000
                 
                 SliderBtn.Name = "SliderBtn"
                 SliderBtn.Parent = Slider
@@ -701,14 +700,11 @@ function library:NewWindow(title)
                 local releaseconnection
 
                 SliderBtn.MouseButton1Down:Connect(function()
-                        game.TweenService:Create(SliderVal, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                            TextTransparency = 0
-                        })
                         Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(minvalue)) or 0
                         pcall(function()
                             callback(Value)
                         end)
-                        SliderBar.Size = UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 16)
+                        SliderBar.Size = UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8)
                         moveconnection = ms.Move:Connect(function()
                             SliderVal.Text = Value
                         Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(minvalue))
@@ -723,9 +719,6 @@ function library:NewWindow(title)
                         pcall(function()
                             callback(Value)
                         end)
-                        game.TweenService:Create(SliderVal, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                            TextTransparency = 1
-                        })
                         SliderBar.Size = UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8)
                             moveconnection:Disconnect()
                             releaseconnection:Disconnect()
