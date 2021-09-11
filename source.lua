@@ -161,7 +161,7 @@ function library:NewWindow(title)
     hubLogo.BorderSizePixel = 0
     hubLogo.Position = UDim2.new(0.0123674907, 0, 0, 0)
     hubLogo.Size = UDim2.new(0, 19, 0, 19)
-    hubLogo.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+    hubLogo.Image = "http://www.roblox.com/asset/?id=7409401226"
     
     closeButton.Name = "closeButton"
     closeButton.Parent = Topbar
@@ -646,11 +646,10 @@ function library:NewWindow(title)
                 SliderVal.Size = UDim2.new(0, 27, 0, 30)
                 SliderVal.Font = Enum.Font.SourceSansSemibold
                 SliderVal.LineHeight = 1.120
-                SliderVal.Text = min
+                SliderVal.Text = minvalue
                 SliderVal.TextColor3 = Color3.fromRGB(255, 255, 255)
                 SliderVal.TextScaled = true
                 SliderVal.TextSize = 14.000
-                SliderVal.TextTransparency = 0
                 SliderVal.TextWrapped = true
                 
                 SliderBtn.Name = "SliderBtn"
