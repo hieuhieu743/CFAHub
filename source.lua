@@ -670,6 +670,7 @@ function library:NewWindow(title)
                 SliderBtn.Position = UDim2.new(0.505290985, 0, 0.363636374, 0)
                 SliderBtn.Size = UDim2.new(0, 178, 0, 8)
                 SliderBtn.Font = Enum.Font.SourceSans
+                SliderBtn.Text = ""
                 SliderBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
                 SliderBtn.TextSize = 14.000
                 
@@ -679,7 +680,7 @@ function library:NewWindow(title)
                 SliderBar.Name = "SliderBar"
                 SliderBar.Parent = SliderBtn
                 SliderBar.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
-                SliderBar.Size = UDim2.new(0, 178, 0, 8)
+                SliderBar.Size = UDim2.new(0, 0, 0, 8)
                 
                 BarCorner.Name = "BarCorner"
                 BarCorner.Parent = SliderBar
