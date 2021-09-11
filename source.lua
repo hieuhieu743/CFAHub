@@ -858,6 +858,7 @@ function library:NewWindow(title)
 
                         isDropping = false
                         callback(v)
+                        DropTittle.Text = v
 
                         Dropdown:TweenSize(UDim2.new(1, 0, 0, 33), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                         wait(0.1)
@@ -877,7 +878,6 @@ function library:NewWindow(title)
                             wait(len / 12)
                         end
                         c:Destroy() 
-                        DropTittle.Text = v
                     end)
                 end
                 
