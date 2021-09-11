@@ -263,6 +263,7 @@ function library:NewWindow(title)
                     Utility:TweenObject(v, {BackgroundTransparency = 1}, 0.2)
                 end
             end
+            Utility:TweenObject(tabButton, {BackgroundTransparency = 0}, 0.2)
         end)
 
         function tabElements:NewSection(secName)
