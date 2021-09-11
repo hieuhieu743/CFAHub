@@ -260,8 +260,7 @@ function library:NewWindow(title)
         tabButton.MouseEnter:Connect(function()
             if not focusing then
                 game.TweenService:Create(tabButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                    BackgroundTransparency = 0,
-                    BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                    BackgroundTransparency = 0.55,
                 }):Play()
                 hovering = true
             end
@@ -270,7 +269,6 @@ function library:NewWindow(title)
             if not focusing then 
                 game.TweenService:Create(tabButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                     BackgroundTransparency = 1,
-                    BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 }):Play()
                 hovering = false
             end
@@ -711,7 +709,7 @@ function library:NewWindow(title)
                 local moveconnection
                 local releaseconnection
 
-                Slider.MouseButton1Click:Connect(function()
+                SliderBtn.MouseButton1Click:Connect(function()
                     game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingDirection.In, Enum.EasingStyle.Linear), {
                         TextTransparency = 0
                     })
