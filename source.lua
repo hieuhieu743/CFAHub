@@ -190,7 +190,7 @@ function CFAHubLib:NewWindow(title, theme)
     
     Tab.Name = "Tab"
     Tab.Parent = Background
-    Tab.BackgroundColor3 = theme.Button1Color
+    Tab.BackgroundColor3 = theme.TabColor
     Tab.BorderSizePixel = 0
     Tab.Position = UDim2.new(0, 0, 0.0577507615, 0)
     Tab.Size = UDim2.new(0, 159, 0, 310)
@@ -272,6 +272,14 @@ function CFAHubLib:NewWindow(title, theme)
     MinButton.Position = UDim2.new(0.898072362, 0, 0, 0)
     MinButton.Size = UDim2.new(0, 19, 0, 19)
     MinButton.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+
+    coroutine.wrap(function()
+        while wait() do
+            Background.BackgroundColor3 = theme.Background
+            hubText.TextColor3 = theme.TextColor
+            Tab.BackgroundColor3 = theme.Button1Color
+        end
+    end)()
     
     function window:NewTab(tabName)
         tabName = tabName or "Tab"
@@ -284,7 +292,7 @@ function CFAHubLib:NewWindow(title, theme)
 
         tabButton.Name = tabName.."Button"
         tabButton.Parent = TabFrame
-        tabButton.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
+        tabButton.BackgroundColor3 = theme.Button1Color
         tabButton.Position = UDim2.new(0.0754716992, 0, 0, 0)
         tabButton.Size = UDim2.new(0, 144, 0, 28)
         tabButton.Font = Enum.Font.SourceSansSemibold
@@ -313,6 +321,13 @@ function CFAHubLib:NewWindow(title, theme)
         pageListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
         pageListLayout.SortOrder = Enum.SortOrder.LayoutOrder
         pageListLayout.Padding = UDim.new(0, 4)
+
+        coroutine.wrap(function()
+            while wait() do
+                tabButton.TextColor3 = theme.TextColor
+                tabButton.BackgroundColor3 = theme.Button1Color
+            end
+        end)()
 
         function tabs:NewSection(sectionName)
             sectionName = sectionName or "Section"
