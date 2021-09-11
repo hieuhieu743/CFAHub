@@ -784,8 +784,9 @@ function library:NewWindow(title)
                     if isDropping then
                         isDropping = false
 
+                        Dropdown:TweenSize(UDim2.new(1, 0, 0, 33), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                        wait(0.1)
                         local c = Sample:Clone()
-                        c.ImageTransparency = 0.600
                         c.Parent = DropButton
                         local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
                         c.Position = UDim2.new(0, x, 0, y)
@@ -802,14 +803,15 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
 
-                        Dropdown:TweenSize(UDim2.new(1, 0, 0, 33), "InOut", "Linear", 0.08, true)
+
 
                         UpdateSize()
                     else
                         isDropping = true
 
+                        Dropdown:TweenSize(UDim2.new(1, 0, 0, UIListLayout.AbsoluteContentSize.Y), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                        wait(0.1)
                         local c = Sample:Clone()
-                        c.ImageTransparency = 0.600
                         c.Parent = DropButton
                         local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
                         c.Position = UDim2.new(0, x, 0, y)
@@ -826,8 +828,6 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
         
-                        Dropdown:TweenSize(UDim2.new(1, 0, 0, UIListLayout.AbsoluteContentSize.Y), "InOut", "Linear", 0.08, true)
-
                         UpdateSize()
                     end
                 end)
@@ -857,9 +857,27 @@ function library:NewWindow(title)
                         UpdateSize()
 
                         isDropping = false
+                        callback(v)
 
-                        dropFrame:TweenSize(UDim2.new(1, 0, 0, 33), "InOut", "Linear", 0.08, true)
-
+                        Dropdown:TweenSize(UDim2.new(1, 0, 0, 33), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                        wait(0.1)
+                        local c = Sample:Clone()
+                        c.Parent = OptionSelect
+                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                        c.Position = UDim2.new(0, x, 0, y)
+                        local len, size = 0.35, nil
+                        if OptionSelect.AbsoluteSize.X >= OptionSelect.AbsoluteSize.Y then
+                            size = (OptionSelect.AbsoluteSize.X * 1.5)
+                        else
+                            size = (OptionSelect.AbsoluteSize.Y * 1.5)
+                        end
+                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                        for i = 1, 10 do
+                            c.ImageTransparency = c.ImageTransparency + 0.05
+                            wait(len / 12)
+                        end
+                        c:Destroy() 
+                        DropTittle.Text = v
                     end)
                 end
                 
