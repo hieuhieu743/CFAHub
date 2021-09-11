@@ -15,6 +15,13 @@ local player = players.LocalPlayer
 local coreGui = game:GetService("CoreGui")
 local ms = player:GetMouse()
 
+local Utility = {}
+
+function Utility:TweenObject(obj, properties, duration, ...)
+    tween:Create(obj, tweeninfo(duration, ...), properties):Play()
+end
+
+
 function library:DraggingEnabled(frame, parent)
     parent = parent or frame
 
@@ -189,6 +196,8 @@ function library:NewWindow(title)
     Pages.Name = "Pages"
     Pages.Parent = pageFrame
 
+    local first = true
+
     function window:NewTab(tabName)
         tabName = tabName or "Tab"
         local tabElements = {}
@@ -233,6 +242,28 @@ function library:NewWindow(title)
         pageListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
         pageListLayout.SortOrder = Enum.SortOrder.LayoutOrder
         pageListLayout.Padding = UDim.new(0, 4)
+
+        if first then
+            first = false
+            pageContainer.Visible = true
+            tabButton.BackgroundTransparency = 0
+            UpdateSize()
+        else
+            pageContainer.Visible = false
+            tabButton.BackgroundTransparency = 1
+        end
+
+        tabButton.MouseButton1Click:Connect(function()
+            for i, v in next, Pages:GetChildren() do
+                v.Visible = false
+            end
+            pageContainer.Visible = true
+            for i, v in next, TabFrame:GetChildren() do
+                if v:IsA("TextButton") then
+                    Utility:TweenObject(v, {BackgroundTransparency = 1}, 0.2)
+                end
+            end
+        end)
 
         function tabElements:NewSection(secName)
             UpdateSize()
@@ -322,6 +353,7 @@ function library:NewWindow(title)
                 Button.TextScaled = true
                 Button.TextSize = 14.000
                 Button.TextWrapped = true
+                Button.ClipsDescendants = true
                 
                 ButtonCorner.Name = "ButtonCorner"
                 ButtonCorner.Parent = Button
@@ -374,7 +406,7 @@ function library:NewWindow(title)
 
                     pcall(callback)
                 end)
-            end
+            end -- Done
 
             function sectionElements:CreateToggle(togName, callback)
                 togName = togName or "Toggle"
@@ -397,6 +429,7 @@ function library:NewWindow(title)
                 Toggle.TextScaled = true
                 Toggle.TextSize = 14.000
                 Toggle.TextWrapped = true
+                Toggle.ClipsDescendants = true
                 
                 ToggleCorner.Name = "ToggleCorner"
                 ToggleCorner.Parent = Toggle
@@ -492,7 +525,7 @@ function library:NewWindow(title)
                     toggled = not toggled
                     pcall(callback, toggled)
                 end)
-            end
+            end -- Done
 
             function sectionElements:CreateSlider()
                 
@@ -501,7 +534,78 @@ function library:NewWindow(title)
             function sectionElements:CreateTextbox(textName, callback)
                 textName = textName or "Textbox"
                 callback = callback or function() end
-            end
+
+                local Textbox = Instance.new("TextButton")
+                local TextboxCorner = Instance.new("UICorner")
+                local TextboxIcon = Instance.new("ImageLabel")
+                local TextboxTittle = Instance.new("TextLabel")
+                local TextBox = Instance.new("TextBox")
+                local UICorner = Instance.new("UICorner")
+
+                Textbox.Name = "Textbox"
+                Textbox.Parent = SectionInners
+                Textbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                Textbox.Size = UDim2.new(0, 378, 0, 33)
+                Textbox.AutoButtonColor = false
+                Textbox.Font = Enum.Font.SourceSans
+                Textbox.Text = ""
+                Textbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Textbox.TextScaled = true
+                Textbox.TextSize = 14.000
+                Textbox.TextWrapped = true
+                
+                TextboxCorner.Name = "TextboxCorner"
+                TextboxCorner.Parent = Textbox
+                
+                TextboxIcon.Name = "TextboxIcon"
+                TextboxIcon.Parent = Textbox
+                TextboxIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+                TextboxIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                TextboxIcon.BackgroundTransparency = 1.000
+                TextboxIcon.Position = UDim2.new(0.0502645522, 0, 0.4909091, 0)
+                TextboxIcon.Size = UDim2.new(0, 21, 0, 21)
+                TextboxIcon.Image = "rbxassetid://3926305904"
+                TextboxIcon.ImageRectOffset = Vector2.new(284, 644)
+                TextboxIcon.ImageRectSize = Vector2.new(36, 36)
+                
+                TextboxTittle.Name = "TextboxTittle"
+                TextboxTittle.Parent = Textbox
+                TextboxTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                TextboxTittle.BackgroundTransparency = 1.000
+                TextboxTittle.Position = UDim2.new(0.100529104, 0, 0.0303030312, 0)
+                TextboxTittle.Size = UDim2.new(0, 145, 0, 30)
+                TextboxTittle.Font = Enum.Font.SourceSansSemibold
+                TextboxTittle.LineHeight = 1.120
+                TextboxTittle.Text = "Textbox"
+                TextboxTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
+                TextboxTittle.TextScaled = true
+                TextboxTittle.TextSize = 14.000
+                TextboxTittle.TextWrapped = true
+                TextboxTittle.TextXAlignment = Enum.TextXAlignment.Left
+                
+                TextBox.Parent = Textbox
+                TextBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+                TextBox.Position = UDim2.new(0.449708998, 0, 0.242696971, 0)
+                TextBox.Size = UDim2.new(0, 200, 0, 14)
+                TextBox.Font = Enum.Font.SourceSans
+                TextBox.LineHeight = 1.120
+                TextBox.PlaceholderText = "Type here!"
+                TextBox.Text = ""
+                TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+                TextBox.TextSize = 14.000
+
+                TextBox.FocusLost:Connect(function(enterPressed)
+                    if not enterPressed then
+                        return
+                    else
+                        callback(TextBox.Text)
+                        wait(0.18)
+                        TextBox.Text = ""
+                    end
+                end)
+                
+                UICorner.Parent = TextBox
+            end -- Done
 
             function sectionElements:CreateKeybind(keyName, key, callback)
                 keyName = keyName or "Keybind"
@@ -526,6 +630,7 @@ function library:NewWindow(title)
                 Keybind.TextScaled = true
                 Keybind.TextSize = 14.000
                 Keybind.TextWrapped = true
+                Keybind.ClipsDescendants = true
                 
                 kBindCorner.Name = "kBindCorner"
                 kBindCorner.Parent = Keybind
@@ -604,7 +709,7 @@ function library:NewWindow(title)
                     end
                 end)
 
-            end
+            end -- Done
 
             function sectionElements:CreateDropdown()
                 
@@ -645,12 +750,9 @@ local OptionCorner = Instance.new("UICorner")
 
 
 -- Textbox
-local Textbox = Instance.new("TextButton")
-local TextboxCorner = Instance.new("UICorner")
-local TextboxIcon = Instance.new("ImageLabel")
-local TextboxTittle = Instance.new("TextLabel")
-local TextBox = Instance.new("TextBox")
-local UICorner = Instance.new("UICorner")
+
+
+
 local Slider = Instance.new("TextButton")
 local SliderCorner = Instance.new("UICorner")
 local SliderIcon = Instance.new("ImageLabel")
@@ -739,60 +841,10 @@ OptionCorner.Parent = OptionSelect
 
 
 
+--Box
 
-Textbox.Name = "Textbox"
-Textbox.Parent = SectionInners
-Textbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Textbox.Size = UDim2.new(0, 378, 0, 33)
-Textbox.AutoButtonColor = false
-Textbox.Font = Enum.Font.SourceSans
-Textbox.Text = ""
-Textbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-Textbox.TextScaled = true
-Textbox.TextSize = 14.000
-Textbox.TextWrapped = true
 
-TextboxCorner.Name = "TextboxCorner"
-TextboxCorner.Parent = Textbox
-
-TextboxIcon.Name = "TextboxIcon"
-TextboxIcon.Parent = Textbox
-TextboxIcon.AnchorPoint = Vector2.new(0.5, 0.5)
-TextboxIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextboxIcon.BackgroundTransparency = 1.000
-TextboxIcon.Position = UDim2.new(0.0502645522, 0, 0.4909091, 0)
-TextboxIcon.Size = UDim2.new(0, 21, 0, 21)
-TextboxIcon.Image = "rbxassetid://3926305904"
-TextboxIcon.ImageRectOffset = Vector2.new(284, 644)
-TextboxIcon.ImageRectSize = Vector2.new(36, 36)
-
-TextboxTittle.Name = "TextboxTittle"
-TextboxTittle.Parent = Textbox
-TextboxTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextboxTittle.BackgroundTransparency = 1.000
-TextboxTittle.Position = UDim2.new(0.100529104, 0, 0.0303030312, 0)
-TextboxTittle.Size = UDim2.new(0, 145, 0, 30)
-TextboxTittle.Font = Enum.Font.SourceSansSemibold
-TextboxTittle.LineHeight = 1.120
-TextboxTittle.Text = "Textbox"
-TextboxTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextboxTittle.TextScaled = true
-TextboxTittle.TextSize = 14.000
-TextboxTittle.TextWrapped = true
-TextboxTittle.TextXAlignment = Enum.TextXAlignment.Left
-
-TextBox.Parent = Textbox
-TextBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-TextBox.Position = UDim2.new(0.449708998, 0, 0.242696971, 0)
-TextBox.Size = UDim2.new(0, 200, 0, 14)
-TextBox.Font = Enum.Font.SourceSans
-TextBox.LineHeight = 1.120
-TextBox.PlaceholderText = "Type here!"
-TextBox.Text = ""
-TextBox.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextBox.TextSize = 14.000
-
-UICorner.Parent = TextBox
+-- Slider
 
 Slider.Name = "Slider"
 Slider.Parent = SectionInners
