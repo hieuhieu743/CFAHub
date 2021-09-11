@@ -158,6 +158,7 @@ function library:NewWindow(title)
     hubLogo.Name = "hubLogo"
     hubLogo.Parent = Topbar
     hubLogo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    hubLogo.BackgroundTransparency = 1.000
     hubLogo.BorderSizePixel = 0
     hubLogo.Position = UDim2.new(0.0123674907, 0, 0, 0)
     hubLogo.Size = UDim2.new(0, 19, 0, 19)
@@ -174,14 +175,27 @@ function library:NewWindow(title)
     closeButton.MouseButton1Click:Connect(function()
         CFAHub:Destroy()
     end)
+
+    local isOff = false
     
     MinButton.Name = "MinButton"
     MinButton.Parent = Topbar
     MinButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    MinButton.BackgroundTransparency = 1.000
     MinButton.BorderSizePixel = 0
     MinButton.Position = UDim2.new(0.898072362, 0, 0, 0)
     MinButton.Size = UDim2.new(0, 19, 0, 19)
-    MinButton.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+    MinButton.Image = "http://www.roblox.com/asset/?id=7454592292"
+    MinButton.MouseButton1Click:Connect(function()
+        if isOff then
+            isOff = false
+            Background:TweenSize(UDim2.new(0, 566, 0, 329), Enum.EasingDirection.Out, Enum.EasingStyle.Linear)
+        else
+            isOff = true
+            Background:TweenSize(UDim2.new(0, 566, 0, 19), Enum.EasingDirection.Out, Enum.EasingStyle.Linear)
+        end
+        
+    end)
 
     -- Pages
     pageFrame.Name = "pageFrame"
@@ -243,11 +257,21 @@ function library:NewWindow(title)
         pageListLayout.SortOrder = Enum.SortOrder.LayoutOrder
         pageListLayout.Padding = UDim.new(0, 4)
 
+        local function UpdatePageSize()
+            local Ab = pageListLayout.AbsoluteContentSize
+            game.TweenService:Create(pageContainer, tweeninfo(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                CanvasSize = UDim2.new(0,0,0,Ab.Y)
+            })
+        end
+
+        UpdatePageSize()
+
         if first then
             first = false
             pageContainer.Visible = true
             tabButton.BackgroundTransparency = 0
             UpdateSize()
+            UpdatePageSize()
         else
             pageContainer.Visible = false
             tabButton.BackgroundTransparency = 1
@@ -268,6 +292,7 @@ function library:NewWindow(title)
 
         function tabElements:NewSection(secName)
             UpdateSize()
+            UpdatePageSize()
             secName = secName or "Section"
             local sectionElements = {}
             
@@ -329,6 +354,8 @@ function library:NewWindow(title)
             end
 
             UpdateSection()
+            UpdatePageSize()
+            UpdateSize()
 
             SectionInners.Name = "SectionInners"
             SectionInners.Parent = SectionFrame
@@ -345,6 +372,8 @@ function library:NewWindow(title)
 
             function sectionElements:CreateButton(title, callback)
                 UpdateSection()
+                UpdatePageSize()
+                UpdateSize()
                 title = title or "Button"
                 callback = callback or function() end
 
@@ -442,6 +471,8 @@ function library:NewWindow(title)
 
             function sectionElements:CreateToggle(togName, callback)
                 UpdateSection()
+                UpdatePageSize()
+                UpdateSize()
                 togName = togName or "Toggle"
                 callback = callback or function() end
 
@@ -582,6 +613,8 @@ function library:NewWindow(title)
 
             function sectionElements:CreateSlider(silName, minvalue, maxvalue, callback)
                 UpdateSection()
+                UpdatePageSize()
+                UpdateSize()
                 silName = silName or "Slider"
                 maxvalue = maxvalue or 100
                 minvalue = minvalue or 1
@@ -725,10 +758,12 @@ function library:NewWindow(title)
                         end
                     end)
                 end)
-            end -- Number Issues 178, 8
+            end -- Done
 
             function sectionElements:CreateTextbox(textName, callback)
                 UpdateSection()
+                UpdatePageSize()
+                UpdateSize()
                 textName = textName or "Textbox"
                 callback = callback or function() end
 
@@ -826,6 +861,8 @@ function library:NewWindow(title)
 
             function sectionElements:CreateKeybind(keyName, key, callback)
                 UpdateSection()
+                UpdatePageSize()
+                UpdateSize()
                 keyName = keyName or "Keybind"
                 callback = callback or function() end
 
@@ -951,6 +988,8 @@ function library:NewWindow(title)
 
             function sectionElements:CreateDropdown(dropName, list, callback)
                 UpdateSection()
+                UpdatePageSize()
+                UpdateSize()
                 dropName = dropName or "Dropdown"
                 list = list or {}
                 callback = callback or function() end
