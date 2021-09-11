@@ -592,10 +592,10 @@ function library:NewWindow(title)
                 end)
             end -- Done
 
-            function sectionElements:CreateSlider(silName, options, callback)
+            function sectionElements:CreateSlider(silName, min, max, callback)
                 silName = silName or "Slider"
-                local max = options.max
-                local min = options.min
+                max = max or 100
+                min = min or 1
                 callback = callback or function() end
 
                 local Slider = Instance.new("TextButton")
