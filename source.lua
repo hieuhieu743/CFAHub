@@ -100,7 +100,6 @@ function library:NewWindow(title)
     library:DraggingEnabled(Topbar, Background)
 
     CFAHub.Name = "CFA Hub"
-    CFAHub.Parent = coreGui
     CFAHub.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     
     Background.Name = "Background"
@@ -342,6 +341,15 @@ function library:NewWindow(title)
             local SectionInners = Instance.new("Frame")
             local sInnersListLayout = Instance.new("UIListLayout")
 
+            local function UpdateSection()
+                local innerLayout = sInnersListLayout.AbsoluteContentSize
+                SectionInners.Size = UDim2.new(1, 0, 0, innerLayout.Y)
+                local sectionFrameLayout = sListLayout.AbsoluteContentSize
+                SectionFrame.Size = UDim2.new(0, 378, 0, sectionFrameLayout.Y)
+            end
+
+            UpdateSection()
+
             SectionInners.Name = "SectionInners"
             SectionInners.Parent = SectionFrame
             SectionInners.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -356,6 +364,7 @@ function library:NewWindow(title)
             sInnersListLayout.Padding = UDim.new(0, 4)
 
             function sectionElements:CreateButton(title, callback)
+                UpdateSection()
                 title = title or "Button"
                 callback = callback or function() end
 
@@ -452,6 +461,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateToggle(togName, callback)
+                UpdateSection()
                 togName = togName or "Toggle"
                 callback = callback or function() end
 
@@ -591,6 +601,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateSlider(silName, min, max, callback)
+                UpdateSection()
                 silName = silName or "Slider"
                 max = max or 100
                 min = min or 1
@@ -640,7 +651,7 @@ function library:NewWindow(title)
                 SliderTittle.Size = UDim2.new(0, 119, 0, 30)
                 SliderTittle.Font = Enum.Font.SourceSansSemibold
                 SliderTittle.LineHeight = 1.120
-                SliderTittle.Text = "Slider"
+                SliderTittle.Text = silName
                 SliderTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
                 SliderTittle.TextScaled = true
                 SliderTittle.TextSize = 14.000
@@ -655,7 +666,7 @@ function library:NewWindow(title)
                 SliderVal.Size = UDim2.new(0, 27, 0, 30)
                 SliderVal.Font = Enum.Font.SourceSansSemibold
                 SliderVal.LineHeight = 1.120
-                SliderVal.Text = ""
+                SliderVal.Text = min
                 SliderVal.TextColor3 = Color3.fromRGB(255, 255, 255)
                 SliderVal.TextScaled = true
                 SliderVal.TextSize = 14.000
@@ -745,6 +756,7 @@ function library:NewWindow(title)
             end -- Number Issues
 
             function sectionElements:CreateTextbox(textName, callback)
+                UpdateSection()
                 textName = textName or "Textbox"
                 callback = callback or function() end
 
@@ -841,6 +853,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateKeybind(keyName, key, callback)
+                UpdateSection()
                 keyName = keyName or "Keybind"
                 callback = callback or function() end
 
@@ -965,6 +978,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateDropdown(dropName, list, callback)
+                UpdateSection()
                 dropName = dropName or "Dropdown"
                 list = list or {}
                 callback = callback or function() end
@@ -1181,7 +1195,8 @@ function library:NewWindow(title)
 
         return tabElements
     end
-
+    
+    CFAHub.Parent = coreGui
     return window
 end
 
