@@ -409,14 +409,14 @@ function library:NewWindow(title)
                 ToggleEnabled.ImageRectSize = Vector2.new(48, 48)
                 
                 ToggleTittle.Name = "ToggleTittle"
-                ToggleTittle.Parent = togName
+                ToggleTittle.Parent = Toggle
                 ToggleTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 ToggleTittle.BackgroundTransparency = 1.000
                 ToggleTittle.Position = UDim2.new(0.100529104, 0, 0.0303030312, 0)
                 ToggleTittle.Size = UDim2.new(0, 145, 0, 30)
                 ToggleTittle.Font = Enum.Font.SourceSansSemibold
                 ToggleTittle.LineHeight = 1.120
-                ToggleTittle.Text = "Toggle"
+                ToggleTittle.Text = togName
                 ToggleTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
                 ToggleTittle.TextScaled = true
                 ToggleTittle.TextSize = 14.000
