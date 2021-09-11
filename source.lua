@@ -650,7 +650,7 @@ function library:NewWindow(title)
                 SliderVal.TextColor3 = Color3.fromRGB(255, 255, 255)
                 SliderVal.TextScaled = true
                 SliderVal.TextSize = 14.000
-                SliderVal.TextTransparency = 1.000
+                SliderVal.TextTransparency = 0
                 SliderVal.TextWrapped = true
                 
                 SliderBtn.Name = "SliderBtn"
@@ -705,7 +705,7 @@ function library:NewWindow(title)
                 local uis = input
 
                 SliderBtn.MouseButton1Click:Connect(function()
-                    game.TweenService:Create(val, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    game.TweenService:Create(val, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                         TextTransparency = 0
                     }):Play()
                     Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 149) * sliderDrag.AbsoluteSize.X) + tonumber(minvalue)) or 0
@@ -728,7 +728,7 @@ function library:NewWindow(title)
                                 callback(Value)
                             end)
                             val.Text = Value
-                            game.TweenService:Create(val, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            game.TweenService:Create(val, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                                 TextTransparency = 1
                             }):Play()
                             sliderDrag:TweenSize(UDim2.new(0, math.clamp(ms.X - sliderDrag.AbsolutePosition.X, 0, 149), 0, 6), "InOut", "Linear", 0.05, true)
