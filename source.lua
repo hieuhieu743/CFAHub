@@ -90,6 +90,8 @@ function library:NewWindow(title)
 
     UpdateSize()
 
+    library:DraggingEnabled(Topbar, Background)
+
     CFAHub.Name = "CFA Hub"
     CFAHub.Parent = coreGui
     CFAHub.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -163,6 +165,9 @@ function library:NewWindow(title)
     closeButton.Position = UDim2.new(0.944008768, 0, 0, 0)
     closeButton.Size = UDim2.new(0, 19, 0, 19)
     closeButton.Image = "http://www.roblox.com/asset/?id=7409394566"
+    closeButton.MouseButton1Click:Connect(function()
+        CFAHub:Destroy()
+    end)
     
     MinButton.Name = "MinButton"
     MinButton.Parent = Topbar
