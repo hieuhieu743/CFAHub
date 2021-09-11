@@ -220,6 +220,7 @@ function library:NewWindow(title)
         tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
         tabButton.TextScaled = true
         tabButton.TextSize = 14.000
+        tabButton.AutoButtonColor = false
         tabButton.TextWrapped = true
         
         TabBtnCorner.Name = "TabBtnCorner"
