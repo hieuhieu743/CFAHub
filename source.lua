@@ -669,6 +669,7 @@ function library:NewWindow(title)
                 SliderBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
                 SliderBtn.Position = UDim2.new(0.505290985, 0, 0.363636374, 0)
                 SliderBtn.Size = UDim2.new(0, 178, 0, 8)
+                SliderBtn.AutoButtonColor = false
                 SliderBtn.Font = Enum.Font.SourceSans
                 SliderBtn.Text = ""
                 SliderBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -711,33 +712,33 @@ function library:NewWindow(title)
                 local releaseconnection
 
                 Slider.MouseButton1Click:Connect(function()
-                    game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingDirection.In, Enum.EasingStyle.Linear), {
                         TextTransparency = 0
-                    }):Play()
-                    Value = math.floor((((tonumber(max) - tonumber(min)) / 178 ) * SliderBar.AbsoluteSize.X) + tonumber(min)) or 0
+                    })
+                    Value = math.floor((((tonumber(max) - tonumber(min)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(min)) or 0
                     pcall(function()
                         callback(Value)
                     end)
-                    SliderBar:TweenSize(UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.05, true)
+                    SliderBar.Size = UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8)
                     moveconnection = ms.Move:Connect(function()
                         SliderVal.Text = Value
                         Value = math.floor((((tonumber(max) - tonumber(min)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(min))
                         pcall(function()
                             callback(Value)
+                            SliderVal.Text = Value
                         end)
-                        SliderBar:TweenSize(UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.05, true)
+                        SliderBar.Size = UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8)
                     end)
                     releaseconnection = input.InputEnded:Connect(function(Mouse)
                         if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
-                            Value = math.floor((((tonumber(max) - tonumber(min)) / 149) * SliderBar.AbsoluteSize.X) + tonumber(min))
+                            Value = math.floor((((tonumber(max) - tonumber(min)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(min))
                             pcall(function()
                                 callback(Value)
                             end)
-                            SliderVal.Text = Value
-                            game.TweenService:Create(SliderVal, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                            game.TweenService:Create(SliderVal, tweeninfo(0.1, Enum.EasingDirection.In, Enum.EasingStyle.Linear), {
                                 TextTransparency = 1
-                            }):Play()
-                            SliderBar:TweenSize(UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 149), 0, 6), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.05, true)
+                            })
+                            SliderBar.Size = UDim2.new(0, math.clamp(ms.X - SliderBar.AbsolutePosition.X, 0, 178), 0, 8)
                             moveconnection:Disconnect()
                             releaseconnection:Disconnect()
                         end
