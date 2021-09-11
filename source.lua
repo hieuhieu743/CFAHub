@@ -260,6 +260,7 @@ function library:NewWindow(title)
         tabButton.MouseEnter:Connect(function()
             if not focusing then
                 game.TweenService:Create(tabButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundTransparency = 0,
                     BackgroundColor3 = Color3.fromRGB(44, 44, 44)
                 }):Play()
                 hovering = true
@@ -268,6 +269,7 @@ function library:NewWindow(title)
         tabButton.MouseLeave:Connect(function()
             if not focusing then 
                 game.TweenService:Create(tabButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    BackgroundTransparency = 1,
                     BackgroundColor3 = Color3.fromRGB(20, 20, 20)
                 }):Play()
                 hovering = false
