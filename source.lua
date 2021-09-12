@@ -293,12 +293,14 @@ function library:NewWindow(title)
             local sInnersListLayout = Instance.new("UIListLayout")
 
             local function UpdatePageSize()
-                local cS = sInnersListLayout.AbsoluteContentSize
+                local cS = pageListLayout.AbsoluteContentSize
         
                 game.TweenService:Create(pageContainer, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
                     CanvasSize = UDim2.new(0,0,0,cS.Y)
                 }):Play()
             end
+
+            UpdatePageSize()
 
             SectionFrame.Name = "SectionFrame"
             SectionFrame.Parent = pageContainer
