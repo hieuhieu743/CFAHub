@@ -302,9 +302,8 @@ function library:NewWindow(title)
 
             local function UpdateSection()
                 local cS = sListLayout.AbsoluteContentSize
-                game.TweenService:Create(SectionFrame, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                    CanvasSize = UDim2.new(0, 378, 0, cS.Y)
-                })
+                
+                SectionFrame:TweenSize(UDim2.new(0, 378, 0, cS.Y), Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0.1)
             end
 
             UpdateSection()
