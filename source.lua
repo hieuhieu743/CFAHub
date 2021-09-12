@@ -305,8 +305,10 @@ function library:NewWindow(title)
             local sInnersListLayout = Instance.new("UIListLayout")
 
             local function updateSection()
-                local cS = sInnersListLayout.AbsoluteContentSize
-                SectionInners.Size = UDim2.new(1,0,0,cS.Y)
+                local innerSc = sInnersListLayout.AbsoluteContentSize
+                SectionInners.Size = UDim2.new(1, 0, 0, innerSc.Y)
+                local frameSc = sListLayout.AbsoluteContentSize
+                SectionFrame.Size = UDim2.new(0, 378, 0, frameSc.Y)
             end
 
             updateSection()
@@ -355,6 +357,20 @@ function library:NewWindow(title)
 
             UpdatePageSize()
             UpdateSize()
+
+            for i,v in pairs(SectionInners:GetChildren()) do
+                while wait() do
+                    if v:IsA("Frame") or v:IsA("TextButton") then
+                        local function size(pro)
+                            if pro == "Size" then
+                                UpdateSize()
+                                updateSection()
+                            end
+                        end
+                        v.Changed:Connect(size)
+                    end
+                end
+            end
 
             SectionInners.Name = "SectionInners"
             SectionInners.Parent = SectionFrame
