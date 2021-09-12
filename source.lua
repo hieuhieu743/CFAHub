@@ -256,11 +256,22 @@ function library:NewWindow(title)
         pageListLayout.SortOrder = Enum.SortOrder.LayoutOrder
         pageListLayout.Padding = UDim.new(0, 4)
 
+        local function UpdatePageSize()
+            local cS = pageListLayout.AbsoluteContentSize
+    
+            game.TweenService:Create(pageContainer, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                CanvasSize = UDim2.new(0,0,0,cS.Y)
+            }):Play()
+        end
+
+        UpdatePageSize()
+
         if first then
             first = false
             pageContainer.Visible = true
             tabButton.BackgroundTransparency = 0
             UpdateSize()
+            UpdatePageSize()
         else
             pageContainer.Visible = false
             tabButton.BackgroundTransparency = 1
@@ -281,6 +292,7 @@ function library:NewWindow(title)
 
         function tabElements:NewSection(secName)
             UpdateSize()
+            UpdatePageSize()
             secName = secName or "Section"
             local sectionElements = {}
             
@@ -292,15 +304,12 @@ function library:NewWindow(title)
             local SectionInners = Instance.new("Frame")
             local sInnersListLayout = Instance.new("UIListLayout")
 
-            local function UpdatePageSize()
-                local cS = pageListLayout.AbsoluteContentSize
-        
-                game.TweenService:Create(pageContainer, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                    CanvasSize = UDim2.new(0,0,0,cS.Y)
-                }):Play()
+            local function updateSection()
+                local cS = sInnersListLayout.AbsoluteContentSize
+                SectionInners.Size = UDim2.new(1,0,0,cS.Y)
             end
 
-            UpdatePageSize()
+            updateSection()
 
             SectionFrame.Name = "SectionFrame"
             SectionFrame.Parent = pageContainer
@@ -360,6 +369,7 @@ function library:NewWindow(title)
             sInnersListLayout.Padding = UDim.new(0, 4)
 
             function sectionElements:CreateButton(title, callback)
+                updateSection()
                 UpdatePageSize()
                 UpdateSize()
                 title = title or "Button"
@@ -458,6 +468,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateToggle(togName, callback)
+                updateSection()
                 UpdatePageSize()
                 UpdateSize()
                 togName = togName or "Toggle"
@@ -599,6 +610,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateSlider(silName, minvalue, maxvalue, callback)
+                updateSection()
                 UpdatePageSize()
                 UpdateSize()
                 silName = silName or "Slider"
@@ -747,6 +759,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateTextbox(textName, callback)
+                updateSection()
                 UpdatePageSize()
                 UpdateSize()
                 textName = textName or "Textbox"
@@ -845,6 +858,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateKeybind(keyName, key, callback)
+                updateSection()
                 UpdatePageSize()
                 UpdateSize()
                 keyName = keyName or "Keybind"
@@ -971,6 +985,7 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateDropdown(dropName, list, callback)
+                updateSection()
                 UpdatePageSize()
                 UpdateSize()
                 dropName = dropName or "Dropdown"
