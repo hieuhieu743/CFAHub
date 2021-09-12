@@ -1,6 +1,7 @@
 --[[
 
- Version: 3.3
+ Version: 3.5.5
+ Create by CFA Hub Developer
 
 --]]
 
@@ -291,8 +292,6 @@ function library:NewWindow(title)
         end)
 
         function tabElements:NewSection(secName)
-            UpdateSize()
-            UpdatePageSize()
             secName = secName or "Section"
             local sectionElements = {}
             
@@ -312,6 +311,8 @@ function library:NewWindow(title)
             end
 
             updateSection()
+            UpdateSize()
+            UpdatePageSize()
 
             SectionFrame.Name = "SectionFrame"
             SectionFrame.Parent = pageContainer
@@ -357,6 +358,7 @@ function library:NewWindow(title)
 
             UpdatePageSize()
             UpdateSize()
+            updateSection()
 
             for i,v in pairs(SectionInners:GetChildren()) do
                 while wait() do
@@ -462,6 +464,9 @@ function library:NewWindow(title)
                 UpdateSize()
                 
                 Button.MouseButton1Click:Connect(function()
+                    UpdatePageSize()
+                    UpdateSize()
+                    updateSection()
                     local c = Sample:Clone()
                     c.Parent = Button
                     local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -577,6 +582,9 @@ function library:NewWindow(title)
                 UpdateSize()
 
                 Toggle.MouseButton1Click:Connect(function()
+                    UpdatePageSize()
+                    UpdateSize()
+                    updateSection()
                     if toggled == false then
                         game.TweenService:Create(img, TweenInfo.new(0.11, Enum.EasingStyle.Linear,Enum.EasingDirection.In), {
                             ImageTransparency = 0
@@ -747,6 +755,9 @@ function library:NewWindow(title)
                 local releaseconnection
 
                 SliderBtn.MouseButton1Down:Connect(function()
+                    UpdatePageSize()
+                    UpdateSize()
+                    updateSection()
                         Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 178) * SliderBar.AbsoluteSize.X) + tonumber(minvalue)) or 0
                         pcall(function()
                             callback(Value)
@@ -861,6 +872,9 @@ function library:NewWindow(title)
                 end)
 
                 TextBox.FocusLost:Connect(function(enterPressed)
+                    UpdatePageSize()
+                    UpdateSize()
+                    updateSection()
                     if not enterPressed then
                         return
                     else
@@ -965,6 +979,9 @@ function library:NewWindow(title)
                 end)
 
                 Keybind.MouseButton1Click:Connect(function()
+                    UpdatePageSize()
+                    UpdateSize()
+                    updateSection()
                     kBindKey.Text = ". . ."
                     local a, b = game:GetService("UserInputService").InputBegan:wait()
                     if a.KeyCode.Name ~= "Unknown" then
@@ -1114,9 +1131,9 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
 
-
-
+                        UpdatePageSize()
                         UpdateSize()
+                        updateSection()
                     else
                         isDropping = true
 
@@ -1139,7 +1156,9 @@ function library:NewWindow(title)
                         end
                         c:Destroy() 
         
+                        UpdatePageSize()
                         UpdateSize()
+                        updateSection()
                     end
                 end)
 
@@ -1185,7 +1204,9 @@ function library:NewWindow(title)
                     end)
 
                     OptionSelect.MouseButton1Click:Connect(function()
+                        UpdatePageSize()
                         UpdateSize()
+                        updateSection()
 
                         isDropping = false
                         callback(v)
