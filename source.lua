@@ -256,22 +256,11 @@ function library:NewWindow(title)
         pageListLayout.SortOrder = Enum.SortOrder.LayoutOrder
         pageListLayout.Padding = UDim.new(0, 4)
 
-        local function UpdatePageSize()
-            local cS = pageListLayout.AbsoluteContentSize
-    
-            game.TweenService:Create(pageContainer, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                CanvasSize = UDim2.new(0,0,0,cS.Y)
-            }):Play()
-        end
-
-        UpdatePageSize()
-
         if first then
             first = false
             pageContainer.Visible = true
             tabButton.BackgroundTransparency = 0
             UpdateSize()
-            UpdatePageSize()
         else
             pageContainer.Visible = false
             tabButton.BackgroundTransparency = 1
@@ -292,7 +281,6 @@ function library:NewWindow(title)
 
         function tabElements:NewSection(secName)
             UpdateSize()
-            UpdatePageSize()
             secName = secName or "Section"
             local sectionElements = {}
             
@@ -304,14 +292,13 @@ function library:NewWindow(title)
             local SectionInners = Instance.new("Frame")
             local sInnersListLayout = Instance.new("UIListLayout")
 
-            local function UpdateSection()
-                local innerSc = sInnersListLayout.AbsoluteContentSize
-                SectionInners.Size = UDim2.new(1, 0, 0, innerSc.Y)
-                local frameSc = sListLayout.AbsoluteContentSize
-                SectionFrame.Size = UDim2.new(0, 378, 0, frameSc.Y)
+            local function UpdatePageSize()
+                local cS = sInnersListLayout.AbsoluteContentSize
+        
+                game.TweenService:Create(pageContainer, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    CanvasSize = UDim2.new(0,0,0,cS.Y)
+                }):Play()
             end
-
-            UpdateSection()
 
             SectionFrame.Name = "SectionFrame"
             SectionFrame.Parent = pageContainer
