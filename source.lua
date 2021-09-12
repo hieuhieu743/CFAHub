@@ -1,6 +1,6 @@
 --[[
 
- Version: 3.2
+ Version: 3.3
 
 --]]
 
@@ -148,7 +148,7 @@ function library:NewWindow(title)
     hubText.Size = UDim2.new(0, 154, 0, 19)
     hubText.Font = Enum.Font.SourceSansBold
     hubText.LineHeight = 1.120
-    hubText.Text = "CFA Hub Upgrade"
+    hubText.Text = title
     hubText.TextColor3 = Color3.fromRGB(255, 255, 255)
     hubText.TextScaled = true
     hubText.TextSize = 14.000
@@ -189,12 +189,11 @@ function library:NewWindow(title)
     MinButton.MouseButton1Click:Connect(function()
         if isOff then
             isOff = false
-            Background:TweenSize(UDim2.new(0, 566, 0, 329), Enum.EasingDirection.Out, Enum.EasingStyle.Linear)
+            Background:TweenSize(UDim2.new(0, 566, 0, 329), Enum.EasingDirection.Out, Enum.EasingStyle.Linear, 0.1, true)
         else
             isOff = true
-            Background:TweenSize(UDim2.new(0, 566, 0, 19), Enum.EasingDirection.Out, Enum.EasingStyle.Linear)
+            Background:TweenSize(UDim2.new(0, 566, 0, 19), Enum.EasingDirection.Out, Enum.EasingStyle.Linear, 0.1, true)
         end
-        
     end)
 
     -- Pages
@@ -258,10 +257,11 @@ function library:NewWindow(title)
         pageListLayout.Padding = UDim.new(0, 4)
 
         local function UpdatePageSize()
-            local Ab = pageListLayout.AbsoluteContentSize
-            game.TweenService:Create(pageContainer, tweeninfo(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                CanvasSize = UDim2.new(0,0,0,Ab.Y)
-            })
+            local cS = pageListLayout.AbsoluteContentSize
+    
+            game.TweenService:Create(pageContainer, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                CanvasSize = UDim2.new(1,0,0,cS.Y)
+            }):Play()
         end
 
         UpdatePageSize()
@@ -299,6 +299,15 @@ function library:NewWindow(title)
             -- Frame
             local SectionFrame = Instance.new("Frame")
             local sListLayout = Instance.new("UIListLayout")
+
+            local function UpdateSection()
+                local cS = sListLayout.AbsoluteContentSize
+                game.TweenService:Create(SectionFrame, tweeninfo(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    CanvasSize = UDim2.new(0, 378, 0, cS.Y)
+                })
+            end
+
+            UpdateSection()
 
             SectionFrame.Name = "SectionFrame"
             SectionFrame.Parent = pageContainer
@@ -346,14 +355,6 @@ function library:NewWindow(title)
             local SectionInners = Instance.new("Frame")
             local sInnersListLayout = Instance.new("UIListLayout")
 
-            local function UpdateSection()
-                local innerLayout = sInnersListLayout.AbsoluteContentSize
-                SectionInners.Size = UDim2.new(1, 0, 0, innerLayout.Y)
-                local sectionFrameLayout = sListLayout.AbsoluteContentSize
-                SectionFrame.Size = UDim2.new(0, 378, 0, sectionFrameLayout.Y)
-            end
-
-            UpdateSection()
             UpdatePageSize()
             UpdateSize()
 
@@ -362,7 +363,7 @@ function library:NewWindow(title)
             SectionInners.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             SectionInners.BackgroundTransparency = 1.000
             SectionInners.Position = UDim2.new(0, 0, 0.114551082, 0)
-            SectionInners.Size = UDim2.new(1, 0, 0, 285)
+            SectionInners.Size = UDim2.new(1, 0, 1, 0)
 
             sInnersListLayout.Name = "sInnersListLayout"
             sInnersListLayout.Parent = SectionInners
@@ -371,7 +372,6 @@ function library:NewWindow(title)
             sInnersListLayout.Padding = UDim.new(0, 4)
 
             function sectionElements:CreateButton(title, callback)
-                UpdateSection()
                 UpdatePageSize()
                 UpdateSize()
                 title = title or "Button"
@@ -470,7 +470,6 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateToggle(togName, callback)
-                UpdateSection()
                 UpdatePageSize()
                 UpdateSize()
                 togName = togName or "Toggle"
@@ -612,7 +611,6 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateSlider(silName, minvalue, maxvalue, callback)
-                UpdateSection()
                 UpdatePageSize()
                 UpdateSize()
                 silName = silName or "Slider"
@@ -761,7 +759,6 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateTextbox(textName, callback)
-                UpdateSection()
                 UpdatePageSize()
                 UpdateSize()
                 textName = textName or "Textbox"
@@ -860,7 +857,6 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateKeybind(keyName, key, callback)
-                UpdateSection()
                 UpdatePageSize()
                 UpdateSize()
                 keyName = keyName or "Keybind"
@@ -987,12 +983,12 @@ function library:NewWindow(title)
             end -- Done
 
             function sectionElements:CreateDropdown(dropName, list, callback)
-                UpdateSection()
                 UpdatePageSize()
                 UpdateSize()
                 dropName = dropName or "Dropdown"
                 list = list or {}
                 callback = callback or function() end
+                local dropdownFunction = {}
 
                 local Dropdown = Instance.new("Frame")
                 local UIListLayout = Instance.new("UIListLayout")
@@ -1197,8 +1193,86 @@ function library:NewWindow(title)
                     end)
                 end
                 
-                
+                function dropdownFunction:Refresh(newList)
+                    newList = newList or {}
+                    for i,v in next, Dropdown:GetChildren() do
+                        if v.Name == "OptionSelect" then
+                            v:Destroy()
+                        end
+                    end
 
+                    for i, v in next, newList do
+                        local OptionSelect = Instance.new("TextButton")
+                        local OptionCorner = Instance.new("UICorner")
+                        
+                        OptionSelect.Name = "OptionSelect"
+                        OptionSelect.Parent = Dropdown
+                        OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                        OptionSelect.Position = UDim2.new(0.0119047621, 0, 0.342857152, 0)
+                        OptionSelect.Size = UDim2.new(0, 356, 0, 33)
+                        OptionSelect.AutoButtonColor = false
+                        OptionSelect.Font = Enum.Font.SourceSansSemibold
+                        OptionSelect.LineHeight = 1.120
+                        OptionSelect.Text = " "..v
+                        OptionSelect.TextColor3 = Color3.fromRGB(255, 255, 255)
+                        OptionSelect.TextSize = 28.000
+                        OptionSelect.TextWrapped = true
+                        OptionSelect.TextXAlignment = Enum.TextXAlignment.Left
+                        
+                        OptionCorner.Name = "OptionCorner"
+                        OptionCorner.Parent = OptionSelect
+    
+                        local focusing = false
+                        local hovering
+        
+                        OptionSelect.MouseEnter:Connect(function()
+                            if not focusing then
+                                game.TweenService:Create(OptionSelect, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                    BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                                }):Play()
+                                hovering = true
+                            end
+                        end)
+                        OptionSelect.MouseLeave:Connect(function()
+                            if not focusing then 
+                                game.TweenService:Create(OptionSelect, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                                    BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                                }):Play()
+                                hovering = false
+                            end
+                        end)
+    
+                        OptionSelect.MouseButton1Click:Connect(function()
+                            UpdateSize()
+    
+                            isDropping = false
+                            callback(v)
+                            DropTittle.Text = v
+    
+                            Dropdown:TweenSize(UDim2.new(1, 0, 0, 33), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                            wait(0.1)
+                            local c = Sample:Clone()
+                            c.Parent = OptionSelect
+                            local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                            c.Position = UDim2.new(0, x, 0, y)
+                            local len, size = 0.35, nil
+                            if OptionSelect.AbsoluteSize.X >= OptionSelect.AbsoluteSize.Y then
+                                size = (OptionSelect.AbsoluteSize.X * 1.5)
+                            else
+                                size = (OptionSelect.AbsoluteSize.Y * 1.5)
+                            end
+                            c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                            for i = 1, 10 do
+                                c.ImageTransparency = c.ImageTransparency + 0.05
+                                wait(len / 12)
+                            end
+                            c:Destroy() 
+                        end)
+                    end
+                    
+                end
+                
+                return dropdownFunction
             end -- Done
 
             return sectionElements
