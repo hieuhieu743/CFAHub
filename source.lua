@@ -260,7 +260,7 @@ function library:NewWindow(title)
             local cS = pageListLayout.AbsoluteContentSize
     
             game.TweenService:Create(pageContainer, TweenInfo.new(0.15, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
-                CanvasSize = UDim2.new(1,0,0,cS.Y)
+                CanvasSize = UDim2.new(0,0,0,cS.Y)
             }):Play()
         end
 
@@ -306,7 +306,7 @@ function library:NewWindow(title)
 
             local function UpdateSection()
                 local innerSc = sInnersListLayout.AbsoluteContentSize
-                SectionInners.Size = UDim2.new(0, 0, 0, innerSc.Y)
+                SectionInners.Size = UDim2.new(1, 0, 0, innerSc.Y)
                 local frameSc = sListLayout.AbsoluteContentSize
                 SectionFrame.Size = UDim2.new(0, 378, 0, frameSc.Y)
             end
@@ -363,7 +363,6 @@ function library:NewWindow(title)
             SectionInners.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             SectionInners.BackgroundTransparency = 1.000
             SectionInners.Position = UDim2.new(0, 0, 0.114551082, 0)
-            SectionInners.Size = UDim2.new(1, 0, 1, 0)
 
             sInnersListLayout.Name = "sInnersListLayout"
             sInnersListLayout.Parent = SectionInners
