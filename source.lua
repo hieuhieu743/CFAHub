@@ -360,20 +360,6 @@ function library:NewWindow(title)
             UpdateSize()
             updateSection()
 
-            for i,v in pairs(SectionInners:GetChildren()) do
-                while wait() do
-                    if v:IsA("Frame") or v:IsA("TextButton") then
-                        local function size(pro)
-                            if pro == "Size" then
-                                UpdateSize()
-                                updateSection()
-                            end
-                        end
-                        v.Changed:Connect(size)
-                    end
-                end
-            end
-
             SectionInners.Name = "SectionInners"
             SectionInners.Parent = SectionFrame
             SectionInners.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
