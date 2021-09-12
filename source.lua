@@ -306,9 +306,9 @@ function library:NewWindow(title)
 
             local function UpdateSection()
                 local innerSc = sInnersListLayout.AbsoluteContentSize
-                SectionInners.Size = UDim2.new(1, 0, 0, innerSc.Y)
+                SectionInners.Size = UDim2.new(0, 0, 0, innerSc.Y)
                 local frameSc = sListLayout.AbsoluteContentSize
-                SectionFrame.Size = UDim2.new(0, 352, 0, frameSc.Y)
+                SectionFrame.Size = UDim2.new(0, 378, 0, frameSc.Y)
             end
 
             UpdateSection()
