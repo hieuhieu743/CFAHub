@@ -300,10 +300,15 @@ function library:NewWindow(title)
             local SectionFrame = Instance.new("Frame")
             local sListLayout = Instance.new("UIListLayout")
 
+            -- Inners
+            local SectionInners = Instance.new("Frame")
+            local sInnersListLayout = Instance.new("UIListLayout")
+
             local function UpdateSection()
-                local cS = sListLayout.AbsoluteContentSize
-                
-                SectionFrame:TweenSize(UDim2.new(0, 378, 0, cS.Y), Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0.1)
+                local innerSc = sInnersListLayout.AbsoluteContentSize
+                SectionInners.Size = UDim2.new(1, 0, 0, innerSc.Y)
+                local frameSc = sListLayout.AbsoluteContentSize
+                SectionFrame.Size = UDim2.new(0, 352, 0, frameSc.Y)
             end
 
             UpdateSection()
@@ -349,10 +354,6 @@ function library:NewWindow(title)
 
             sCorner.Name = "sCorner"
             sCorner.Parent = SectionHeader
-
-            -- Inners
-            local SectionInners = Instance.new("Frame")
-            local sInnersListLayout = Instance.new("UIListLayout")
 
             UpdatePageSize()
             UpdateSize()
