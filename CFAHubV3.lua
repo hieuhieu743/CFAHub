@@ -89,6 +89,7 @@ function library:NewWindow(title)
     MainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     MainFrame.Position = UDim2.new(0.0450261757, 0, 0.0796963945, 0)
     MainFrame.Size = UDim2.new(0, 681, 0, 396)
+    MainFrame.ClipsDescendants = true
 
     MainHeader.Name = "MainHeader"
     MainHeader.Parent = MainFrame
@@ -134,7 +135,7 @@ function library:NewWindow(title)
     MinButton.Image = "http://www.roblox.com/asset/?id=6035067836"
     MinButton.MouseButton1Click:Connect(function()
         if minimized == false then
-            MainFrame:TweenSize(UDim2.new(0, 681, 0, 23),Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.3, true)
+            MainFrame:TweenSize(UDim2.new(0, 681, 0, 20),Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.3, true)
         else
             MainFrame:TweenSize(UDim2.new(0, 681, 0, 396), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.3, true)
         end
@@ -173,7 +174,7 @@ function library:NewWindow(title)
 
     function windows:NewTab(title, url)
         title = title or "Tab"
-        url = url or "rbxassetid://3926305904"
+        url = url or "http://www.roblox.com/asset/?id=6031075938"
         local TabElements = {}
 
         local tabBtn = Instance.new("TextButton")
