@@ -77,6 +77,8 @@ function library:NewWindow(title)
     local CloseButton = Instance.new("ImageButton")
     local MinButton = Instance.new("ImageButton")
 
+    library:DraggingEnabled(MainHeader, MainFrame)
+
     CFAHubV3.Name = "CFAHubV3"
     CFAHubV3.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     CFAHubV3.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -93,6 +95,7 @@ function library:NewWindow(title)
     MainHeader.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     MainHeader.BorderSizePixel = 0
     MainHeader.Size = UDim2.new(0, 681, 0, 23)
+    MainHeader.ZIndex = 4
     
     HubTitle.Name = "HubTitle"
     HubTitle.Parent = MainHeader
@@ -116,6 +119,11 @@ function library:NewWindow(title)
     CloseButton.Position = UDim2.new(0.953010261, 0, 0, 0)
     CloseButton.Size = UDim2.new(0, 23, 0, 23)
     CloseButton.Image = "rbxassetid://7409394566"
+    CloseButton.MouseButton1Click:Connect(function()
+        CFAHubV3:Destroy()
+    end)
+
+    local minimized = false
     
     MinButton.Name = "MinButton"
     MinButton.Parent = MainHeader
@@ -124,6 +132,14 @@ function library:NewWindow(title)
     MinButton.Position = UDim2.new(0.910425842, 0, 0, 0)
     MinButton.Size = UDim2.new(0, 23, 0, 23)
     MinButton.Image = "http://www.roblox.com/asset/?id=6035067836"
+    MinButton.MouseButton1Click:Connect(function()
+        if minimized then
+            MainFrame:TweenSize(UDim2.new(0, 681, 0, 23),Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.3, true)
+        else
+            MainFrame:TweenSize(UDim2.new(0, 681, 0, 396), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.3, true)
+        end
+        minimized = not minimized
+    end)
 
     local MainSide = Instance.new("Frame")
     local TabScroll = Instance.new("ScrollingFrame")
@@ -301,10 +317,6 @@ function library:NewWindow(title)
             local optionList = Instance.new("Frame")
             local OptionScroll = Instance.new("ScrollingFrame")
             local OptionListLayout = Instance.new("UIListLayout")
-            local OptionSelect = Instance.new("TextButton")
-            local OptionCorner = Instance.new("UICorner")
-            local TextLabel = Instance.new("TextLabel")
-            local ImageLabel = Instance.new("ImageLabel")
 
             Dropdown.Name = "Dropdown"
             Dropdown.Parent = PageInners
@@ -317,7 +329,7 @@ function library:NewWindow(title)
             DropListLayout.Parent = Dropdown
             DropListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
             DropListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-            DropListLayout.Padding = UDim.new(0, -2)
+            DropListLayout.Padding = UDim.new(0, 0)
             
             DropButton.Name = "DropButton"
             DropButton.Parent = Dropdown
@@ -464,7 +476,7 @@ function library:NewWindow(title)
                 else
                     isDropping = true
     
-                    Dropdown:TweenSize(UDim2.new(1, 0, 0, DropListLayout.AbsoluteContentSize.Y), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                    Dropdown:TweenSize(UDim2.new(1, 0, 0, (DropListLayout.AbsoluteContentSize.Y + 2)), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.1)
                     local c = Sample:Clone()
                     c.Parent = DropButton
@@ -486,6 +498,11 @@ function library:NewWindow(title)
             end)
 
             for i, v in next, list do
+                local OptionSelect = Instance.new("TextButton")
+                local OptionCorner = Instance.new("UICorner")
+                local TextLabel = Instance.new("TextLabel")
+                local ImageLabel = Instance.new("ImageLabel")
+
                 OptionSelect.Name = "OptionSelect"
                 OptionSelect.Parent = OptionScroll
                 OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
@@ -562,6 +579,11 @@ function library:NewWindow(title)
                 end
 
                 for i, v in next, newList do
+                    local OptionSelect = Instance.new("TextButton")
+                    local OptionCorner = Instance.new("UICorner")
+                    local TextLabel = Instance.new("TextLabel")
+                    local ImageLabel = Instance.new("ImageLabel")
+                    
                     OptionSelect.Name = "OptionSelect"
                     OptionSelect.Parent = OptionScroll
                     OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
