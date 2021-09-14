@@ -148,6 +148,17 @@ function library:NewWindow(title)
         title = title or "Tab"
         local TabElements = {}
 
+        --Sample
+        local Sample = Instance.new("ImageLabel")
+
+        Sample.Name = "Sample"
+        Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Sample.BackgroundTransparency = 1.000
+        Sample.Position = UDim2.new(0.0128205121, 0, 0.327840537, 0)
+        Sample.Size = UDim2.new(0, 50, 0, 50)
+        Sample.Image = "rbxassetid://4560909609"
+        Sample.ImageTransparency = 0.600
+
         local tabBtn = Instance.new("TextButton")
         local TabBtnCorner = Instance.new("UICorner")
         local TabBtnIcon = Instance.new("ImageLabel")
@@ -204,7 +215,7 @@ function library:NewWindow(title)
 
         local Pages = Instance.new("Folder")
 
-        Pages.Name = "ElementsContainer"
+        Pages.Name = "Pages"
         Pages.Parent = MainPage
 
         MainPage.Name = "MainPage"
@@ -351,11 +362,11 @@ function library:NewWindow(title)
             local ElementsInfo = Instance.new("Frame")
 
             ElementsInfo.Name = "ElementsInfo"
-            ElementsInfo.Parent = MainPage
+            ElementsInfo.Parent = ElementsContainer
             ElementsInfo.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
             ElementsInfo.BackgroundTransparency = 0.010
             ElementsInfo.BorderSizePixel = 0
-            ElementsInfo.Position = UDim2.new(0, 0, 0.890080452, 0)
+            ElementsInfo.Position = UDim2.new(1, 0, 0, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
             
             infoText.Name = "infoText"
@@ -385,21 +396,37 @@ function library:NewWindow(title)
 
             Button.MouseButton1Click:Connect(function()
                 pcall(callback)
+                local c = Sample:Clone()
+                c.Parent = Button
+                local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                c.Position = UDim2.new(0, x, 0, y)
+                local len, size = 0.35, nil
+                if Button.AbsoluteSize.X >= Button.AbsoluteSize.Y then
+                    size = (Button.AbsoluteSize.X * 1.5)
+                else
+                    size = (Button.AbsoluteSize.Y * 1.5)
+                end
+                c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                for i = 1, 10 do
+                    c.ImageTransparency = c.ImageTransparency + 0.05
+                    wait(len / 12)
+                end
+                c:Destroy()
             end)
 
             ButtonInfoBtn.MouseButton1Click:Connect(function()
                 if isTween then
                     isTween = false
-                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0.1)
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
                 else
                     isTween = true
-                    ElementsInfo:TweenPosition(UDim2.new(1, 0, 0, 0), Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0.1)
+                    ElementsInfo:TweenPosition(UDim2.new(1, 0, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
                 end
             end)
 
             infoClose.MouseButton1Click:Connect(function()
                 isTween = false
-                ElementsInfo:TweenPosition(UDim2.new(1, 0, 0, 0), Enum.EasingStyle.Linear, Enum.EasingDirection.In, 0.1)
+                ElementsInfo:TweenPosition(UDim2.new(1, 0, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
             end)
 
         end
@@ -410,10 +437,7 @@ function library:NewWindow(title)
     return windows
 end
 
-
-
-
-
+--[[
 local Dropdown = Instance.new("Frame")
 local DropListLayout = Instance.new("UIListLayout")
 local DropButton = Instance.new("TextButton")
@@ -970,5 +994,7 @@ NotifyBtn.TextWrapped = true
 
 NotifyBtnCorner.Name = "NotifyBtnCorner"
 NotifyBtnCorner.Parent = NotifyBtn
+
+]]--
 
 return library
