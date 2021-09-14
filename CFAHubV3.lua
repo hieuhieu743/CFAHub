@@ -133,7 +133,7 @@ function library:NewWindow(title)
     MinButton.Size = UDim2.new(0, 23, 0, 23)
     MinButton.Image = "http://www.roblox.com/asset/?id=6035067836"
     MinButton.MouseButton1Click:Connect(function()
-        if minimized then
+        if minimized == false then
             MainFrame:TweenSize(UDim2.new(0, 681, 0, 23),Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.3, true)
         else
             MainFrame:TweenSize(UDim2.new(0, 681, 0, 396), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, 0.3, true)
