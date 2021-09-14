@@ -59,6 +59,17 @@ function library:NewWindow(title)
     title = title or "Window"
     local windows = {}
 
+    --Sample
+    local Sample = Instance.new("ImageLabel")
+
+    Sample.Name = "Sample"
+    Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Sample.BackgroundTransparency = 1.000
+    Sample.Position = UDim2.new(0.0128205121, 0, 0.327840537, 0)
+    Sample.Size = UDim2.new(0, 50, 0, 50)
+    Sample.Image = "rbxassetid://4560909609"
+    Sample.ImageTransparency = 0.600
+
     local CFAHubV3 = Instance.new("ScreenGui")
     local MainFrame = Instance.new("Frame")
     local MainHeader = Instance.new("Frame")
@@ -144,25 +155,19 @@ function library:NewWindow(title)
         
     end
 
-    function windows:NewTab(title)
+    function windows:NewTab(title, url)
         title = title or "Tab"
+        url = url or "rbxassetid://3926305904"
         local TabElements = {}
-
-        --Sample
-        local Sample = Instance.new("ImageLabel")
-
-        Sample.Name = "Sample"
-        Sample.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Sample.BackgroundTransparency = 1.000
-        Sample.Position = UDim2.new(0.0128205121, 0, 0.327840537, 0)
-        Sample.Size = UDim2.new(0, 50, 0, 50)
-        Sample.Image = "rbxassetid://4560909609"
-        Sample.ImageTransparency = 0.600
 
         local tabBtn = Instance.new("TextButton")
         local TabBtnCorner = Instance.new("UICorner")
         local TabBtnIcon = Instance.new("ImageLabel")
         local TabBtnTitle = Instance.new("TextLabel")
+
+        local MainPageContainer = Instance.new("Folder")
+        MainPageContainer.Name = "MainPageContainer"
+        MainPageContainer.Parent = MainFrame
 
         tabBtn.Name = "tabBtn"
         tabBtn.Parent = TabScroll
@@ -186,9 +191,7 @@ function library:NewWindow(title)
         TabBtnIcon.BackgroundTransparency = 1.000
         TabBtnIcon.Position = UDim2.new(0.0273972601, 0, 0.128571436, 0)
         TabBtnIcon.Size = UDim2.new(0, 25, 0, 25)
-        TabBtnIcon.Image = "rbxassetid://3926305904"
-        TabBtnIcon.ImageRectOffset = Vector2.new(444, 804)
-        TabBtnIcon.ImageRectSize = Vector2.new(36, 36)
+        TabBtnIcon.Image = url
         
         TabBtnTitle.Name = "TabBtnTitle"
         TabBtnTitle.Parent = tabBtn
@@ -287,7 +290,344 @@ function library:NewWindow(title)
             callback = callback or function() end
             local DropFunctions = {}
 
+            local Dropdown = Instance.new("Frame")
+            local DropListLayout = Instance.new("UIListLayout")
+            local DropButton = Instance.new("TextButton")
+            local DropCorner = Instance.new("UICorner")
+            local DropIcon = Instance.new("ImageLabel")
+            local DropTittle = Instance.new("TextLabel")
+            local DropdownIcon = Instance.new("ImageLabel")
+            local DropInfoBtn = Instance.new("ImageButton")
+            local optionList = Instance.new("Frame")
+            local OptionScroll = Instance.new("ScrollingFrame")
+            local OptionListLayout = Instance.new("UIListLayout")
+            local OptionSelect = Instance.new("TextButton")
+            local OptionCorner = Instance.new("UICorner")
+            local TextLabel = Instance.new("TextLabel")
+            local ImageLabel = Instance.new("ImageLabel")
+
+            Dropdown.Name = "Dropdown"
+            Dropdown.Parent = PageInners
+            Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Dropdown.BackgroundTransparency = 1.000
+            Dropdown.ClipsDescendants = true
+            Dropdown.Size = UDim2.new(1, 0, 0, 149)
+            
+            DropListLayout.Name = "DropListLayout"
+            DropListLayout.Parent = Dropdown
+            DropListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            DropListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            DropListLayout.Padding = UDim.new(0, -2)
+            
+            DropButton.Name = "DropButton"
+            DropButton.Parent = Dropdown
+            DropButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            DropButton.ClipsDescendants = true
+            DropButton.Size = UDim2.new(0, 475, 0, 35)
+            DropButton.AutoButtonColor = false
+            DropButton.Font = Enum.Font.SourceSans
+            DropButton.Text = ""
+            DropButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+            DropButton.TextScaled = true
+            DropButton.TextSize = 14.000
+            DropButton.TextWrapped = true
+            
+            DropCorner.Name = "DropCorner"
+            DropCorner.Parent = DropButton
+            
+            DropIcon.Name = "DropIcon"
+            DropIcon.Parent = DropButton
+            DropIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            DropIcon.BackgroundTransparency = 1.000
+            DropIcon.Position = UDim2.new(0.0124784186, 0, 0.157666653, 0)
+            DropIcon.Size = UDim2.new(0, 21, 0, 21)
+            DropIcon.Image = "rbxassetid://3926305904"
+            DropIcon.ImageRectOffset = Vector2.new(284, 684)
+            DropIcon.ImageRectSize = Vector2.new(36, 36)
+            
+            DropTittle.Name = "DropTitle"
+            DropTittle.Parent = DropButton
+            DropTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            DropTittle.BackgroundTransparency = 1.000
+            DropTittle.Position = UDim2.new(0.0752659366, 0, 0.0303030312, 0)
+            DropTittle.Size = UDim2.new(0, 145, 0, 30)
+            DropTittle.Font = Enum.Font.SourceSansSemibold
+            DropTittle.LineHeight = 1.120
+            DropTittle.Text = dropTitle
+            DropTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            DropTittle.TextScaled = true
+            DropTittle.TextSize = 14.000
+            DropTittle.TextWrapped = true
+            DropTittle.TextXAlignment = Enum.TextXAlignment.Left
+            
+            DropdownIcon.Name = "DropdownIcon"
+            DropdownIcon.Parent = DropButton
+            DropdownIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            DropdownIcon.BackgroundTransparency = 1.000
+            DropdownIcon.Position = UDim2.new(0.869842112, 0, 0.0285712108, 0)
+            DropdownIcon.Size = UDim2.new(0, 33, 0, 34)
+            DropdownIcon.Image = "rbxassetid://6034818372"
+            
+            DropInfoBtn.Name = "DropInfoBtn"
+            DropInfoBtn.Parent = DropButton
+            DropInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            DropInfoBtn.BackgroundTransparency = 1.000
+            DropInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
+            DropInfoBtn.Size = UDim2.new(0, 24, 0, 24)
+            DropInfoBtn.Image = "rbxassetid://3926305904"
+            DropInfoBtn.ImageRectOffset = Vector2.new(764, 764)
+            DropInfoBtn.ImageRectSize = Vector2.new(36, 36)
+            
+            optionList.Name = "optionList"
+            optionList.Parent = Dropdown
+            optionList.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
+            optionList.BorderColor3 = Color3.fromRGB(20, 20, 20)
+            optionList.BorderSizePixel = 2
+            optionList.Selectable = true
+            optionList.Size = UDim2.new(0, 465, 0, 112)
+            
+            OptionScroll.Name = "OptionScroll"
+            OptionScroll.Parent = optionList
+            OptionScroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            OptionScroll.BackgroundTransparency = 1.000
+            OptionScroll.BorderSizePixel = 0
+            OptionScroll.Position = UDim2.new(-0.000687925261, 0, 0.0383065045, 0)
+            OptionScroll.Size = UDim2.new(0, 465, 0, 102)
+            OptionScroll.CanvasSize = UDim2.new(0, 0, 0, 74)
+            OptionScroll.ScrollBarThickness = 4
+            
+            OptionListLayout.Name = "OptionListLayout"
+            OptionListLayout.Parent = OptionScroll
+            OptionListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+            OptionListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+            OptionListLayout.Padding = UDim.new(0, 4)
+
+            local ElementsInfo = Instance.new("Frame")
+            local infoText = Instance.new("TextLabel")
+            local infoClose = Instance.new("ImageButton")
+        
+            ElementsInfo.Name = "ElementsInfo"
+            ElementsInfo.Parent = ElementsContainer
+            ElementsInfo.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+            ElementsInfo.BackgroundTransparency = 0.010
+            ElementsInfo.BorderSizePixel = 0
+            ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
+            ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            
+            infoText.Name = "infoText"
+            infoText.Parent = ElementsInfo
+            infoText.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            infoText.BackgroundTransparency = 1.000
+            infoText.Position = UDim2.new(0.00972762611, 0, 0.17962952, 0)
+            infoText.Size = UDim2.new(0, 504, 0, 25)
+            infoText.Font = Enum.Font.SourceSansSemibold
+            infoText.LineHeight = 1.120
+            infoText.Text = dropInfo
+            infoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            infoText.TextScaled = true
+            infoText.TextSize = 14.000
+            infoText.TextWrapped = true
+            infoText.TextXAlignment = Enum.TextXAlignment.Left
+            
+            infoClose.Name = "infoClose"
+            infoClose.Parent = infoText
+            infoClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            infoClose.BackgroundTransparency = 1.000
+            infoClose.Position = UDim2.new(0.946428537, 0, 0.0399999991, 0)
+            infoClose.Size = UDim2.new(0, 24, 0, 24)
+            infoClose.Image = "rbxassetid://7409394566"
+
+            local isDropping = false
+
+            DropButton.MouseButton1Click:Connect(function()
+                if isDropping then
+                    isDropping = false
+    
+                    Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                    wait(0.1)
+                    local c = Sample:Clone()
+                    c.Parent = DropButton
+                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                    c.Position = UDim2.new(0, x, 0, y)
+                    local len, size = 0.35, nil
+                    if DropButton.AbsoluteSize.X >= DropButton.AbsoluteSize.Y then
+                        size = (DropButton.AbsoluteSize.X * 1.5)
+                    else
+                        size = (DropButton.AbsoluteSize.Y * 1.5)
+                    end
+                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                    for i = 1, 10 do
+                        c.ImageTransparency = c.ImageTransparency + 0.05
+                        wait(len / 12)
+                    end
+                    c:Destroy() 
+                else
+                    isDropping = true
+    
+                    Dropdown:TweenSize(UDim2.new(1, 0, 0, DropListLayout.AbsoluteContentSize.Y), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                    wait(0.1)
+                    local c = Sample:Clone()
+                    c.Parent = DropButton
+                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                    c.Position = UDim2.new(0, x, 0, y)
+                    local len, size = 0.35, nil
+                    if DropButton.AbsoluteSize.X >= DropButton.AbsoluteSize.Y then
+                        size = (DropButton.AbsoluteSize.X * 1.5)
+                    else
+                        size = (DropButton.AbsoluteSize.Y * 1.5)
+                    end
+                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                    for i = 1, 10 do
+                        c.ImageTransparency = c.ImageTransparency + 0.05
+                        wait(len / 12)
+                    end
+                    c:Destroy() 
+                end
+            end)
+
+            for i, v in next, list do
+                OptionSelect.Name = "OptionSelect"
+                OptionSelect.Parent = OptionScroll
+                OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                OptionSelect.ClipsDescendants = true
+                OptionSelect.Position = UDim2.new(0.016160097, 0, 0.0676277876, 0)
+                OptionSelect.Size = UDim2.new(0, 454, 0, 35)
+                OptionSelect.AutoButtonColor = false
+                OptionSelect.Font = Enum.Font.SourceSansSemibold
+                OptionSelect.LineHeight = 1.140
+                OptionSelect.Text = ""
+                OptionSelect.TextColor3 = Color3.fromRGB(255, 255, 255)
+                OptionSelect.TextSize = 28.000
+                OptionSelect.TextWrapped = true
+                OptionSelect.TextXAlignment = Enum.TextXAlignment.Left
+                
+                OptionCorner.Name = "OptionCorner"
+                OptionCorner.Parent = OptionSelect
+                
+                TextLabel.Parent = OptionSelect
+                TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                TextLabel.BackgroundTransparency = 1.000
+                TextLabel.Position = UDim2.new(0.0837004408, 0, 0, 0)
+                TextLabel.Size = UDim2.new(0, 414, 0, 35)
+                TextLabel.Font = Enum.Font.SourceSansBold
+                TextLabel.LineHeight = 1.190
+                TextLabel.Text = v
+                TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                TextLabel.TextScaled = true
+                TextLabel.TextSize = 14.000
+                TextLabel.TextWrapped = true
+                TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+                
+                ImageLabel.Parent = OptionSelect
+                ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                ImageLabel.BackgroundTransparency = 1.000
+                ImageLabel.Position = UDim2.new(0, 4, 0.0857142881, 0)
+                ImageLabel.Size = UDim2.new(0, 28, 0, 28)
+                ImageLabel.Image = "rbxassetid://3926307971"
+                ImageLabel.ImageRectOffset = Vector2.new(204, 284)
+                ImageLabel.ImageRectSize = Vector2.new(36, 36)
+
+                OptionSelect.MouseButton1Click:Connect(function()
+                    isDropping = false
+                    callback(v)
+                    DropTittle.Text = v
+
+                    Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                    wait(0.1)
+                    local c = Sample:Clone()
+                    c.Parent = OptionSelect
+                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                    c.Position = UDim2.new(0, x, 0, y)
+                    local len, size = 0.35, nil
+                    if OptionSelect.AbsoluteSize.X >= OptionSelect.AbsoluteSize.Y then
+                        size = (OptionSelect.AbsoluteSize.X * 1.5)
+                    else
+                        size = (OptionSelect.AbsoluteSize.Y * 1.5)
+                    end
+                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                    for i = 1, 10 do
+                        c.ImageTransparency = c.ImageTransparency + 0.05
+                        wait(len / 12)
+                    end
+                    c:Destroy() 
+                end)
+            end
+
             function DropFunctions:Refresh(newList)
+                newList = newList or {}
+                for i,v in next, OptionScroll:GetChildren() do
+                    if v.Name == "OptionSelect" then
+                        v:Destroy()
+                    end
+                end
+
+                for i, v in next, newList do
+                    OptionSelect.Name = "OptionSelect"
+                    OptionSelect.Parent = OptionScroll
+                    OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    OptionSelect.ClipsDescendants = true
+                    OptionSelect.Position = UDim2.new(0.016160097, 0, 0.0676277876, 0)
+                    OptionSelect.Size = UDim2.new(0, 454, 0, 35)
+                    OptionSelect.AutoButtonColor = false
+                    OptionSelect.Font = Enum.Font.SourceSansSemibold
+                    OptionSelect.LineHeight = 1.140
+                    OptionSelect.Text = ""
+                    OptionSelect.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    OptionSelect.TextSize = 28.000
+                    OptionSelect.TextWrapped = true
+                    OptionSelect.TextXAlignment = Enum.TextXAlignment.Left
+                    
+                    OptionCorner.Name = "OptionCorner"
+                    OptionCorner.Parent = OptionSelect
+                    
+                    TextLabel.Parent = OptionSelect
+                    TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    TextLabel.BackgroundTransparency = 1.000
+                    TextLabel.Position = UDim2.new(0.0837004408, 0, 0, 0)
+                    TextLabel.Size = UDim2.new(0, 414, 0, 35)
+                    TextLabel.Font = Enum.Font.SourceSansBold
+                    TextLabel.LineHeight = 1.190
+                    TextLabel.Text = v
+                    TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    TextLabel.TextScaled = true
+                    TextLabel.TextSize = 14.000
+                    TextLabel.TextWrapped = true
+                    TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+                    
+                    ImageLabel.Parent = OptionSelect
+                    ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    ImageLabel.BackgroundTransparency = 1.000
+                    ImageLabel.Position = UDim2.new(0, 4, 0.0857142881, 0)
+                    ImageLabel.Size = UDim2.new(0, 28, 0, 28)
+                    ImageLabel.Image = "rbxassetid://3926307971"
+                    ImageLabel.ImageRectOffset = Vector2.new(204, 284)
+                    ImageLabel.ImageRectSize = Vector2.new(36, 36)
+    
+                    OptionSelect.MouseButton1Click:Connect(function()
+                        isDropping = false
+                        callback(v)
+                        DropTittle.Text = v
+    
+                        Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
+                        wait(0.1)
+                        local c = Sample:Clone()
+                        c.Parent = OptionSelect
+                        local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                        c.Position = UDim2.new(0, x, 0, y)
+                        local len, size = 0.35, nil
+                        if OptionSelect.AbsoluteSize.X >= OptionSelect.AbsoluteSize.Y then
+                            size = (OptionSelect.AbsoluteSize.X * 1.5)
+                        else
+                            size = (OptionSelect.AbsoluteSize.Y * 1.5)
+                        end
+                        c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                        for i = 1, 10 do
+                            c.ImageTransparency = c.ImageTransparency + 0.05
+                            wait(len / 12)
+                        end
+                        c:Destroy() 
+                    end)
+                end
                 
             end
 
@@ -357,16 +697,16 @@ function library:NewWindow(title)
             ButtonInfoBtn.ImageRectOffset = Vector2.new(764, 764)
             ButtonInfoBtn.ImageRectSize = Vector2.new(36, 36)
 
+            local ElementsInfo = Instance.new("Frame")
             local infoText = Instance.new("TextLabel")
             local infoClose = Instance.new("ImageButton")
-            local ElementsInfo = Instance.new("Frame")
-
+        
             ElementsInfo.Name = "ElementsInfo"
             ElementsInfo.Parent = ElementsContainer
             ElementsInfo.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
             ElementsInfo.BackgroundTransparency = 0.010
             ElementsInfo.BorderSizePixel = 0
-            ElementsInfo.Position = UDim2.new(1, 0, 0, 0)
+            ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
             
             infoText.Name = "infoText"
@@ -417,16 +757,16 @@ function library:NewWindow(title)
             ButtonInfoBtn.MouseButton1Click:Connect(function()
                 if isTween then
                     isTween = false
-                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
                 else
                     isTween = true
-                    ElementsInfo:TweenPosition(UDim2.new(1, 0, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
                 end
             end)
 
             infoClose.MouseButton1Click:Connect(function()
                 isTween = false
-                ElementsInfo:TweenPosition(UDim2.new(1, 0, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
             end)
 
         end
@@ -438,22 +778,6 @@ function library:NewWindow(title)
 end
 
 --[[
-local Dropdown = Instance.new("Frame")
-local DropListLayout = Instance.new("UIListLayout")
-local DropButton = Instance.new("TextButton")
-local DropCorner = Instance.new("UICorner")
-local DropIcon = Instance.new("ImageLabel")
-local DropTittle = Instance.new("TextLabel")
-local DropdownIcon = Instance.new("ImageLabel")
-local DropInfoBtn = Instance.new("ImageButton")
-local optionList = Instance.new("Frame")
-local OptionScroll = Instance.new("ScrollingFrame")
-local OptionListLayout = Instance.new("UIListLayout")
-local OptionSelect = Instance.new("TextButton")
-local OptionCorner = Instance.new("UICorner")
-local TextLabel = Instance.new("TextLabel")
-local ImageLabel = Instance.new("ImageLabel")
-
 local Keybind = Instance.new("TextButton")
 local kBindCorner = Instance.new("UICorner")
 local kBindIcon = Instance.new("ImageLabel")
@@ -501,142 +825,7 @@ local NotifyBtnCorner = Instance.new("UICorner")
 
 
 
-Dropdown.Name = "Dropdown"
-Dropdown.Parent = PageInners
-Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Dropdown.BackgroundTransparency = 1.000
-Dropdown.ClipsDescendants = true
-Dropdown.Size = UDim2.new(1, 0, 0, 149)
 
-DropListLayout.Name = "DropListLayout"
-DropListLayout.Parent = Dropdown
-DropListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-DropListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-DropListLayout.Padding = UDim.new(0, -2)
-
-DropButton.Name = "DropButton"
-DropButton.Parent = Dropdown
-DropButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-DropButton.ClipsDescendants = true
-DropButton.Size = UDim2.new(0, 475, 0, 35)
-DropButton.AutoButtonColor = false
-DropButton.Font = Enum.Font.SourceSans
-DropButton.Text = ""
-DropButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-DropButton.TextScaled = true
-DropButton.TextSize = 14.000
-DropButton.TextWrapped = true
-
-DropCorner.Name = "DropCorner"
-DropCorner.Parent = DropButton
-
-DropIcon.Name = "DropIcon"
-DropIcon.Parent = DropButton
-DropIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-DropIcon.BackgroundTransparency = 1.000
-DropIcon.Position = UDim2.new(0.0124784186, 0, 0.157666653, 0)
-DropIcon.Size = UDim2.new(0, 21, 0, 21)
-DropIcon.Image = "rbxassetid://3926305904"
-DropIcon.ImageRectOffset = Vector2.new(284, 684)
-DropIcon.ImageRectSize = Vector2.new(36, 36)
-
-DropTittle.Name = "DropTittle"
-DropTittle.Parent = DropButton
-DropTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-DropTittle.BackgroundTransparency = 1.000
-DropTittle.Position = UDim2.new(0.0752659366, 0, 0.0303030312, 0)
-DropTittle.Size = UDim2.new(0, 145, 0, 30)
-DropTittle.Font = Enum.Font.SourceSansSemibold
-DropTittle.LineHeight = 1.120
-DropTittle.Text = "Dropdown"
-DropTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
-DropTittle.TextScaled = true
-DropTittle.TextSize = 14.000
-DropTittle.TextWrapped = true
-DropTittle.TextXAlignment = Enum.TextXAlignment.Left
-
-DropdownIcon.Name = "DropdownIcon"
-DropdownIcon.Parent = DropButton
-DropdownIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-DropdownIcon.BackgroundTransparency = 1.000
-DropdownIcon.Position = UDim2.new(0.869842112, 0, 0.0285712108, 0)
-DropdownIcon.Size = UDim2.new(0, 33, 0, 34)
-DropdownIcon.Image = "rbxassetid://6034818372"
-
-DropInfoBtn.Name = "DropInfoBtn"
-DropInfoBtn.Parent = DropButton
-DropInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-DropInfoBtn.BackgroundTransparency = 1.000
-DropInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
-DropInfoBtn.Size = UDim2.new(0, 24, 0, 24)
-DropInfoBtn.Image = "rbxassetid://3926305904"
-DropInfoBtn.ImageRectOffset = Vector2.new(764, 764)
-DropInfoBtn.ImageRectSize = Vector2.new(36, 36)
-
-optionList.Name = "optionList"
-optionList.Parent = Dropdown
-optionList.BackgroundColor3 = Color3.fromRGB(39, 39, 39)
-optionList.BorderColor3 = Color3.fromRGB(20, 20, 20)
-optionList.BorderSizePixel = 2
-optionList.Selectable = true
-optionList.Size = UDim2.new(0, 465, 0, 112)
-
-OptionScroll.Name = "OptionScroll"
-OptionScroll.Parent = optionList
-OptionScroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-OptionScroll.BackgroundTransparency = 1.000
-OptionScroll.BorderSizePixel = 0
-OptionScroll.Position = UDim2.new(-0.000687925261, 0, 0.0383065045, 0)
-OptionScroll.Size = UDim2.new(0, 465, 0, 102)
-OptionScroll.CanvasSize = UDim2.new(0, 0, 0, 74)
-OptionScroll.ScrollBarThickness = 4
-
-OptionListLayout.Name = "OptionListLayout"
-OptionListLayout.Parent = OptionScroll
-OptionListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-OptionListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-OptionListLayout.Padding = UDim.new(0, 4)
-
-OptionSelect.Name = "OptionSelect"
-OptionSelect.Parent = OptionScroll
-OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-OptionSelect.ClipsDescendants = true
-OptionSelect.Position = UDim2.new(0.016160097, 0, 0.0676277876, 0)
-OptionSelect.Size = UDim2.new(0, 454, 0, 35)
-OptionSelect.AutoButtonColor = false
-OptionSelect.Font = Enum.Font.SourceSansSemibold
-OptionSelect.LineHeight = 1.140
-OptionSelect.Text = ""
-OptionSelect.TextColor3 = Color3.fromRGB(255, 255, 255)
-OptionSelect.TextSize = 28.000
-OptionSelect.TextWrapped = true
-OptionSelect.TextXAlignment = Enum.TextXAlignment.Left
-
-OptionCorner.Name = "OptionCorner"
-OptionCorner.Parent = OptionSelect
-
-TextLabel.Parent = OptionSelect
-TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.BackgroundTransparency = 1.000
-TextLabel.Position = UDim2.new(0.0837004408, 0, 0, 0)
-TextLabel.Size = UDim2.new(0, 414, 0, 35)
-TextLabel.Font = Enum.Font.SourceSansBold
-TextLabel.LineHeight = 1.190
-TextLabel.Text = "Option"
-TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.TextScaled = true
-TextLabel.TextSize = 14.000
-TextLabel.TextWrapped = true
-TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-
-ImageLabel.Parent = OptionSelect
-ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageLabel.BackgroundTransparency = 1.000
-ImageLabel.Position = UDim2.new(0, 4, 0.0857142881, 0)
-ImageLabel.Size = UDim2.new(0, 28, 0, 28)
-ImageLabel.Image = "rbxassetid://3926307971"
-ImageLabel.ImageRectOffset = Vector2.new(204, 284)
-ImageLabel.ImageRectSize = Vector2.new(36, 36)
 
 
 
