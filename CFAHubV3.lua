@@ -193,6 +193,19 @@ function library:NewWindow(title)
     MainPageContainer.Name = "MainPageContainer"
     MainPageContainer.Parent = MainFrame
 
+    local MainPage = Instance.new("Frame")
+    MainPage.Name = "MainPage"
+    MainPage.Parent = MainPageContainer
+    MainPage.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    MainPage.BorderSizePixel = 0
+    MainPage.ClipsDescendants = true
+    MainPage.Position = UDim2.new(0.245227605, 0, 0.0580808073, 0)
+    MainPage.Size = UDim2.new(0, 514, 0, 373)
+
+    local Pages = Instance.new("Folder")
+    Pages.Name = "Pages"
+    Pages.Parent = MainPage
+
     function windows:Notification(headTitle, NotifyText, ButtonTitle)
         headTitle = headTitle or "Notification"
         NotifyText = NotifyText or "Info Text"
@@ -342,15 +355,9 @@ function library:NewWindow(title)
         TabBtnTitle.TextXAlignment = Enum.TextXAlignment.Left
 
         -- Section
-        local MainPage = Instance.new("Frame")
         local PageHeader = Instance.new("Frame")
         local SectionText = Instance.new("TextLabel")
         local GlowPage = Instance.new("Frame")
-
-        local Pages = Instance.new("Folder")
-
-        Pages.Name = "Pages"
-        Pages.Parent = MainPage
         
         local PageContainer = Instance.new("Frame")
         
@@ -364,7 +371,7 @@ function library:NewWindow(title)
             for i, v in next, Pages:GetChildren() do
                 v.Visible = false
             end
-            MainPage.Visible = true
+            PageContainer.Visible = true
             for i, v in next, TabScroll:GetChildren() do
                 if v:IsA("TextButton") then
                     Utility:TweenObject(v, {BackgroundTransparency = 1}, 0.2)
@@ -372,14 +379,6 @@ function library:NewWindow(title)
             end
             Utility:TweenObject(tabBtn, {BackgroundTransparency = 0}, 0.2)
         end)
-
-        MainPage.Name = "MainPage"
-        MainPage.Parent = MainPageContainer
-        MainPage.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-        MainPage.BorderSizePixel = 0
-        MainPage.ClipsDescendants = true
-        MainPage.Position = UDim2.new(0.245227605, 0, 0.0580808073, 0)
-        MainPage.Size = UDim2.new(0, 514, 0, 373)
         
         PageHeader.Name = "PageHeader"
         PageHeader.Parent = PageContainer
@@ -476,8 +475,6 @@ function library:NewWindow(title)
             OptionSizeUpdate()
             UpdatePageSize()
             UpdateSize()
-            OptionScroll.ChildAdded:Connect(OptionSizeUpdate())
-            OptionScroll.ChildRemoved:Connect(OptionSizeUpdate())
 
             Dropdown.Name = "Dropdown"
             Dropdown.Parent = PageInners
