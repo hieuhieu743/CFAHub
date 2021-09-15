@@ -342,6 +342,14 @@ function library:NewWindow(title)
         Pages.Name = "Pages"
         Pages.Parent = MainPage
         
+        local PageContainer = Instance.new("Frame")
+        
+        PageContainer.Name = "PageContainer"
+        PageContainer.Parent = Pages
+        PageContainer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        PageContainer.BackgroundTransparency = 1.000
+        PageContainer.Size = UDim2.new(1, 0, 1, 0)
+
         tabBtn.MouseButton1Click:Connect(function()
             for i, v in next, Pages:GetChildren() do
                 v.Visible = false
@@ -364,7 +372,7 @@ function library:NewWindow(title)
         MainPage.Size = UDim2.new(0, 514, 0, 373)
         
         PageHeader.Name = "PageHeader"
-        PageHeader.Parent = Pages
+        PageHeader.Parent = PageContainer
         PageHeader.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
         PageHeader.BorderSizePixel = 0
         PageHeader.Size = UDim2.new(0, 514, 0, 36)
@@ -395,14 +403,14 @@ function library:NewWindow(title)
         local ElementsContainer = Instance.new("Folder")
 
         ElementsContainer.Name = "ElementsContainer"
-        ElementsContainer.Parent = Pages
+        ElementsContainer.Parent = PageContainer
         
         -- Page Inners
         local PageInners = Instance.new("ScrollingFrame")
         local PageInnersListLayout = Instance.new("UIListLayout")
 
         PageInners.Name = "PageInners"
-        PageInners.Parent = Pages
+        PageInners.Parent = PageContainer
         PageInners.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         PageInners.BackgroundTransparency = 1.000
         PageInners.BorderSizePixel = 0
