@@ -340,7 +340,7 @@ function library:NewWindow(title)
         local Pages = Instance.new("Folder")
 
         Pages.Name = "Pages"
-        Pages.Parent = MainFrame
+        Pages.Parent = MainPage
         
         tabBtn.MouseButton1Click:Connect(function()
             for i, v in next, Pages:GetChildren() do
@@ -356,7 +356,7 @@ function library:NewWindow(title)
         end)
 
         MainPage.Name = "MainPage"
-        MainPage.Parent = Pages
+        MainPage.Parent = MainPageContainer
         MainPage.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
         MainPage.BorderSizePixel = 0
         MainPage.ClipsDescendants = true
