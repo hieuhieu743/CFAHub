@@ -168,6 +168,18 @@ function library:NewWindow(title)
     TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     TabListLayout.Padding = UDim.new(0, 4)
 
+    local Glow = Instance.new("ImageLabel")
+
+    Glow.Name = "Glow"
+    Glow.Parent = MainFrame
+    Glow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Glow.BackgroundTransparency = 1.000
+    Glow.Position = UDim2.new(-0.0521594286, 0, -0.056273818, 0)
+    Glow.Size = UDim2.new(1.00587368, 66, 1, 44)
+    Glow.ZIndex = 0
+    Glow.Image = "rbxassetid://4996891970"
+    Glow.ImageColor3 = Color3.fromRGB(15, 15, 15)
+
     function windows:Notification(headTitle, NotifyText, ButtonTitle)
         headTitle = headTitle or "Notification"
         NotifyText = NotifyText or "Info Text"
@@ -282,6 +294,7 @@ function library:NewWindow(title)
         tabBtn.Name = "tabBtn"
         tabBtn.Parent = TabScroll
         tabBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+        tabBtn.BackgroundTransparency = 1.000
         tabBtn.Size = UDim2.new(0, 146, 0, 35)
         tabBtn.AutoButtonColor = false
         tabBtn.Font = Enum.Font.SourceSansSemibold
@@ -318,8 +331,6 @@ function library:NewWindow(title)
         TabBtnTitle.TextWrapped = true
         TabBtnTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-        
-
         -- Section
         local MainPage = Instance.new("Frame")
         local PageHeader = Instance.new("Frame")
@@ -329,10 +340,23 @@ function library:NewWindow(title)
         local Pages = Instance.new("Folder")
 
         Pages.Name = "Pages"
-        Pages.Parent = MainPage
+        Pages.Parent = MainFrame
+        
+        tabBtn.MouseButton1Click:Connect(function()
+            for i, v in next, Pages:GetChildren() do
+                v.Visible = false
+            end
+            MainPage.Visible = true
+            for i, v in next, TabScroll:GetChildren() do
+                if v:IsA("TextButton") then
+                    Utility:TweenObject(v, {BackgroundTransparency = 1}, 0.2)
+                end
+            end
+            Utility:TweenObject(tabBtn, {BackgroundTransparency = 0}, 0.2)
+        end)
 
         MainPage.Name = "MainPage"
-        MainPage.Parent = MainFrame
+        MainPage.Parent = Pages
         MainPage.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
         MainPage.BorderSizePixel = 0
         MainPage.ClipsDescendants = true
@@ -779,7 +803,7 @@ function library:NewWindow(title)
             end
 
             return DropFunctions
-        end
+        end -- Done
 
         function TabElements:CreateButton(btnTitle, btnInfo, callback)
             btnTitle = btnTitle or "Button"
@@ -916,12 +940,668 @@ function library:NewWindow(title)
                 ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
             end)
 
-        end
+        end -- Done
         
         function TabElements:CreateToggle(togTitle, togInfo, callback)
             togTitle = togTitle or "Toggle"
             togInfo = togInfo or "Info"
             callback = callback or function() end
+
+            local Toggle = Instance.new("TextButton")
+            local ToggleCorner = Instance.new("UICorner")
+            local ToggleEnabled = Instance.new("ImageLabel")
+            local ToggleTittle = Instance.new("TextLabel")
+            local ToggleDisabled = Instance.new("ImageLabel")
+            local ToggleInfoBtn = Instance.new("ImageButton")
+
+            Toggle.Name = "Toggle"
+            Toggle.Parent = PageInners
+            Toggle.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            Toggle.ClipsDescendants = true
+            Toggle.Size = UDim2.new(0, 475, 0, 35)
+            Toggle.AutoButtonColor = false
+            Toggle.Font = Enum.Font.SourceSans
+            Toggle.Text = ""
+            Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Toggle.TextScaled = true
+            Toggle.TextSize = 14.000
+            Toggle.TextWrapped = true
+            
+            ToggleCorner.Name = "ToggleCorner"
+            ToggleCorner.Parent = Toggle
+            
+            ToggleEnabled.Name = "ToggleEnabled"
+            ToggleEnabled.Parent = Toggle
+            ToggleEnabled.AnchorPoint = Vector2.new(0.5, 0.5)
+            ToggleEnabled.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleEnabled.BackgroundTransparency = 1.000
+            ToggleEnabled.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
+            ToggleEnabled.Size = UDim2.new(0, 21, 0, 21)
+            ToggleEnabled.Visible = false
+            ToggleEnabled.Image = "rbxassetid://3926309567"
+            ToggleEnabled.ImageRectOffset = Vector2.new(784, 420)
+            ToggleEnabled.ImageRectSize = Vector2.new(48, 48)
+            
+            ToggleTittle.Name = "ToggleTittle"
+            ToggleTittle.Parent = Toggle
+            ToggleTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleTittle.BackgroundTransparency = 1.000
+            ToggleTittle.Position = UDim2.new(0.075265944, 0, 0.0303030312, 0)
+            ToggleTittle.Size = UDim2.new(0, 145, 0, 30)
+            ToggleTittle.Font = Enum.Font.SourceSansSemibold
+            ToggleTittle.LineHeight = 1.120
+            ToggleTittle.Text = "Toggle"
+            ToggleTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleTittle.TextScaled = true
+            ToggleTittle.TextSize = 14.000
+            ToggleTittle.TextWrapped = true
+            ToggleTittle.TextXAlignment = Enum.TextXAlignment.Left
+            
+            ToggleDisabled.Name = "ToggleDisabled"
+            ToggleDisabled.Parent = Toggle
+            ToggleDisabled.AnchorPoint = Vector2.new(0.5, 0.5)
+            ToggleDisabled.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleDisabled.BackgroundTransparency = 1.000
+            ToggleDisabled.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
+            ToggleDisabled.Size = UDim2.new(0, 21, 0, 21)
+            ToggleDisabled.Image = "rbxassetid://3926309567"
+            ToggleDisabled.ImageRectOffset = Vector2.new(628, 420)
+            ToggleDisabled.ImageRectSize = Vector2.new(48, 48)
+            
+            ToggleInfoBtn.Name = "ToggleInfoBtn"
+            ToggleInfoBtn.Parent = Toggle
+            ToggleInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            ToggleInfoBtn.BackgroundTransparency = 1.000
+            ToggleInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
+            ToggleInfoBtn.Size = UDim2.new(0, 24, 0, 24)
+            ToggleInfoBtn.Image = "rbxassetid://3926305904"
+            ToggleInfoBtn.ImageRectOffset = Vector2.new(764, 764)
+            ToggleInfoBtn.ImageRectSize = Vector2.new(36, 36)
+
+            local ElementsInfo = Instance.new("Frame")
+            local infoText = Instance.new("TextLabel")
+            local infoClose = Instance.new("ImageButton")
+        
+            ElementsInfo.Name = "ElementsInfo"
+            ElementsInfo.Parent = ElementsContainer
+            ElementsInfo.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+            ElementsInfo.BackgroundTransparency = 0.010
+            ElementsInfo.BorderSizePixel = 0
+            ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
+            ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            
+            infoText.Name = "infoText"
+            infoText.Parent = ElementsInfo
+            infoText.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            infoText.BackgroundTransparency = 1.000
+            infoText.Position = UDim2.new(0.00972762611, 0, 0.17962952, 0)
+            infoText.Size = UDim2.new(0, 504, 0, 25)
+            infoText.Font = Enum.Font.SourceSansSemibold
+            infoText.LineHeight = 1.120
+            infoText.Text = togInfo
+            infoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            infoText.TextScaled = true
+            infoText.TextSize = 14.000
+            infoText.TextWrapped = true
+            infoText.TextXAlignment = Enum.TextXAlignment.Left
+            
+            infoClose.Name = "infoClose"
+            infoClose.Parent = infoText
+            infoClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            infoClose.BackgroundTransparency = 1.000
+            infoClose.Position = UDim2.new(0.946428537, 0, 0.0399999991, 0)
+            infoClose.Size = UDim2.new(0, 24, 0, 24)
+            infoClose.Image = "rbxassetid://7409394566"
+
+            local isTween = false
+            local toggled = false
+
+            Toggle.MouseButton1Click:Connect(function()
+                if toggled == false then
+                    local c = Sample:Clone()
+                    c.Parent = Toggle
+                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                    c.Position = UDim2.new(0, x, 0, y)
+                    local len, size = 0.35, nil
+                    if Toggle.AbsoluteSize.X >= Toggle.AbsoluteSize.Y then
+                        size = (Toggle.AbsoluteSize.X * 1.5)
+                    else
+                        size = (Toggle.AbsoluteSize.Y * 1.5)
+                    end
+                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                    for i = 1, 10 do
+                        c.ImageTransparency = c.ImageTransparency + 0.05
+                        wait(len / 12)
+                    end
+                    c:Destroy()
+                else
+
+                end
+                toggled = not toggled
+                pcall(callback, toggled)
+            end)
+
+            ToggleInfoBtn.MouseButton1Click:Connect(function()
+                if isTween then
+                    isTween = false
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                else
+                    isTween = true
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                end
+            end)
+
+            infoClose.MouseButton1Click:Connect(function()
+                isTween = false
+                ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+            end)
+
+        end -- Done
+
+        function TabElements:CreateKeybind(keyTitle, keyInfo, key, callback)
+            keyTitle = keyTitle or "Keybind"
+            keyInfo = keyInfo or "Info"
+            callback = callback or function() end
+
+            local keyName = key.Name
+
+            local Keybind = Instance.new("TextButton")
+            local kBindCorner = Instance.new("UICorner")
+            local kBindIcon = Instance.new("ImageLabel")
+            local kBindTitle = Instance.new("TextLabel")
+            local kBindKey = Instance.new("TextLabel")
+            local kBindInfoBtn = Instance.new("ImageButton")
+
+            Keybind.Name = "Keybind"
+            Keybind.Parent = PageInners
+            Keybind.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            Keybind.ClipsDescendants = true
+            Keybind.Position = UDim2.new(0.0846456662, 0, -0.0107238609, 0)
+            Keybind.Size = UDim2.new(0, 475, 0, 35)
+            Keybind.AutoButtonColor = false
+            Keybind.Font = Enum.Font.SourceSans
+            Keybind.Text = ""
+            Keybind.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Keybind.TextScaled = true
+            Keybind.TextSize = 14.000
+            Keybind.TextWrapped = true
+            
+            kBindCorner.Name = "kBindCorner"
+            kBindCorner.Parent = Keybind
+            
+            kBindIcon.Name = "kBindIcon"
+            kBindIcon.Parent = Keybind
+            kBindIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+            kBindIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            kBindIcon.BackgroundTransparency = 1.000
+            kBindIcon.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
+            kBindIcon.Size = UDim2.new(0, 21, 0, 21)
+            kBindIcon.Image = "rbxassetid://3926305904"
+            kBindIcon.ImageRectOffset = Vector2.new(724, 444)
+            kBindIcon.ImageRectSize = Vector2.new(36, 36)
+            
+            kBindTitle.Name = "kBindTitle"
+            kBindTitle.Parent = Keybind
+            kBindTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            kBindTitle.BackgroundTransparency = 1.000
+            kBindTitle.Position = UDim2.new(0.075265944, 0, 0.0303030312, 0)
+            kBindTitle.Size = UDim2.new(0, 145, 0, 30)
+            kBindTitle.Font = Enum.Font.SourceSansSemibold
+            kBindTitle.LineHeight = 1.120
+            kBindTitle.Text = keyTitle
+            kBindTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            kBindTitle.TextScaled = true
+            kBindTitle.TextSize = 14.000
+            kBindTitle.TextWrapped = true
+            kBindTitle.TextXAlignment = Enum.TextXAlignment.Left
+            
+            kBindKey.Name = "kBindKey"
+            kBindKey.Parent = Keybind
+            kBindKey.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            kBindKey.BackgroundTransparency = 1.000
+            kBindKey.Position = UDim2.new(0.633684218, 0, 0.0588744581, 0)
+            kBindKey.Size = UDim2.new(0, 145, 0, 30)
+            kBindKey.Font = Enum.Font.SourceSansSemibold
+            kBindKey.LineHeight = 1.120
+            kBindKey.Text = keyName
+            kBindKey.TextColor3 = Color3.fromRGB(255, 255, 255)
+            kBindKey.TextSize = 23.000
+            kBindKey.TextWrapped = true
+            kBindKey.TextXAlignment = Enum.TextXAlignment.Right
+            
+            kBindInfoBtn.Name = "kBindInfoBtn"
+            kBindInfoBtn.Parent = Keybind
+            kBindInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            kBindInfoBtn.BackgroundTransparency = 1.000
+            kBindInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
+            kBindInfoBtn.Size = UDim2.new(0, 24, 0, 24)
+            kBindInfoBtn.Image = "rbxassetid://3926305904"
+            kBindInfoBtn.ImageRectOffset = Vector2.new(764, 764)
+            kBindInfoBtn.ImageRectSize = Vector2.new(36, 36)
+
+            local ElementsInfo = Instance.new("Frame")
+            local infoText = Instance.new("TextLabel")
+            local infoClose = Instance.new("ImageButton")
+        
+            ElementsInfo.Name = "ElementsInfo"
+            ElementsInfo.Parent = ElementsContainer
+            ElementsInfo.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+            ElementsInfo.BackgroundTransparency = 0.010
+            ElementsInfo.BorderSizePixel = 0
+            ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
+            ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            
+            infoText.Name = "infoText"
+            infoText.Parent = ElementsInfo
+            infoText.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            infoText.BackgroundTransparency = 1.000
+            infoText.Position = UDim2.new(0.00972762611, 0, 0.17962952, 0)
+            infoText.Size = UDim2.new(0, 504, 0, 25)
+            infoText.Font = Enum.Font.SourceSansSemibold
+            infoText.LineHeight = 1.120
+            infoText.Text = keyInfo
+            infoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            infoText.TextScaled = true
+            infoText.TextSize = 14.000
+            infoText.TextWrapped = true
+            infoText.TextXAlignment = Enum.TextXAlignment.Left
+            
+            infoClose.Name = "infoClose"
+            infoClose.Parent = infoText
+            infoClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            infoClose.BackgroundTransparency = 1.000
+            infoClose.Position = UDim2.new(0.946428537, 0, 0.0399999991, 0)
+            infoClose.Size = UDim2.new(0, 24, 0, 24)
+            infoClose.Image = "rbxassetid://7409394566"
+
+            local isTween = false
+
+            Keybind.MouseButton1Click:Connect(function()
+                kBindKey.Text = "..."
+                local a, b = input.InputBegan:wait()
+                if a.KeyCode.Name ~= "Unknown" then
+                    kBindKey.Text = a.KeyCode.Name
+                    keyName = a.KeyCode.Name;
+                end
+
+                local c = Sample:Clone()
+                c.Parent = Keybind
+                local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                c.Position = UDim2.new(0, x, 0, y)
+                local len, size = 0.35, nil
+                if Keybind.AbsoluteSize.X >= Keybind.AbsoluteSize.Y then
+                    size = (Keybind.AbsoluteSize.X * 1.5)
+                else
+                    size = (Keybind.AbsoluteSize.Y * 1.5)
+                end
+                c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                for i = 1, 10 do
+                    c.ImageTransparency = c.ImageTransparency + 0.05
+                    wait(len / 12)
+                end
+                c:Destroy()
+            end)
+
+            kBindInfoBtn.MouseButton1Click:Connect(function()
+                if isTween then
+                    isTween = false
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                else
+                    isTween = true
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                end
+            end)
+
+            infoClose.MouseButton1Click:Connect(function()
+                isTween = false
+                ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+            end)
+
+            game:GetService("UserInputService").InputBegan:connect(function(input, ok) 
+                if not ok then 
+                    if input.KeyCode.Name == keyName then 
+                        callback()
+                    end
+                end
+            end)
+
+        end -- Done
+        
+        function TabElements:CreateTextbox(boxTitle, boxInfo, callback)
+            boxTitle = boxTitle or "Textbox"
+            boxInfo = boxInfo or "Info"
+            callback = callback or function() end
+
+            local Textbox = Instance.new("TextButton")
+            local TextboxCorner = Instance.new("UICorner")
+            local TextboxIcon = Instance.new("ImageLabel")
+            local TextboxTittle = Instance.new("TextLabel")
+            local Box = Instance.new("TextBox")
+            local BoxCorner = Instance.new("UICorner")
+            local TextboxInfoBtn = Instance.new("ImageButton")
+
+            Textbox.Name = "Textbox"
+            Textbox.Parent = PageInners
+            Textbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            Textbox.ClipsDescendants = true
+            Textbox.Size = UDim2.new(0, 475, 0, 35)
+            Textbox.AutoButtonColor = false
+            Textbox.Font = Enum.Font.SourceSans
+            Textbox.Text = ""
+            Textbox.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Textbox.TextScaled = true
+            Textbox.TextSize = 14.000
+            Textbox.TextWrapped = true
+            
+            TextboxCorner.Name = "TextboxCorner"
+            TextboxCorner.Parent = Textbox
+            
+            TextboxIcon.Name = "TextboxIcon"
+            TextboxIcon.Parent = Textbox
+            TextboxIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+            TextboxIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            TextboxIcon.BackgroundTransparency = 1.000
+            TextboxIcon.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
+            TextboxIcon.Size = UDim2.new(0, 21, 0, 21)
+            TextboxIcon.Image = "rbxassetid://3926305904"
+            TextboxIcon.ImageRectOffset = Vector2.new(284, 644)
+            TextboxIcon.ImageRectSize = Vector2.new(36, 36)
+            
+            TextboxTittle.Name = "TextboxTittle"
+            TextboxTittle.Parent = Textbox
+            TextboxTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            TextboxTittle.BackgroundTransparency = 1.000
+            TextboxTittle.Position = UDim2.new(0.075265944, 0, 0.0303030312, 0)
+            TextboxTittle.Size = UDim2.new(0, 145, 0, 30)
+            TextboxTittle.Font = Enum.Font.SourceSansSemibold
+            TextboxTittle.LineHeight = 1.120
+            TextboxTittle.Text = "Textbox"
+            TextboxTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TextboxTittle.TextScaled = true
+            TextboxTittle.TextSize = 14.000
+            TextboxTittle.TextWrapped = true
+            TextboxTittle.TextXAlignment = Enum.TextXAlignment.Left
+            
+            Box.Name = "Box"
+            Box.Parent = Textbox
+            Box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            Box.Position = UDim2.new(0.449708968, 0, 0.299839556, 0)
+            Box.Size = UDim2.new(0, 233, 0, 14)
+            Box.Font = Enum.Font.SourceSans
+            Box.LineHeight = 1.120
+            Box.PlaceholderText = "Type here!"
+            Box.Text = ""
+            Box.TextColor3 = Color3.fromRGB(0, 0, 0)
+            Box.TextSize = 14.000
+            
+            BoxCorner.Name = "BoxCorner"
+            BoxCorner.Parent = Box
+            
+            TextboxInfoBtn.Name = "TextboxInfoBtn"
+            TextboxInfoBtn.Parent = Textbox
+            TextboxInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            TextboxInfoBtn.BackgroundTransparency = 1.000
+            TextboxInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
+            TextboxInfoBtn.Size = UDim2.new(0, 24, 0, 24)
+            TextboxInfoBtn.Image = "rbxassetid://3926305904"
+            TextboxInfoBtn.ImageRectOffset = Vector2.new(764, 764)
+            TextboxInfoBtn.ImageRectSize = Vector2.new(36, 36)
+
+            local ElementsInfo = Instance.new("Frame")
+            local infoText = Instance.new("TextLabel")
+            local infoClose = Instance.new("ImageButton")
+        
+            ElementsInfo.Name = "ElementsInfo"
+            ElementsInfo.Parent = ElementsContainer
+            ElementsInfo.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+            ElementsInfo.BackgroundTransparency = 0.010
+            ElementsInfo.BorderSizePixel = 0
+            ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
+            ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            
+            infoText.Name = "infoText"
+            infoText.Parent = ElementsInfo
+            infoText.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            infoText.BackgroundTransparency = 1.000
+            infoText.Position = UDim2.new(0.00972762611, 0, 0.17962952, 0)
+            infoText.Size = UDim2.new(0, 504, 0, 25)
+            infoText.Font = Enum.Font.SourceSansSemibold
+            infoText.LineHeight = 1.120
+            infoText.Text = boxInfo
+            infoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            infoText.TextScaled = true
+            infoText.TextSize = 14.000
+            infoText.TextWrapped = true
+            infoText.TextXAlignment = Enum.TextXAlignment.Left
+            
+            infoClose.Name = "infoClose"
+            infoClose.Parent = infoText
+            infoClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            infoClose.BackgroundTransparency = 1.000
+            infoClose.Position = UDim2.new(0.946428537, 0, 0.0399999991, 0)
+            infoClose.Size = UDim2.new(0, 24, 0, 24)
+            infoClose.Image = "rbxassetid://7409394566"
+
+            local isTween = false
+
+            Box.FocusLost:Connect(function(enterPressed)
+                if not enterPressed then
+                    return
+                else
+                    callback(Box.Text)
+                    wait(0.1)
+                    Box.Text = ""
+                end
+            end)
+
+            TextboxInfoBtn.MouseButton1Click:Connect(function()
+                if isTween then
+                    isTween = false
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                else
+                    isTween = true
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                end
+            end)
+
+            infoClose.MouseButton1Click:Connect(function()
+                isTween = false
+                ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+            end)
+
+        end -- Done
+
+        function TabElements:CreateSlider(sliderTitle, sliderInfo, max, min, callback)
+            sliderTitle = sliderTitle or "Slider"
+            sliderInfo = sliderInfo or "Info"
+            max = max or 100
+            min = min or 1
+            callback = callback or function() end
+            
+            local Slider = Instance.new("TextButton")
+            local SliderCorner = Instance.new("UICorner")
+            local SliderIcon = Instance.new("ImageLabel")
+            local SliderTittle = Instance.new("TextLabel")
+            local SliderVal = Instance.new("TextLabel")
+            local SliderBtn = Instance.new("TextButton")
+            local SliderBtnCorner = Instance.new("UICorner")
+            local SliderDrag = Instance.new("Frame")
+            local BarCorner = Instance.new("UICorner")
+            local SliderInfoBtn = Instance.new("ImageButton")
+            
+            Slider.Name = "Slider"
+            Slider.Parent = PageInners
+            Slider.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+            Slider.ClipsDescendants = true
+            Slider.Size = UDim2.new(0, 475, 0, 35)
+            Slider.AutoButtonColor = false
+            Slider.Font = Enum.Font.SourceSans
+            Slider.Text = ""
+            Slider.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Slider.TextScaled = true
+            Slider.TextSize = 14.000
+            Slider.TextWrapped = true
+            
+            SliderCorner.Name = "SliderCorner"
+            SliderCorner.Parent = Slider
+            
+            SliderIcon.Name = "SliderIcon"
+            SliderIcon.Parent = Slider
+            SliderIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+            SliderIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SliderIcon.BackgroundTransparency = 1.000
+            SliderIcon.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
+            SliderIcon.Size = UDim2.new(0, 21, 0, 21)
+            SliderIcon.Image = "rbxassetid://3926307971"
+            SliderIcon.ImageRectOffset = Vector2.new(404, 164)
+            SliderIcon.ImageRectSize = Vector2.new(36, 36)
+            
+            SliderTittle.Name = "SliderTittle"
+            SliderTittle.Parent = Slider
+            SliderTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SliderTittle.BackgroundTransparency = 1.000
+            SliderTittle.Position = UDim2.new(0.0752659366, 0, 0.0303030312, 0)
+            SliderTittle.Size = UDim2.new(0, 119, 0, 30)
+            SliderTittle.Font = Enum.Font.SourceSansSemibold
+            SliderTittle.LineHeight = 1.120
+            SliderTittle.Text = sliderTitle
+            SliderTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
+            SliderTittle.TextScaled = true
+            SliderTittle.TextSize = 14.000
+            SliderTittle.TextWrapped = true
+            SliderTittle.TextXAlignment = Enum.TextXAlignment.Left
+            
+            SliderVal.Name = "SliderVal"
+            SliderVal.Parent = Slider
+            SliderVal.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SliderVal.BackgroundTransparency = 1.000
+            SliderVal.Position = UDim2.new(0.41534391, 0, 0.0303030312, 0)
+            SliderVal.Size = UDim2.new(0, 27, 0, 30)
+            SliderVal.Font = Enum.Font.SourceSansSemibold
+            SliderVal.LineHeight = 1.120
+            SliderVal.Text = min
+            SliderVal.TextColor3 = Color3.fromRGB(255, 255, 255)
+            SliderVal.TextScaled = true
+            SliderVal.TextSize = 14.000
+            SliderVal.TextWrapped = true
+            
+            SliderBtn.Name = "SliderBtn"
+            SliderBtn.Parent = Slider
+            SliderBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+            SliderBtn.Position = UDim2.new(0.472186029, 0, 0.335064709, 0)
+            SliderBtn.Size = UDim2.new(0, 221, 0, 8)
+            SliderBtn.Font = Enum.Font.SourceSans
+            SliderBtn.Text = ""
+            SliderBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
+            SliderBtn.TextSize = 14.000
+            
+            SliderBtnCorner.Name = "SliderBtnCorner"
+            SliderBtnCorner.Parent = SliderBtn
+            
+            SliderDrag.Name = "SliderDrag"
+            SliderDrag.Parent = SliderBtn
+            SliderDrag.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
+            SliderDrag.Size = UDim2.new(0, 0, 0, 8)
+            
+            BarCorner.Name = "BarCorner"
+            BarCorner.Parent = SliderDrag
+            
+            SliderInfoBtn.Name = "SliderInfoBtn"
+            SliderInfoBtn.Parent = Slider
+            SliderInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            SliderInfoBtn.BackgroundTransparency = 1.000
+            SliderInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
+            SliderInfoBtn.Size = UDim2.new(0, 24, 0, 24)
+            SliderInfoBtn.Image = "rbxassetid://3926305904"
+            SliderInfoBtn.ImageRectOffset = Vector2.new(764, 764)
+            SliderInfoBtn.ImageRectSize = Vector2.new(36, 36)
+
+            local ElementsInfo = Instance.new("Frame")
+            local infoText = Instance.new("TextLabel")
+            local infoClose = Instance.new("ImageButton")
+        
+            ElementsInfo.Name = "ElementsInfo"
+            ElementsInfo.Parent = ElementsContainer
+            ElementsInfo.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
+            ElementsInfo.BackgroundTransparency = 0.010
+            ElementsInfo.BorderSizePixel = 0
+            ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
+            ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            
+            infoText.Name = "infoText"
+            infoText.Parent = ElementsInfo
+            infoText.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            infoText.BackgroundTransparency = 1.000
+            infoText.Position = UDim2.new(0.00972762611, 0, 0.17962952, 0)
+            infoText.Size = UDim2.new(0, 504, 0, 25)
+            infoText.Font = Enum.Font.SourceSansSemibold
+            infoText.LineHeight = 1.120
+            infoText.Text = sliderInfo
+            infoText.TextColor3 = Color3.fromRGB(255, 255, 255)
+            infoText.TextScaled = true
+            infoText.TextSize = 14.000
+            infoText.TextWrapped = true
+            infoText.TextXAlignment = Enum.TextXAlignment.Left
+            
+            infoClose.Name = "infoClose"
+            infoClose.Parent = infoText
+            infoClose.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            infoClose.BackgroundTransparency = 1.000
+            infoClose.Position = UDim2.new(0.946428537, 0, 0.0399999991, 0)
+            infoClose.Size = UDim2.new(0, 24, 0, 24)
+            infoClose.Image = "rbxassetid://7409394566"
+
+            local isTween = false
+
+            local Value
+            local moveconnection
+            local releaseconnection
+
+            local maxvalue = max
+            local minvalue = min
+
+            SliderBtn.MouseButton1Down:Connect(function()
+                    Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 221) * SliderDrag.AbsoluteSize.X) + tonumber(minvalue)) or 0
+                    pcall(function()
+                        callback(Value)
+                    end)
+                    SliderDrag.Size = UDim2.new(0, math.clamp(ms.X - SliderDrag.AbsolutePosition.X, 0, 221), 0, 8)
+                    moveconnection = ms.Move:Connect(function()
+                        SliderVal.Text = Value
+                    Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 221) * SliderDrag.AbsoluteSize.X) + tonumber(minvalue))
+                    pcall(function()
+                    callback(Value)
+                end)
+                SliderDrag.Size = UDim2.new(0, math.clamp(ms.X - SliderDrag.AbsolutePosition.X, 0, 221), 0, 8)
+                end)
+                releaseconnection = input.InputEnded:Connect(function(Mouse)
+                if Mouse.UserInputType == Enum.UserInputType.MouseButton1 then
+                    Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 221) * SliderDrag.AbsoluteSize.X) + tonumber(minvalue))
+                    pcall(function()
+                        callback(Value)
+                    end)
+                    SliderDrag.Size = UDim2.new(0, math.clamp(ms.X - SliderDrag.AbsolutePosition.X, 0, 221), 0, 8)
+                        moveconnection:Disconnect()
+                        releaseconnection:Disconnect()
+                    end
+                end)
+            end)
+
+            SliderInfoBtn.MouseButton1Click:Connect(function()
+                if isTween then
+                    isTween = false
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                else
+                    isTween = true
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                end
+            end)
+
+            infoClose.MouseButton1Click:Connect(function()
+                isTween = false
+                ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+            end)
+
         end
 
         return TabElements
@@ -930,352 +1610,5 @@ function library:NewWindow(title)
     CFAHubV3.Parent = coreGui
     return windows
 end
-
-
-local Keybind = Instance.new("TextButton")
-local kBindCorner = Instance.new("UICorner")
-local kBindIcon = Instance.new("ImageLabel")
-local kBindTitle = Instance.new("TextLabel")
-local kBindKey = Instance.new("TextLabel")
-local kBindInfoBtn = Instance.new("ImageButton")
---Slider
-local Slider = Instance.new("TextButton")
-local SliderCorner = Instance.new("UICorner")
-local SliderIcon = Instance.new("ImageLabel")
-local SliderTittle = Instance.new("TextLabel")
-local SliderVal = Instance.new("TextLabel")
-local SliderBtn = Instance.new("TextButton")
-local SliderBtnCorner = Instance.new("UICorner")
-local SliderDrag = Instance.new("Frame")
-local BarCorner = Instance.new("UICorner")
-local SliderInfoBtn = Instance.new("ImageButton")
---Textbox
-local Textbox = Instance.new("TextButton")
-local TextboxCorner = Instance.new("UICorner")
-local TextboxIcon = Instance.new("ImageLabel")
-local TextboxTittle = Instance.new("TextLabel")
-local Box = Instance.new("TextBox")
-local BoxCorner = Instance.new("UICorner")
-local TextboxInfoBtn = Instance.new("ImageButton")
---Toggle
-local Toggle = Instance.new("TextButton")
-local ToggleCorner = Instance.new("UICorner")
-local ToggleEnabled = Instance.new("ImageLabel")
-local ToggleTittle = Instance.new("TextLabel")
-local ToggleDisabled = Instance.new("ImageLabel")
-local ToggleInfoBtn = Instance.new("ImageButton")
-
-local Glow = Instance.new("ImageLabel")
-
-
---Properties:
-
-
-
-
-
-
-
-
-
-
-
-Keybind.Name = "Keybind"
-Keybind.Parent = PageInners
-Keybind.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Keybind.ClipsDescendants = true
-Keybind.Position = UDim2.new(0.0846456662, 0, -0.0107238609, 0)
-Keybind.Size = UDim2.new(0, 475, 0, 35)
-Keybind.AutoButtonColor = false
-Keybind.Font = Enum.Font.SourceSans
-Keybind.Text = ""
-Keybind.TextColor3 = Color3.fromRGB(255, 255, 255)
-Keybind.TextScaled = true
-Keybind.TextSize = 14.000
-Keybind.TextWrapped = true
-
-kBindCorner.Name = "kBindCorner"
-kBindCorner.Parent = Keybind
-
-kBindIcon.Name = "kBindIcon"
-kBindIcon.Parent = Keybind
-kBindIcon.AnchorPoint = Vector2.new(0.5, 0.5)
-kBindIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-kBindIcon.BackgroundTransparency = 1.000
-kBindIcon.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
-kBindIcon.Size = UDim2.new(0, 21, 0, 21)
-kBindIcon.Image = "rbxassetid://3926305904"
-kBindIcon.ImageRectOffset = Vector2.new(724, 444)
-kBindIcon.ImageRectSize = Vector2.new(36, 36)
-
-kBindTitle.Name = "kBindTitle"
-kBindTitle.Parent = Keybind
-kBindTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-kBindTitle.BackgroundTransparency = 1.000
-kBindTitle.Position = UDim2.new(0.075265944, 0, 0.0303030312, 0)
-kBindTitle.Size = UDim2.new(0, 145, 0, 30)
-kBindTitle.Font = Enum.Font.SourceSansSemibold
-kBindTitle.LineHeight = 1.120
-kBindTitle.Text = "Keybind"
-kBindTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-kBindTitle.TextScaled = true
-kBindTitle.TextSize = 14.000
-kBindTitle.TextWrapped = true
-kBindTitle.TextXAlignment = Enum.TextXAlignment.Left
-
-kBindKey.Name = "kBindKey"
-kBindKey.Parent = Keybind
-kBindKey.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-kBindKey.BackgroundTransparency = 1.000
-kBindKey.Position = UDim2.new(0.633684218, 0, 0.0588744581, 0)
-kBindKey.Size = UDim2.new(0, 145, 0, 30)
-kBindKey.Font = Enum.Font.SourceSansSemibold
-kBindKey.LineHeight = 1.120
-kBindKey.Text = "F "
-kBindKey.TextColor3 = Color3.fromRGB(255, 255, 255)
-kBindKey.TextSize = 23.000
-kBindKey.TextWrapped = true
-kBindKey.TextXAlignment = Enum.TextXAlignment.Right
-
-kBindInfoBtn.Name = "kBindInfoBtn"
-kBindInfoBtn.Parent = Keybind
-kBindInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-kBindInfoBtn.BackgroundTransparency = 1.000
-kBindInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
-kBindInfoBtn.Size = UDim2.new(0, 24, 0, 24)
-kBindInfoBtn.Image = "rbxassetid://3926305904"
-kBindInfoBtn.ImageRectOffset = Vector2.new(764, 764)
-kBindInfoBtn.ImageRectSize = Vector2.new(36, 36)
-
-Slider.Name = "Slider"
-Slider.Parent = PageInners
-Slider.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Slider.ClipsDescendants = true
-Slider.Size = UDim2.new(0, 475, 0, 35)
-Slider.AutoButtonColor = false
-Slider.Font = Enum.Font.SourceSans
-Slider.Text = ""
-Slider.TextColor3 = Color3.fromRGB(255, 255, 255)
-Slider.TextScaled = true
-Slider.TextSize = 14.000
-Slider.TextWrapped = true
-
-SliderCorner.Name = "SliderCorner"
-SliderCorner.Parent = Slider
-
-SliderIcon.Name = "SliderIcon"
-SliderIcon.Parent = Slider
-SliderIcon.AnchorPoint = Vector2.new(0.5, 0.5)
-SliderIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SliderIcon.BackgroundTransparency = 1.000
-SliderIcon.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
-SliderIcon.Size = UDim2.new(0, 21, 0, 21)
-SliderIcon.Image = "rbxassetid://3926307971"
-SliderIcon.ImageRectOffset = Vector2.new(404, 164)
-SliderIcon.ImageRectSize = Vector2.new(36, 36)
-
-SliderTittle.Name = "SliderTittle"
-SliderTittle.Parent = Slider
-SliderTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SliderTittle.BackgroundTransparency = 1.000
-SliderTittle.Position = UDim2.new(0.0752659366, 0, 0.0303030312, 0)
-SliderTittle.Size = UDim2.new(0, 119, 0, 30)
-SliderTittle.Font = Enum.Font.SourceSansSemibold
-SliderTittle.LineHeight = 1.120
-SliderTittle.Text = "Slider"
-SliderTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
-SliderTittle.TextScaled = true
-SliderTittle.TextSize = 14.000
-SliderTittle.TextWrapped = true
-SliderTittle.TextXAlignment = Enum.TextXAlignment.Left
-
-SliderVal.Name = "SliderVal"
-SliderVal.Parent = Slider
-SliderVal.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SliderVal.BackgroundTransparency = 1.000
-SliderVal.Position = UDim2.new(0.41534391, 0, 0.0303030312, 0)
-SliderVal.Size = UDim2.new(0, 27, 0, 30)
-SliderVal.Font = Enum.Font.SourceSansSemibold
-SliderVal.LineHeight = 1.120
-SliderVal.Text = "0"
-SliderVal.TextColor3 = Color3.fromRGB(255, 255, 255)
-SliderVal.TextScaled = true
-SliderVal.TextSize = 14.000
-SliderVal.TextWrapped = true
-
-SliderBtn.Name = "SliderBtn"
-SliderBtn.Parent = Slider
-SliderBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SliderBtn.Position = UDim2.new(0.472186029, 0, 0.335064709, 0)
-SliderBtn.Size = UDim2.new(0, 221, 0, 8)
-SliderBtn.Font = Enum.Font.SourceSans
-SliderBtn.Text = ""
-SliderBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-SliderBtn.TextSize = 14.000
-
-SliderBtnCorner.Name = "SliderBtnCorner"
-SliderBtnCorner.Parent = SliderBtn
-
-SliderDrag.Name = "SliderDrag"
-SliderDrag.Parent = SliderBtn
-SliderDrag.BackgroundColor3 = Color3.fromRGB(61, 61, 61)
-SliderDrag.Size = UDim2.new(0, 0, 0, 8)
-
-BarCorner.Name = "BarCorner"
-BarCorner.Parent = SliderDrag
-
-SliderInfoBtn.Name = "SliderInfoBtn"
-SliderInfoBtn.Parent = Slider
-SliderInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SliderInfoBtn.BackgroundTransparency = 1.000
-SliderInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
-SliderInfoBtn.Size = UDim2.new(0, 24, 0, 24)
-SliderInfoBtn.Image = "rbxassetid://3926305904"
-SliderInfoBtn.ImageRectOffset = Vector2.new(764, 764)
-SliderInfoBtn.ImageRectSize = Vector2.new(36, 36)
-
-Textbox.Name = "Textbox"
-Textbox.Parent = PageInners
-Textbox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Textbox.ClipsDescendants = true
-Textbox.Size = UDim2.new(0, 475, 0, 35)
-Textbox.AutoButtonColor = false
-Textbox.Font = Enum.Font.SourceSans
-Textbox.Text = ""
-Textbox.TextColor3 = Color3.fromRGB(255, 255, 255)
-Textbox.TextScaled = true
-Textbox.TextSize = 14.000
-Textbox.TextWrapped = true
-
-TextboxCorner.Name = "TextboxCorner"
-TextboxCorner.Parent = Textbox
-
-TextboxIcon.Name = "TextboxIcon"
-TextboxIcon.Parent = Textbox
-TextboxIcon.AnchorPoint = Vector2.new(0.5, 0.5)
-TextboxIcon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextboxIcon.BackgroundTransparency = 1.000
-TextboxIcon.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
-TextboxIcon.Size = UDim2.new(0, 21, 0, 21)
-TextboxIcon.Image = "rbxassetid://3926305904"
-TextboxIcon.ImageRectOffset = Vector2.new(284, 644)
-TextboxIcon.ImageRectSize = Vector2.new(36, 36)
-
-TextboxTittle.Name = "TextboxTittle"
-TextboxTittle.Parent = Textbox
-TextboxTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextboxTittle.BackgroundTransparency = 1.000
-TextboxTittle.Position = UDim2.new(0.075265944, 0, 0.0303030312, 0)
-TextboxTittle.Size = UDim2.new(0, 145, 0, 30)
-TextboxTittle.Font = Enum.Font.SourceSansSemibold
-TextboxTittle.LineHeight = 1.120
-TextboxTittle.Text = "Textbox"
-TextboxTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextboxTittle.TextScaled = true
-TextboxTittle.TextSize = 14.000
-TextboxTittle.TextWrapped = true
-TextboxTittle.TextXAlignment = Enum.TextXAlignment.Left
-
-Box.Name = "Box"
-Box.Parent = Textbox
-Box.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Box.Position = UDim2.new(0.449708968, 0, 0.299839556, 0)
-Box.Size = UDim2.new(0, 233, 0, 14)
-Box.Font = Enum.Font.SourceSans
-Box.LineHeight = 1.120
-Box.PlaceholderText = "Type here!"
-Box.Text = ""
-Box.TextColor3 = Color3.fromRGB(0, 0, 0)
-Box.TextSize = 14.000
-
-BoxCorner.Name = "BoxCorner"
-BoxCorner.Parent = Box
-
-TextboxInfoBtn.Name = "TextboxInfoBtn"
-TextboxInfoBtn.Parent = Textbox
-TextboxInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-TextboxInfoBtn.BackgroundTransparency = 1.000
-TextboxInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
-TextboxInfoBtn.Size = UDim2.new(0, 24, 0, 24)
-TextboxInfoBtn.Image = "rbxassetid://3926305904"
-TextboxInfoBtn.ImageRectOffset = Vector2.new(764, 764)
-TextboxInfoBtn.ImageRectSize = Vector2.new(36, 36)
-
-Toggle.Name = "Toggle"
-Toggle.Parent = PageInners
-Toggle.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Toggle.ClipsDescendants = true
-Toggle.Size = UDim2.new(0, 475, 0, 35)
-Toggle.AutoButtonColor = false
-Toggle.Font = Enum.Font.SourceSans
-Toggle.Text = ""
-Toggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-Toggle.TextScaled = true
-Toggle.TextSize = 14.000
-Toggle.TextWrapped = true
-
-ToggleCorner.Name = "ToggleCorner"
-ToggleCorner.Parent = Toggle
-
-ToggleEnabled.Name = "ToggleEnabled"
-ToggleEnabled.Parent = Toggle
-ToggleEnabled.AnchorPoint = Vector2.new(0.5, 0.5)
-ToggleEnabled.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ToggleEnabled.BackgroundTransparency = 1.000
-ToggleEnabled.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
-ToggleEnabled.Size = UDim2.new(0, 21, 0, 21)
-ToggleEnabled.Visible = false
-ToggleEnabled.Image = "rbxassetid://3926309567"
-ToggleEnabled.ImageRectOffset = Vector2.new(784, 420)
-ToggleEnabled.ImageRectSize = Vector2.new(48, 48)
-
-ToggleTittle.Name = "ToggleTittle"
-ToggleTittle.Parent = Toggle
-ToggleTittle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ToggleTittle.BackgroundTransparency = 1.000
-ToggleTittle.Position = UDim2.new(0.075265944, 0, 0.0303030312, 0)
-ToggleTittle.Size = UDim2.new(0, 145, 0, 30)
-ToggleTittle.Font = Enum.Font.SourceSansSemibold
-ToggleTittle.LineHeight = 1.120
-ToggleTittle.Text = "Toggle"
-ToggleTittle.TextColor3 = Color3.fromRGB(255, 255, 255)
-ToggleTittle.TextScaled = true
-ToggleTittle.TextSize = 14.000
-ToggleTittle.TextWrapped = true
-ToggleTittle.TextXAlignment = Enum.TextXAlignment.Left
-
-ToggleDisabled.Name = "ToggleDisabled"
-ToggleDisabled.Parent = Toggle
-ToggleDisabled.AnchorPoint = Vector2.new(0.5, 0.5)
-ToggleDisabled.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ToggleDisabled.BackgroundTransparency = 1.000
-ToggleDisabled.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
-ToggleDisabled.Size = UDim2.new(0, 21, 0, 21)
-ToggleDisabled.Image = "rbxassetid://3926309567"
-ToggleDisabled.ImageRectOffset = Vector2.new(628, 420)
-ToggleDisabled.ImageRectSize = Vector2.new(48, 48)
-
-ToggleInfoBtn.Name = "ToggleInfoBtn"
-ToggleInfoBtn.Parent = Toggle
-ToggleInfoBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ToggleInfoBtn.BackgroundTransparency = 1.000
-ToggleInfoBtn.Position = UDim2.new(0.940999985, 0, 0.143000007, 0)
-ToggleInfoBtn.Size = UDim2.new(0, 24, 0, 24)
-ToggleInfoBtn.Image = "rbxassetid://3926305904"
-ToggleInfoBtn.ImageRectOffset = Vector2.new(764, 764)
-ToggleInfoBtn.ImageRectSize = Vector2.new(36, 36)
-
-
-
-Glow.Name = "Glow"
-Glow.Parent = MainFrame
-Glow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Glow.BackgroundTransparency = 1.000
-Glow.Position = UDim2.new(-0.0521594286, 0, -0.056273818, 0)
-Glow.Size = UDim2.new(1.00587368, 66, 1, 44)
-Glow.ZIndex = 0
-Glow.Image = "rbxassetid://4996891970"
-Glow.ImageColor3 = Color3.fromRGB(15, 15, 15)
-
 
 return library
