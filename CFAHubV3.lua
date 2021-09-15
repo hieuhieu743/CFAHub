@@ -169,7 +169,100 @@ function library:NewWindow(title)
     TabListLayout.Padding = UDim.new(0, 4)
 
     function windows:Notification(headTitle, NotifyText, ButtonTitle)
+        headTitle = headTitle or "Notification"
+        NotifyText = NotifyText or "Info Text"
+        ButtonTitle = ButtonTitle or "Okay"
+
+        local NotifyBackground = Instance.new("Frame")
+        local NotifyFrame = Instance.new("Frame")
+        local NotifyFrameCorner = Instance.new("UICorner")
+        local NotifyHeader = Instance.new("TextLabel")
+        local NotifyInfo = Instance.new("TextLabel")
+        local NotifyBtn = Instance.new("TextButton")
+        local NotifyBtnCorner = Instance.new("UICorner")
+
+        NotifyBackground.Name = "NotifyBackground"
+        NotifyBackground.Parent = MainFrame
+        NotifyBackground.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        NotifyBackground.BackgroundTransparency = 0.500
+        NotifyBackground.Size = UDim2.new(0, 681, 0, 396)
         
+        NotifyFrame.Name = "NotifyFrame"
+        NotifyFrame.Parent = NotifyBackground
+        NotifyFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+        NotifyFrame.Position = UDim2.new(0.255506605, 0, 0.285353541, 0)
+        NotifyFrame.Size = UDim2.new(0,0,0,0)
+        NotifyFrame.ClipsDescendants = true
+        
+        NotifyFrameCorner.Name = "NotifyFrameCorner"
+        NotifyFrameCorner.Parent = NotifyFrame
+
+        NotifyFrame:TweenSize(UDim2.new(0, 330, 0, 169), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .2, true)
+		
+		game.TweenService:Create(
+			NotifyFrame,
+			TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+			{BackgroundTransparency = 0}
+		):Play()
+        
+        NotifyHeader.Name = "NotifyHeader"
+        NotifyHeader.Parent = NotifyFrame
+        NotifyHeader.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        NotifyHeader.BackgroundTransparency = 1.000
+        NotifyHeader.Position = UDim2.new(0, 0, 0.0625, 0)
+        NotifyHeader.Size = UDim2.new(0, 330, 0, 36)
+        NotifyHeader.Font = Enum.Font.SourceSansBold
+        NotifyHeader.LineHeight = 1.120
+        NotifyHeader.Text = headTitle
+        NotifyHeader.TextColor3 = Color3.fromRGB(255, 255, 255)
+        NotifyHeader.TextScaled = true
+        NotifyHeader.TextSize = 14.000
+        NotifyHeader.TextWrapped = true
+        
+        NotifyInfo.Name = "NotifyInfo"
+        NotifyInfo.Parent = NotifyFrame
+        NotifyInfo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        NotifyInfo.BackgroundTransparency = 1.000
+        NotifyInfo.Position = UDim2.new(0, 0, 0.275517762, 0)
+        NotifyInfo.Size = UDim2.new(0, 330, 0, 72)
+        NotifyInfo.Font = Enum.Font.SourceSansSemibold
+        NotifyInfo.LineHeight = 1.120
+        NotifyInfo.Text = NotifyText
+        NotifyInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
+        NotifyInfo.TextSize = 25.000
+        NotifyInfo.TextWrapped = true
+        
+        NotifyBtn.Name = "NotifyBtn"
+        NotifyBtn.Parent = NotifyFrame
+        NotifyBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+        NotifyBtn.Position = UDim2.new(0.0469697006, 0, 0.764538825, 0)
+        NotifyBtn.Size = UDim2.new(0, 300, 0, 34)
+        NotifyBtn.Font = Enum.Font.SourceSansSemibold
+        NotifyBtn.LineHeight = 1.120
+        NotifyBtn.Text = ButtonTitle
+        NotifyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+        NotifyBtn.TextScaled = true
+        NotifyBtn.TextSize = 14.000
+        NotifyBtn.TextWrapped = true
+        NotifyBtn.MouseButton1Click:Connect(function()
+            game.TweenService:Create(
+                NotifyBackground,
+                TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                {Visible = false}
+            ):Play()
+            NotifyFrame:TweenSize(UDim2.new(0, 0, 0, 0), Enum.EasingDirection.Out, Enum.EasingStyle.Quart, .2, true)
+			game.TweenService:Create(
+				NotifyFrame,
+				TweenInfo.new(.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+				{BackgroundTransparency = 1}
+			):Play()
+			wait(.2)
+			NotifyBackground:Destroy()
+        end)
+        
+        NotifyBtnCorner.Name = "NotifyBtnCorner"
+        NotifyBtnCorner.Parent = NotifyBtn
+
     end
 
     function windows:NewTab(title, url)
@@ -319,6 +412,15 @@ function library:NewWindow(title)
             local OptionScroll = Instance.new("ScrollingFrame")
             local OptionListLayout = Instance.new("UIListLayout")
 
+            local function OptionSizeUpdate()
+                local ListLayout = OptionListLayout.AbsoluteContentSize
+                game.TweenService:Create(OptionScroll, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                    CanvasSize = UDim2.new(0, 0, 0, ListLayout.Y)
+                }):Play()
+            end
+
+            OptionSizeUpdate()
+
             Dropdown.Name = "Dropdown"
             Dropdown.Parent = PageInners
             Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -451,13 +553,15 @@ function library:NewWindow(title)
             infoClose.Image = "rbxassetid://7409394566"
 
             local isDropping = false
+            local isTween = false
 
             DropButton.MouseButton1Click:Connect(function()
+                OptionSizeUpdate()
                 if isDropping then
                     isDropping = false
     
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
-                    wait(0.1)
+                    wait(0.01)
                     local c = Sample:Clone()
                     c.Parent = DropButton
                     local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -478,7 +582,7 @@ function library:NewWindow(title)
                     isDropping = true
     
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, (DropListLayout.AbsoluteContentSize.Y + 2)), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
-                    wait(0.1)
+                    wait(0.01)
                     local c = Sample:Clone()
                     c.Parent = DropButton
                     local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -498,7 +602,25 @@ function library:NewWindow(title)
                 end
             end)
 
+            DropInfoBtn.MouseButton1Click:Connect(function()
+                OptionSizeUpdate()
+                if isTween then
+                    isTween = false
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                else
+                    isTween = true
+                    ElementsInfo:TweenPosition(UDim2.new(0, 0, 0.890080452, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+                end
+            end)
+
+            infoClose.MouseButton1Click:Connect(function()
+                OptionSizeUpdate()
+                isTween = false
+                ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
+            end)
+
             for i, v in next, list do
+                OptionSizeUpdate()
                 local OptionSelect = Instance.new("TextButton")
                 local OptionCorner = Instance.new("UICorner")
                 local TextLabel = Instance.new("TextLabel")
@@ -551,7 +673,7 @@ function library:NewWindow(title)
                     DropTittle.Text = v
 
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
-                    wait(0.1)
+                    wait(0.01)
                     local c = Sample:Clone()
                     c.Parent = OptionSelect
                     local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -572,6 +694,7 @@ function library:NewWindow(title)
             end
 
             function DropFunctions:Refresh(newList)
+                OptionSizeUpdate()
                 newList = newList or {}
                 for i,v in next, OptionScroll:GetChildren() do
                     if v.Name == "OptionSelect" then
@@ -580,6 +703,7 @@ function library:NewWindow(title)
                 end
 
                 for i, v in next, newList do
+                    OptionSizeUpdate()
                     local OptionSelect = Instance.new("TextButton")
                     local OptionCorner = Instance.new("UICorner")
                     local TextLabel = Instance.new("TextLabel")
@@ -632,7 +756,7 @@ function library:NewWindow(title)
                         DropTittle.Text = v
     
                         Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
-                        wait(0.1)
+                        wait(0.01)
                         local c = Sample:Clone()
                         c.Parent = OptionSelect
                         local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -793,20 +917,28 @@ function library:NewWindow(title)
             end)
 
         end
+        
+        function TabElements:CreateToggle(togTitle, togInfo, callback)
+            togTitle = togTitle or "Toggle"
+            togInfo = togInfo or "Info"
+            callback = callback or function() end
+        end
 
         return TabElements
     end
     
+    CFAHubV3.Parent = coreGui
     return windows
 end
 
---[[
+
 local Keybind = Instance.new("TextButton")
 local kBindCorner = Instance.new("UICorner")
 local kBindIcon = Instance.new("ImageLabel")
 local kBindTitle = Instance.new("TextLabel")
 local kBindKey = Instance.new("TextLabel")
 local kBindInfoBtn = Instance.new("ImageButton")
+--Slider
 local Slider = Instance.new("TextButton")
 local SliderCorner = Instance.new("UICorner")
 local SliderIcon = Instance.new("ImageLabel")
@@ -817,6 +949,7 @@ local SliderBtnCorner = Instance.new("UICorner")
 local SliderDrag = Instance.new("Frame")
 local BarCorner = Instance.new("UICorner")
 local SliderInfoBtn = Instance.new("ImageButton")
+--Textbox
 local Textbox = Instance.new("TextButton")
 local TextboxCorner = Instance.new("UICorner")
 local TextboxIcon = Instance.new("ImageLabel")
@@ -824,6 +957,7 @@ local TextboxTittle = Instance.new("TextLabel")
 local Box = Instance.new("TextBox")
 local BoxCorner = Instance.new("UICorner")
 local TextboxInfoBtn = Instance.new("ImageButton")
+--Toggle
 local Toggle = Instance.new("TextButton")
 local ToggleCorner = Instance.new("UICorner")
 local ToggleEnabled = Instance.new("ImageLabel")
@@ -832,13 +966,7 @@ local ToggleDisabled = Instance.new("ImageLabel")
 local ToggleInfoBtn = Instance.new("ImageButton")
 
 local Glow = Instance.new("ImageLabel")
-local NotifyBackground = Instance.new("Frame")
-local NotifyFrame = Instance.new("Frame")
-local NotifyFrameCorner = Instance.new("UICorner")
-local NotifyHeader = Instance.new("TextLabel")
-local NotifyInfo = Instance.new("TextLabel")
-local NotifyBtn = Instance.new("TextButton")
-local NotifyBtnCorner = Instance.new("UICorner")
+
 
 --Properties:
 
@@ -1149,64 +1277,5 @@ Glow.ZIndex = 0
 Glow.Image = "rbxassetid://4996891970"
 Glow.ImageColor3 = Color3.fromRGB(15, 15, 15)
 
-NotifyBackground.Name = "NotifyBackground"
-NotifyBackground.Parent = MainFrame
-NotifyBackground.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-NotifyBackground.BackgroundTransparency = 0.500
-NotifyBackground.Size = UDim2.new(0, 681, 0, 396)
-
-NotifyFrame.Name = "NotifyFrame"
-NotifyFrame.Parent = NotifyBackground
-NotifyFrame.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
-NotifyFrame.Position = UDim2.new(0.255506605, 0, 0.285353541, 0)
-NotifyFrame.Size = UDim2.new(0, 330, 0, 169)
-
-NotifyFrameCorner.Name = "NotifyFrameCorner"
-NotifyFrameCorner.Parent = NotifyFrame
-
-NotifyHeader.Name = "NotifyHeader"
-NotifyHeader.Parent = NotifyFrame
-NotifyHeader.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-NotifyHeader.BackgroundTransparency = 1.000
-NotifyHeader.Position = UDim2.new(0, 0, 0.0625, 0)
-NotifyHeader.Size = UDim2.new(0, 330, 0, 36)
-NotifyHeader.Font = Enum.Font.SourceSansBold
-NotifyHeader.LineHeight = 1.120
-NotifyHeader.Text = "Notification"
-NotifyHeader.TextColor3 = Color3.fromRGB(255, 255, 255)
-NotifyHeader.TextScaled = true
-NotifyHeader.TextSize = 14.000
-NotifyHeader.TextWrapped = true
-
-NotifyInfo.Name = "NotifyInfo"
-NotifyInfo.Parent = NotifyFrame
-NotifyInfo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-NotifyInfo.BackgroundTransparency = 1.000
-NotifyInfo.Position = UDim2.new(0, 0, 0.275517762, 0)
-NotifyInfo.Size = UDim2.new(0, 330, 0, 72)
-NotifyInfo.Font = Enum.Font.SourceSansSemibold
-NotifyInfo.LineHeight = 1.120
-NotifyInfo.Text = "Notification Text"
-NotifyInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
-NotifyInfo.TextSize = 25.000
-NotifyInfo.TextWrapped = true
-
-NotifyBtn.Name = "NotifyBtn"
-NotifyBtn.Parent = NotifyFrame
-NotifyBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-NotifyBtn.Position = UDim2.new(0.0469697006, 0, 0.764538825, 0)
-NotifyBtn.Size = UDim2.new(0, 300, 0, 34)
-NotifyBtn.Font = Enum.Font.SourceSansSemibold
-NotifyBtn.LineHeight = 1.120
-NotifyBtn.Text = "Okay!"
-NotifyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-NotifyBtn.TextScaled = true
-NotifyBtn.TextSize = 14.000
-NotifyBtn.TextWrapped = true
-
-NotifyBtnCorner.Name = "NotifyBtnCorner"
-NotifyBtnCorner.Parent = NotifyBtn
-
-]]--
 
 return library
