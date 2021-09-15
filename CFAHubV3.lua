@@ -168,6 +168,15 @@ function library:NewWindow(title)
     TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     TabListLayout.Padding = UDim.new(0, 4)
 
+    local function UpdateSize()
+        local list = TabListLayout.AbsoluteContentSize
+        game.TweenService:Create(TabScroll, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+            CanvasSize = UDim2.new(0, 0, 0, list.Y)
+        }):Play()
+    end
+
+    UpdateSize()
+
     local Glow = Instance.new("ImageLabel")
 
     Glow.Name = "Glow"
@@ -179,6 +188,10 @@ function library:NewWindow(title)
     Glow.ZIndex = 0
     Glow.Image = "rbxassetid://4996891970"
     Glow.ImageColor3 = Color3.fromRGB(15, 15, 15)
+
+    local MainPageContainer = Instance.new("Folder")
+    MainPageContainer.Name = "MainPageContainer"
+    MainPageContainer.Parent = MainFrame
 
     function windows:Notification(headTitle, NotifyText, ButtonTitle)
         headTitle = headTitle or "Notification"
@@ -278,6 +291,7 @@ function library:NewWindow(title)
     end
 
     function windows:NewTab(title, url)
+        UpdateSize()
         title = title or "Tab"
         url = url or "http://www.roblox.com/asset/?id=6031075938"
         local TabElements = {}
@@ -286,10 +300,6 @@ function library:NewWindow(title)
         local TabBtnCorner = Instance.new("UICorner")
         local TabBtnIcon = Instance.new("ImageLabel")
         local TabBtnTitle = Instance.new("TextLabel")
-
-        local MainPageContainer = Instance.new("Folder")
-        MainPageContainer.Name = "MainPageContainer"
-        MainPageContainer.Parent = MainFrame
 
         tabBtn.Name = "tabBtn"
         tabBtn.Parent = TabScroll
@@ -425,7 +435,19 @@ function library:NewWindow(title)
         PageInnersListLayout.SortOrder = Enum.SortOrder.LayoutOrder
         PageInnersListLayout.Padding = UDim.new(0, 4)
 
+        local function UpdatePageSize()
+            local cS = PageInnersListLayout.AbsoluteContentSize
+            game.TweenService:Create(PageInners, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                CanvasSize = UDim2.new(0, 0, 0, cS.Y)
+            }):Play()
+        end
+
+        UpdatePageSize()
+        UpdateSize()
+
         function TabElements:CreateDropdown(dropTitle, dropInfo, list, callback)
+            UpdatePageSize()
+            UpdateSize()
             dropTitle = dropTitle or "Dropdown"
             dropInfo = dropInfo or "Info"
             list = list or {}
@@ -452,6 +474,10 @@ function library:NewWindow(title)
             end
 
             OptionSizeUpdate()
+            UpdatePageSize()
+            UpdateSize()
+            OptionScroll.ChildAdded:Connect(OptionSizeUpdate())
+            OptionScroll.ChildRemoved:Connect(OptionSizeUpdate())
 
             Dropdown.Name = "Dropdown"
             Dropdown.Parent = PageInners
@@ -589,6 +615,8 @@ function library:NewWindow(title)
 
             DropButton.MouseButton1Click:Connect(function()
                 OptionSizeUpdate()
+                UpdatePageSize()
+                UpdateSize()
                 if isDropping then
                     isDropping = false
     
@@ -814,6 +842,8 @@ function library:NewWindow(title)
         end -- Done
 
         function TabElements:CreateButton(btnTitle, btnInfo, callback)
+            UpdatePageSize()
+            UpdateSize()
             btnTitle = btnTitle or "Button"
             btnInfo = btnInfo or "Info"
             callback = callback or function() end
@@ -914,6 +944,8 @@ function library:NewWindow(title)
             local isTween = false
 
             Button.MouseButton1Click:Connect(function()
+                UpdatePageSize()
+                UpdateSize()
                 pcall(callback)
                 local c = Sample:Clone()
                 c.Parent = Button
@@ -951,6 +983,8 @@ function library:NewWindow(title)
         end -- Done
         
         function TabElements:CreateToggle(togTitle, togInfo, callback)
+            UpdatePageSize()
+            UpdateSize()
             togTitle = togTitle or "Toggle"
             togInfo = togInfo or "Info"
             callback = callback or function() end
@@ -1063,9 +1097,15 @@ function library:NewWindow(title)
 
             local isTween = false
             local toggled = false
+            local img = ToggleEnabled
 
             Toggle.MouseButton1Click:Connect(function()
+                UpdatePageSize()
+                UpdateSize()
                 if toggled == false then
+                    game.TweenService:Create(img, TweenInfo.new(0.11, Enum.EasingStyle.Linear,Enum.EasingDirection.In), {
+                        ImageTransparency = 0
+                    }):Play()
                     local c = Sample:Clone()
                     c.Parent = Toggle
                     local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -1083,7 +1123,25 @@ function library:NewWindow(title)
                     end
                     c:Destroy()
                 else
-
+                    game.TweenService:Create(img, TweenInfo.new(0.11, Enum.EasingStyle.Linear,Enum.EasingDirection.In), {
+                        ImageTransparency = 0
+                    }):Play()
+                    local c = Sample:Clone()
+                    c.Parent = Toggle
+                    local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
+                    c.Position = UDim2.new(0, x, 0, y)
+                    local len, size = 0.35, nil
+                    if Toggle.AbsoluteSize.X >= Toggle.AbsoluteSize.Y then
+                        size = (Toggle.AbsoluteSize.X * 1.5)
+                    else
+                        size = (Toggle.AbsoluteSize.Y * 1.5)
+                    end
+                    c:TweenSizeAndPosition(UDim2.new(0, size, 0, size), UDim2.new(0.5, (-size / 2), 0.5, (-size / 2)), 'Out', 'Quad', len, true, nil)
+                    for i = 1, 10 do
+                        c.ImageTransparency = c.ImageTransparency + 0.05
+                        wait(len / 12)
+                    end
+                    c:Destroy()
                 end
                 toggled = not toggled
                 pcall(callback, toggled)
@@ -1107,6 +1165,8 @@ function library:NewWindow(title)
         end -- Done
 
         function TabElements:CreateKeybind(keyTitle, keyInfo, key, callback)
+            UpdatePageSize()
+            UpdateSize()
             keyTitle = keyTitle or "Keybind"
             keyInfo = keyInfo or "Info"
             callback = callback or function() end
@@ -1225,6 +1285,8 @@ function library:NewWindow(title)
             local isTween = false
 
             Keybind.MouseButton1Click:Connect(function()
+                UpdatePageSize()
+                UpdateSize()
                 kBindKey.Text = "..."
                 local a, b = input.InputBegan:wait()
                 if a.KeyCode.Name ~= "Unknown" then
@@ -1276,6 +1338,8 @@ function library:NewWindow(title)
         end -- Done
         
         function TabElements:CreateTextbox(boxTitle, boxInfo, callback)
+            UpdatePageSize()
+            UpdateSize()
             boxTitle = boxTitle or "Textbox"
             boxInfo = boxInfo or "Info"
             callback = callback or function() end
@@ -1393,6 +1457,8 @@ function library:NewWindow(title)
             local isTween = false
 
             Box.FocusLost:Connect(function(enterPressed)
+                UpdatePageSize()
+                UpdateSize()
                 if not enterPressed then
                     return
                 else
@@ -1420,6 +1486,8 @@ function library:NewWindow(title)
         end -- Done
 
         function TabElements:CreateSlider(sliderTitle, sliderInfo, max, min, callback)
+            UpdatePageSize()
+            UpdateSize()
             sliderTitle = sliderTitle or "Slider"
             sliderInfo = sliderInfo or "Info"
             max = max or 100
@@ -1569,6 +1637,8 @@ function library:NewWindow(title)
             local minvalue = min
 
             SliderBtn.MouseButton1Down:Connect(function()
+                UpdatePageSize()
+                UpdateSize()
                     Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 221) * SliderDrag.AbsoluteSize.X) + tonumber(minvalue)) or 0
                     pcall(function()
                         callback(Value)
