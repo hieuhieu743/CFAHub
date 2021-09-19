@@ -536,13 +536,13 @@ function library:NewWindow(title)
             OptionScroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             OptionScroll.BackgroundTransparency = 1.000
             OptionScroll.BorderSizePixel = 0
-            OptionScroll.Position = UDim2.new(-0.000687925261, 0, 0.0383065753, 0)
-            OptionScroll.Size = UDim2.new(0, 464, 0, 119)
+            OptionScroll.Position = UDim2.new(-0.000687925261, 0, 0.0383065045, 0)
+            OptionScroll.Size = UDim2.new(0, 465, 0, 102)
             OptionScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
             OptionScroll.ScrollBarImageColor3 = Color3.fromRGB(0,0,0)
             OptionScroll.ScrollBarThickness = 4
-
-            OptionListLayout.Name = "OptionListLayout"
+            
+            OptionListLayout.Name = "UIListLayout"
             OptionListLayout.Parent = OptionScroll
             OptionListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
             OptionListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -688,7 +688,7 @@ function library:NewWindow(title)
                 TextLabel.Size = UDim2.new(0, 414, 0, 35)
                 TextLabel.Font = Enum.Font.SourceSansBold
                 TextLabel.LineHeight = 1.190
-                TextLabel.Text = "Option"
+                TextLabel.Text = v
                 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 TextLabel.TextScaled = true
                 TextLabel.TextSize = 14.000
@@ -749,7 +749,7 @@ function library:NewWindow(title)
                     local OptionCorner = Instance.new("UICorner")
                     local TextLabel = Instance.new("TextLabel")
                     local ImageLabel = Instance.new("ImageLabel")
-    
+                    
                     OptionSelect.Name = "OptionSelect"
                     OptionSelect.Parent = OptionScroll
                     OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
@@ -775,7 +775,7 @@ function library:NewWindow(title)
                     TextLabel.Size = UDim2.new(0, 414, 0, 35)
                     TextLabel.Font = Enum.Font.SourceSansBold
                     TextLabel.LineHeight = 1.190
-                    TextLabel.Text = "Option"
+                    TextLabel.Text = v
                     TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     TextLabel.TextScaled = true
                     TextLabel.TextSize = 14.000
@@ -819,6 +819,9 @@ function library:NewWindow(title)
                         c:Destroy() 
 
                     end)
+
+                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
+                    
                 end
                 
                 OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
@@ -1932,17 +1935,5 @@ function library:NewWindow(title)
     CFAHubV3.Parent = coreGui
     return windows
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 return library
