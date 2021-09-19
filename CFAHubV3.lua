@@ -592,7 +592,7 @@ function library:NewWindow(title)
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.01)
 
-                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y + 33)
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
                     OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                     local c = Sample:Clone()
                     c.Parent = DropButton
@@ -617,7 +617,7 @@ function library:NewWindow(title)
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, (DropListLayout.AbsoluteContentSize.Y + 2)), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.01)
 
-                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y + 33)
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
                     OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                     local c = Sample:Clone()
                     c.Parent = DropButton
