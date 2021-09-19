@@ -558,6 +558,7 @@ function library:NewWindow(title)
             ElementsInfo.BorderSizePixel = 0
             ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            ElementsInfo.ZIndex = 2
             
             infoText.Name = "infoText"
             infoText.Parent = ElementsInfo
@@ -909,6 +910,7 @@ function library:NewWindow(title)
             ElementsInfo.BorderSizePixel = 0
             ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            ElementsInfo.ZIndex = 2
             
             infoText.Name = "infoText"
             infoText.Parent = ElementsInfo
@@ -1061,6 +1063,7 @@ function library:NewWindow(title)
             ElementsInfo.BorderSizePixel = 0
             ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            ElementsInfo.ZIndex = 2
             
             infoText.Name = "infoText"
             infoText.Parent = ElementsInfo
@@ -1246,6 +1249,7 @@ function library:NewWindow(title)
             ElementsInfo.BorderSizePixel = 0
             ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            ElementsInfo.ZIndex = 2
             
             infoText.Name = "infoText"
             infoText.Parent = ElementsInfo
@@ -1416,6 +1420,7 @@ function library:NewWindow(title)
             ElementsInfo.BorderSizePixel = 0
             ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            ElementsInfo.ZIndex = 2
             
             infoText.Name = "infoText"
             infoText.Parent = ElementsInfo
@@ -1587,6 +1592,7 @@ function library:NewWindow(title)
             ElementsInfo.BorderSizePixel = 0
             ElementsInfo.Position = UDim2.new(0, 0, 1, 0)
             ElementsInfo.Size = UDim2.new(0, 514, 0, 40)
+            ElementsInfo.ZIndex = 2
             
             infoText.Name = "infoText"
             infoText.Parent = ElementsInfo
