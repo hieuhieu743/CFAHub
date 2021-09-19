@@ -55,16 +55,6 @@ function library:DraggingEnabled(frame, parent)
     end)
 end
 
-local function Resize(frame)
-    local size, padding = 0, frame.UIListLayout.Padding.Offset
-    for i, v in next, frame:GetChildren() do
-        if not v:IsA("UIListLayout") then
-            size = size + v.Size.Y.Offset + padding
-        end
-    end
-    frame.CanvasSize = UDim2.new(0,0,0, size - padding)
-end
-
 function library:NewWindow(title)
     title = title or "Window"
     local windows = {}
@@ -177,8 +167,6 @@ function library:NewWindow(title)
     TabListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     TabListLayout.Padding = UDim.new(0, 4)
-
-    Resize(TabScroll)
 
     local MainPageContainer = Instance.new("Folder")
     MainPageContainer.Name = "MainPageContainer"
@@ -415,7 +403,7 @@ function library:NewWindow(title)
         PageInners.BorderSizePixel = 0
         PageInners.Position = UDim2.new(0, 3, 0, 42)
         PageInners.Size = UDim2.new(0, 508, 0, 325)
-        PageInners.CanvasSize = UDim2.new(0, 0, 0, 344)
+        PageInners.CanvasSize = UDim2.new(0, 0, 0, 0)
         PageInners.ScrollBarThickness = 6
         
         PageInnersListLayout.Name = "UIListLayout"
@@ -424,7 +412,7 @@ function library:NewWindow(title)
         PageInnersListLayout.SortOrder = Enum.SortOrder.LayoutOrder
         PageInnersListLayout.Padding = UDim.new(0, 4)
 
-        Resize(PageInners)
+        PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
         function TabElements:CreateDropdown(dropTitle, dropInfo, list, callback)
             dropTitle = dropTitle or "Dropdown"
@@ -532,7 +520,7 @@ function library:NewWindow(title)
             OptionScroll.BorderSizePixel = 0
             OptionScroll.Position = UDim2.new(-0.000687925261, 0, 0.0383065045, 0)
             OptionScroll.Size = UDim2.new(0, 465, 0, 102)
-            OptionScroll.CanvasSize = UDim2.new(0, 0, 0, 74)
+            OptionScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
             OptionScroll.ScrollBarThickness = 4
             
             OptionListLayout.Name = "UIListLayout"
@@ -540,8 +528,6 @@ function library:NewWindow(title)
             OptionListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
             OptionListLayout.SortOrder = Enum.SortOrder.LayoutOrder
             OptionListLayout.Padding = UDim.new(0, 4)
-
-            Resize(OptionScroll)
 
             local ElementsInfo = Instance.new("Frame")
             local infoText = Instance.new("TextLabel")
@@ -603,6 +589,7 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy() 
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
                 else
                     isDropping = true
     
@@ -624,6 +611,7 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy() 
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
                 end
             end)
 
@@ -712,6 +700,9 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy() 
+
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    
                 end)
             end
 
@@ -856,6 +847,8 @@ function library:NewWindow(title)
                 ImageLabel.ImageRectSize = Vector2.new(36, 36)
             end
 
+            PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+
             return DropFunctions
         end -- Done
 
@@ -993,6 +986,8 @@ function library:NewWindow(title)
                 isTween = false
                 ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
             end)
+
+            PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
         end -- Done
         
@@ -1172,6 +1167,8 @@ function library:NewWindow(title)
                 ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
             end)
 
+            PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+
         end -- Done
 
         function TabElements:CreateKeybind(keyTitle, keyInfo, key, callback)
@@ -1341,6 +1338,8 @@ function library:NewWindow(title)
                 end
             end)
 
+            PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+
         end -- Done
         
         function TabElements:CreateTextbox(boxTitle, boxInfo, callback)
@@ -1484,6 +1483,8 @@ function library:NewWindow(title)
                 isTween = false
                 ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
             end)
+
+            PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
         end -- Done
 
@@ -1678,12 +1679,15 @@ function library:NewWindow(title)
                 ElementsInfo:TweenPosition(UDim2.new(0, 0, 1, 0), Enum.EasingDirection.In, Enum.EasingStyle.Linear, 0.1)
             end)
 
+            PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+
         end -- Done
 
         function TabElements:CreateLabel(labelTitle)
             labelTitle = labelTitle or "Label"
 
             local Label = Instance.new("TextLabel")
+            local labelCorner = Instance.new("UICorner")
             
             Label.Name = "Label"
             Label.Parent = PageInners
@@ -1697,6 +1701,11 @@ function library:NewWindow(title)
             Label.TextSize = 14.000
             Label.TextWrapped = true
             Label.TextXAlignment = Enum.TextXAlignment.Left
+
+            labelCorner.Name = "labelCorner"
+            labelCorner.Parent = Label
+
+            PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
         end -- Done
 
@@ -1924,6 +1933,8 @@ function library:NewWindow(title)
 						end
 					end
 				)
+
+                PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
         end
 
