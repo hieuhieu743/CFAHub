@@ -159,7 +159,7 @@ function library:NewWindow(title)
     TabScroll.BorderSizePixel = 0
     TabScroll.Position = UDim2.new(0, 0, 0.0107238609, 0)
     TabScroll.Size = UDim2.new(0, 166, 0, 364)
-    TabScroll.CanvasSize = UDim2.new(0, 0, 0, 35)
+    TabScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
     TabScroll.ScrollBarThickness = 0
     
     TabListLayout.Name = "UIListLayout"
@@ -167,6 +167,8 @@ function library:NewWindow(title)
     TabListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
     TabListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     TabListLayout.Padding = UDim.new(0, 4)
+
+    TabScroll.CanvasSize = UDim2.new(0, 0, 0, TabListLayout.AbsoluteContentSize.Y)
 
     local MainPageContainer = Instance.new("Folder")
     MainPageContainer.Name = "MainPageContainer"
@@ -282,6 +284,8 @@ function library:NewWindow(title)
 
     end
 
+    local first = true
+
     function windows:NewTab(title, url)
         title = title or "Tab"
         url = url or "http://www.roblox.com/asset/?id=6031075938"
@@ -332,6 +336,8 @@ function library:NewWindow(title)
         TabBtnTitle.TextWrapped = true
         TabBtnTitle.TextXAlignment = Enum.TextXAlignment.Left
 
+        TabScroll.CanvasSize = UDim2.new(0, 0, 0, TabListLayout.AbsoluteContentSize.Y)
+
         -- Section
         local PageHeader = Instance.new("Frame")
         local SectionText = Instance.new("TextLabel")
@@ -345,7 +351,17 @@ function library:NewWindow(title)
         PageContainer.BackgroundTransparency = 1.000
         PageContainer.Size = UDim2.new(1, 0, 1, 0)
 
+        if first then
+            first = false
+            PageContainer.Visible = true
+            tabBtn.BackgroundTransparency = 0
+        else
+            PageContainer.Visible = false
+            tabBtn.BackgroundTransparency = 1
+        end
+
         tabBtn.MouseButton1Click:Connect(function()
+            TabScroll.CanvasSize = UDim2.new(0, 0, 0, TabListLayout.AbsoluteContentSize.Y)
             for i, v in next, Pages:GetChildren() do
                 v.Visible = false
             end
@@ -404,6 +420,7 @@ function library:NewWindow(title)
         PageInners.Position = UDim2.new(0, 3, 0, 42)
         PageInners.Size = UDim2.new(0, 508, 0, 325)
         PageInners.CanvasSize = UDim2.new(0, 0, 0, 0)
+        PageInners.ScrollBarImageColor3 = Color3.fromRGB(0,0,0)
         PageInners.ScrollBarThickness = 6
         
         PageInnersListLayout.Name = "UIListLayout"
@@ -413,6 +430,7 @@ function library:NewWindow(title)
         PageInnersListLayout.Padding = UDim.new(0, 4)
 
         PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+        TabScroll.CanvasSize = UDim2.new(0, 0, 0, TabListLayout.AbsoluteContentSize.Y)
 
         function TabElements:CreateDropdown(dropTitle, dropInfo, list, callback)
             dropTitle = dropTitle or "Dropdown"
@@ -518,16 +536,19 @@ function library:NewWindow(title)
             OptionScroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
             OptionScroll.BackgroundTransparency = 1.000
             OptionScroll.BorderSizePixel = 0
-            OptionScroll.Position = UDim2.new(-0.000687925261, 0, 0.0383065045, 0)
-            OptionScroll.Size = UDim2.new(0, 465, 0, 102)
+            OptionScroll.Position = UDim2.new(-0.000687925261, 0, 0.0383065753, 0)
+            OptionScroll.Size = UDim2.new(0, 464, 0, 119)
             OptionScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+            OptionScroll.ScrollBarImageColor3 = Color3.fromRGB(0,0,0)
             OptionScroll.ScrollBarThickness = 4
-            
-            OptionListLayout.Name = "UIListLayout"
+
+            OptionListLayout.Name = "OptionListLayout"
             OptionListLayout.Parent = OptionScroll
             OptionListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
             OptionListLayout.SortOrder = Enum.SortOrder.LayoutOrder
             OptionListLayout.Padding = UDim.new(0, 4)
+
+            OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
 
             local ElementsInfo = Instance.new("Frame")
             local infoText = Instance.new("TextLabel")
@@ -570,7 +591,10 @@ function library:NewWindow(title)
             DropButton.MouseButton1Click:Connect(function()
                 if isDropping then
                     isDropping = false
-    
+
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
+
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.01)
                     local c = Sample:Clone()
@@ -589,10 +613,13 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy() 
-                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    
                 else
                     isDropping = true
     
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
+                    
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, (DropListLayout.AbsoluteContentSize.Y + 2)), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.01)
                     local c = Sample:Clone()
@@ -611,7 +638,7 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy() 
-                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    
                 end
             end)
 
@@ -661,7 +688,7 @@ function library:NewWindow(title)
                 TextLabel.Size = UDim2.new(0, 414, 0, 35)
                 TextLabel.Font = Enum.Font.SourceSansBold
                 TextLabel.LineHeight = 1.190
-                TextLabel.Text = v
+                TextLabel.Text = "Option"
                 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                 TextLabel.TextScaled = true
                 TextLabel.TextSize = 14.000
@@ -682,6 +709,9 @@ function library:NewWindow(title)
                     callback(v)
                     DropTittle.Text = v
 
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
+
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.01)
                     local c = Sample:Clone()
@@ -700,10 +730,10 @@ function library:NewWindow(title)
                         wait(len / 12)
                     end
                     c:Destroy() 
-
-                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
                     
                 end)
+
+                OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
             end
 
             function DropFunctions:Refresh(newList)
@@ -719,7 +749,7 @@ function library:NewWindow(title)
                     local OptionCorner = Instance.new("UICorner")
                     local TextLabel = Instance.new("TextLabel")
                     local ImageLabel = Instance.new("ImageLabel")
-                    
+    
                     OptionSelect.Name = "OptionSelect"
                     OptionSelect.Parent = OptionScroll
                     OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
@@ -745,7 +775,7 @@ function library:NewWindow(title)
                     TextLabel.Size = UDim2.new(0, 414, 0, 35)
                     TextLabel.Font = Enum.Font.SourceSansBold
                     TextLabel.LineHeight = 1.190
-                    TextLabel.Text = v
+                    TextLabel.Text = "Option"
                     TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
                     TextLabel.TextScaled = true
                     TextLabel.TextSize = 14.000
@@ -766,6 +796,9 @@ function library:NewWindow(title)
                         callback(v)
                         DropTittle.Text = v
     
+                        PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                        OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
+
                         Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                         wait(0.01)
                         local c = Sample:Clone()
@@ -784,12 +817,16 @@ function library:NewWindow(title)
                             wait(len / 12)
                         end
                         c:Destroy() 
+
                     end)
                 end
                 
+                OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
             end
 
             function DropFunctions:Clear()
+                PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                 for i,v in next, OptionScroll:GetChildren() do
                     if v.Name == "OptionSelect" then
                         v:Destroy()
@@ -797,57 +834,8 @@ function library:NewWindow(title)
                 end
             end
 
-            function DropFunctions:Add(name)
-                name = name or "Option"
-
-                local OptionSelect = Instance.new("TextButton")
-                local OptionCorner = Instance.new("UICorner")
-                local TextLabel = Instance.new("TextLabel")
-                local ImageLabel = Instance.new("ImageLabel")
-
-                OptionSelect.Name = "OptionSelect"
-                OptionSelect.Parent = OptionScroll
-                OptionSelect.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-                OptionSelect.ClipsDescendants = true
-                OptionSelect.Position = UDim2.new(0.016160097, 0, 0.0676277876, 0)
-                OptionSelect.Size = UDim2.new(0, 454, 0, 35)
-                OptionSelect.AutoButtonColor = false
-                OptionSelect.Font = Enum.Font.SourceSansSemibold
-                OptionSelect.LineHeight = 1.140
-                OptionSelect.Text = ""
-                OptionSelect.TextColor3 = Color3.fromRGB(255, 255, 255)
-                OptionSelect.TextSize = 28.000
-                OptionSelect.TextWrapped = true
-                OptionSelect.TextXAlignment = Enum.TextXAlignment.Left
-                
-                OptionCorner.Name = "OptionCorner"
-                OptionCorner.Parent = OptionSelect
-                
-                TextLabel.Parent = OptionSelect
-                TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                TextLabel.BackgroundTransparency = 1.000
-                TextLabel.Position = UDim2.new(0.0837004408, 0, 0, 0)
-                TextLabel.Size = UDim2.new(0, 414, 0, 35)
-                TextLabel.Font = Enum.Font.SourceSansBold
-                TextLabel.LineHeight = 1.190
-                TextLabel.Text = name
-                TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-                TextLabel.TextScaled = true
-                TextLabel.TextSize = 14.000
-                TextLabel.TextWrapped = true
-                TextLabel.TextXAlignment = Enum.TextXAlignment.Left
-                
-                ImageLabel.Parent = OptionSelect
-                ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                ImageLabel.BackgroundTransparency = 1.000
-                ImageLabel.Position = UDim2.new(0, 4, 0.0857142881, 0)
-                ImageLabel.Size = UDim2.new(0, 28, 0, 28)
-                ImageLabel.Image = "rbxassetid://3926307971"
-                ImageLabel.ImageRectOffset = Vector2.new(204, 284)
-                ImageLabel.ImageRectSize = Vector2.new(36, 36)
-            end
-
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+            OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
 
             return DropFunctions
         end -- Done
@@ -1944,5 +1932,17 @@ function library:NewWindow(title)
     CFAHubV3.Parent = coreGui
     return windows
 end
+
+
+
+
+
+
+
+
+
+
+
+
 
 return library
