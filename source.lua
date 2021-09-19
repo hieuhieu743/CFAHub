@@ -854,7 +854,7 @@ function library:NewWindow(title)
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
             return DropFunctions
-        end -- Done
+        end -- Done I
 
         function TabElements:CreateButton(btnTitle, btnInfo, callback)
             btnTitle = btnTitle or "Button"
@@ -1659,6 +1659,7 @@ function library:NewWindow(title)
             SliderBtn.Text = ""
             SliderBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
             SliderBtn.TextSize = 14.000
+            SliderBtn.AutoButtonColor = false
             
             SliderBtnCorner.Name = "SliderBtnCorner"
             SliderBtnCorner.Parent = SliderBtn
