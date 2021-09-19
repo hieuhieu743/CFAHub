@@ -586,6 +586,26 @@ function library:NewWindow(title)
             local isDropping = false
             local isTween = false
 
+            local focusing = false
+            local hovering
+
+            DropButton.MouseEnter:Connect(function()
+                if not focusing then
+                    game.TweenService:Create(DropButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                    }):Play()
+                    hovering = true
+                end
+            end)
+            DropButton.MouseLeave:Connect(function()
+                if not focusing then 
+                    game.TweenService:Create(DropButton, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    }):Play()
+                    hovering = false
+                end
+            end)
+
             DropButton.MouseButton1Click:Connect(function()
                 if isDropping then
                     isDropping = false
@@ -937,6 +957,26 @@ function library:NewWindow(title)
 
             local isTween = false
 
+            local focusing = false
+            local hovering
+
+            Button.MouseEnter:Connect(function()
+                if not focusing then
+                    game.TweenService:Create(Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                    }):Play()
+                    hovering = true
+                end
+            end)
+            Button.MouseLeave:Connect(function()
+                if not focusing then 
+                    game.TweenService:Create(Button, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    }):Play()
+                    hovering = false
+                end
+            end)
+
             Button.MouseButton1Click:Connect(function()
                 pcall(callback)
                 local c = Sample:Clone()
@@ -974,7 +1014,7 @@ function library:NewWindow(title)
 
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
-        end -- Done
+        end -- Done I
         
         function TabElements:CreateToggle(togTitle, togInfo, callback)
             togTitle = togTitle or "Toggle"
@@ -1011,7 +1051,7 @@ function library:NewWindow(title)
             ToggleEnabled.BackgroundTransparency = 1.000
             ToggleEnabled.Position = UDim2.new(0.0418435, 0, 0.4909091, 0)
             ToggleEnabled.Size = UDim2.new(0, 21, 0, 21)
-            ToggleEnabled.Visible = false
+            ToggleEnabled.ImageTransparency = 1
             ToggleEnabled.Image = "rbxassetid://3926309567"
             ToggleEnabled.ImageRectOffset = Vector2.new(784, 420)
             ToggleEnabled.ImageRectSize = Vector2.new(48, 48)
@@ -1092,6 +1132,26 @@ function library:NewWindow(title)
             local toggled = false
             local img = ToggleEnabled
 
+            local focusing = false
+            local hovering
+
+            Toggle.MouseEnter:Connect(function()
+                if not focusing then
+                    game.TweenService:Create(Toggle, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                    }):Play()
+                    hovering = true
+                end
+            end)
+            Toggle.MouseLeave:Connect(function()
+                if not focusing then 
+                    game.TweenService:Create(Toggle, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    }):Play()
+                    hovering = false
+                end
+            end)
+
             Toggle.MouseButton1Click:Connect(function()
                 if toggled == false then
                     game.TweenService:Create(img, TweenInfo.new(0.11, Enum.EasingStyle.Linear,Enum.EasingDirection.In), {
@@ -1115,7 +1175,7 @@ function library:NewWindow(title)
                     c:Destroy()
                 else
                     game.TweenService:Create(img, TweenInfo.new(0.11, Enum.EasingStyle.Linear,Enum.EasingDirection.In), {
-                        ImageTransparency = 0
+                        ImageTransparency = 1
                     }):Play()
                     local c = Sample:Clone()
                     c.Parent = Toggle
@@ -1155,7 +1215,7 @@ function library:NewWindow(title)
 
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
-        end -- Done
+        end -- Done I
 
         function TabElements:CreateKeybind(keyTitle, keyInfo, key, callback)
             keyTitle = keyTitle or "Keybind"
@@ -1276,6 +1336,26 @@ function library:NewWindow(title)
 
             local isTween = false
 
+            local focusing = false
+            local hovering
+
+            Keybind.MouseEnter:Connect(function()
+                if not focusing then
+                    game.TweenService:Create(Keybind, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                    }):Play()
+                    hovering = true
+                end
+            end)
+            Keybind.MouseLeave:Connect(function()
+                if not focusing then 
+                    game.TweenService:Create(Keybind, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    }):Play()
+                    hovering = false
+                end
+            end)
+
             Keybind.MouseButton1Click:Connect(function()
                 kBindKey.Text = "..."
                 local a, b = input.InputBegan:wait()
@@ -1327,7 +1407,7 @@ function library:NewWindow(title)
 
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
-        end -- Done
+        end -- Done I
         
         function TabElements:CreateTextbox(boxTitle, boxInfo, callback)
             boxTitle = boxTitle or "Textbox"
@@ -1447,6 +1527,26 @@ function library:NewWindow(title)
 
             local isTween = false
 
+            local focusing = false
+            local hovering
+
+            Textbox.MouseEnter:Connect(function()
+                if not focusing then
+                    game.TweenService:Create(Textbox, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                    }):Play()
+                    hovering = true
+                end
+            end)
+            Textbox.MouseLeave:Connect(function()
+                if not focusing then 
+                    game.TweenService:Create(Textbox, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    }):Play()
+                    hovering = false
+                end
+            end)
+
             Box.FocusLost:Connect(function(enterPressed)
                 if not enterPressed then
                     return
@@ -1474,7 +1574,7 @@ function library:NewWindow(title)
 
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
-        end -- Done
+        end -- Done I
 
         function TabElements:CreateSlider(sliderTitle, sliderInfo, max, min, callback)
             sliderTitle = sliderTitle or "Slider"
@@ -1626,6 +1726,26 @@ function library:NewWindow(title)
             local maxvalue = max
             local minvalue = min
 
+            local focusing = false
+            local hovering
+
+            Slider.MouseEnter:Connect(function()
+                if not focusing then
+                    game.TweenService:Create(Slider, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(44, 44, 44)
+                    }):Play()
+                    hovering = true
+                end
+            end)
+            Slider.MouseLeave:Connect(function()
+                if not focusing then 
+                    game.TweenService:Create(Slider, TweenInfo.new(0.1, Enum.EasingStyle.Linear, Enum.EasingDirection.In), {
+                        BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+                    }):Play()
+                    hovering = false
+                end
+            end)
+
             SliderBtn.MouseButton1Down:Connect(function()
                     Value = math.floor((((tonumber(maxvalue) - tonumber(minvalue)) / 221) * SliderDrag.AbsoluteSize.X) + tonumber(minvalue)) or 0
                     pcall(function()
@@ -1670,7 +1790,7 @@ function library:NewWindow(title)
 
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
 
-        end -- Done
+        end -- Done I
 
         function TabElements:CreateLabel(labelTitle)
             labelTitle = labelTitle or "Label"
