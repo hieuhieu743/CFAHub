@@ -592,11 +592,11 @@ function library:NewWindow(title)
                 if isDropping then
                     isDropping = false
 
-                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
-                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
-
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.01)
+
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                     local c = Sample:Clone()
                     c.Parent = DropButton
                     local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -616,12 +616,12 @@ function library:NewWindow(title)
                     
                 else
                     isDropping = true
-    
-                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
-                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                     
                     Dropdown:TweenSize(UDim2.new(1, 0, 0, (DropListLayout.AbsoluteContentSize.Y + 2)), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                     wait(0.01)
+
+                    PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                     local c = Sample:Clone()
                     c.Parent = DropButton
                     local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -794,13 +794,13 @@ function library:NewWindow(title)
                     OptionSelect.MouseButton1Click:Connect(function()
                         isDropping = false
                         callback(v)
-                        DropTittle.Text = v
-    
-                        PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
-                        OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
+                        DropTittle.Text = v                        
 
                         Dropdown:TweenSize(UDim2.new(1, 0, 0, 35), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.08, true)
                         wait(0.01)
+
+                        PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                        OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                         local c = Sample:Clone()
                         c.Parent = OptionSelect
                         local x, y = (ms.X - c.AbsolutePosition.X), (ms.Y - c.AbsolutePosition.Y)
@@ -820,21 +820,18 @@ function library:NewWindow(title)
 
                     end)
 
-                    OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
-                    
                 end
-                
-                OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
             end
 
             function DropFunctions:Clear()
-                PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
-                OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
                 for i,v in next, OptionScroll:GetChildren() do
                     if v.Name == "OptionSelect" then
                         v:Destroy()
                     end
                 end
+                wait(0.01)
+                PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
+                OptionScroll.CanvasSize = UDim2.new(0, 0, 0, OptionListLayout.AbsoluteContentSize.Y)
             end
 
             PageInners.CanvasSize = UDim2.new(0, 0, 0, PageInnersListLayout.AbsoluteContentSize.Y)
